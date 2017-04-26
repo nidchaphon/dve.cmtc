@@ -10,6 +10,12 @@ $valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
 $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
 $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
 
+$valNumNotiStudent = $classNotification->GetNumNotification($_COOKIE['memberID'],"leave");
+$valNumNotiTeacher = $classNotification->GetNumNotification($_COOKIE['memberID'],"appointment");
+$valNumNotiTrainer = $classNotification->GetNumNotification($_COOKIE['memberID'],"absent");
+$valNumNotiTrainer2 = $classNotification->GetNumNotification($_COOKIE['memberID'],"scoretrainer");
+
+
     if ($_COOKIE['memberStatus'] == "admin") {
         $txtStatus = "ผู้ดูแลระบบ";
         $titleProfile = "Admin";
@@ -73,7 +79,7 @@ $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
                     <li class="logo">
                         <a class="navbar-brand" href="#">
 <!--                            <img src="../images_sys/logoiven1.png" height="60px">-->
-                            <font size="2pt"> ระบบสารสนเทศการนิเทศนักศึกษาฝึกงาน <br> On The Job Training Observation Online System</font>
+                            <font size="2pt"> ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ <br> On The Job Training Observation Online System</font>
                         </a>
                     </li>
                     <li>
@@ -84,7 +90,7 @@ $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
                 </ul>
 
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="navbar-title">ระบบสารสนเทศการนิเทศนักศึกษาฝึกงาน <br> On The Job Training Observation Online System</li>
+                    <li class="navbar-title"><?php echo $valNumNotiTeacher['numNoti'];?>ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ <br> On The Job Training Observation Online System</li>
                     <!--        <li class="navbar-search hidden-sm">-->
                     <!--          <input id="search" type="text" placeholder="ค้นหา...">-->
                     <!--          <button class="btn-search"><i class="fa fa-search"></i></button>-->
@@ -94,7 +100,7 @@ $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
                 <ul class="nav navbar-nav navbar-right">
 
                     <?php if ($_COOKIE['memberStatus'] == "teacher" || $_COOKIE['memberStatus'] == "student") { ?>
-                    <li class="dropdown notification danger">
+                    <li class="dropdown notification <?php if ($valNumNotiTrainer['numNoti'] != 0 || $valNumNotiTrainer2['numNoti'] != 0){echo "danger";} ?>">
                         <a href="index.php?page=notification_report&notiFrom=trainer" class="dropdown-toggle">
                             <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
                             <div class="title">แจ้งเตือนจากสถานประกอบการ</div>
@@ -109,7 +115,7 @@ $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
                         </div>
                     </li>
                     <?php } if ($_COOKIE['memberStatus'] == "trainer" || $_COOKIE['memberStatus'] == "student") { ?>
-                    <li class="dropdown notification danger">
+                    <li class="dropdown notification <?php if ($valNumNotiTeacher['numNoti'] != 0){echo "danger";} ?>">
                         <a href="index.php?page=notification_report&notiFrom=teacher" class="dropdown-toggle">
                             <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
                             <div class="title">แจ้งเตือนจากอาจารย์นิเทศ</div>
@@ -124,15 +130,15 @@ $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
                         </div>
                     </li>
                     <?php } if ($_COOKIE['memberStatus'] == "teacher" || $_COOKIE['memberStatus'] == "trainer"){ ?>
-                    <li class="dropdown notification danger">
+                    <li class="dropdown notification <?php if ($valNumNotiStudent['numNoti'] != 0){echo "danger";} ?>">
                         <a href="index.php?page=notification_report&notiFrom=student" class="dropdown-toggle">
                             <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
-                            <div class="title">แจ้งเตือนจากนักศึกษาฝึกงาน</div>
+                            <div class="title">แจ้งเตือนจากนักศึกษาฝึกประสบการณ์</div>
                             <div class="count" id="numNotiFromStudent"></div>
                         </a>
                         <div class="dropdown-menu">
                             <ul>
-                                <li class="dropdown-header">แจ้งเตือนจากนักศึกษาฝึกงาน</li>
+                                <li class="dropdown-header">แจ้งเตือนจากนักศึกษาฝึกประสบการณ์</li>
                             </ul>
                             <ul id="titleNotiFromStudent"></ul>
                             <ul id="showAllStudent"></ul>
@@ -168,4 +174,4 @@ $valNotification = $classNotification->GetDetailNotification($_POST['idNoti']);
         </div>
     </nav>
 
-    <?php include ("../common/ajax/javascript_notification.php")?>
+    <?php include("../common/javascript_notification.php") ?>

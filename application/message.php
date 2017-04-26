@@ -73,7 +73,7 @@ $user2 = $_SESSION['memberID2'];
                 <?php }} ?>
 
                 <?php if ($_COOKIE['memberStatus'] == 'student' || $_COOKIE['memberStatus'] == 'teacher'){ ?>
-                <li class="section">ผู้ควบคุมการฝึกงาน</li>
+                <li class="section">ผู้ควบคุมการฝึกประสบการณ์</li>
                 <?php while ($valTrainer = mysql_fetch_assoc($listTrainer)){ ?>
                     <li class="message">
                         <a href="index.php?page=message&memberID=<?php echo $valTrainer['member_id'];?>&status=trainer">
@@ -90,9 +90,11 @@ $user2 = $_SESSION['memberID2'];
                 <?php }} ?>
 
                 <?php if ($_COOKIE['memberStatus'] == 'teacher' || $_COOKIE['memberStatus'] == 'trainer'){ ?>
-                <li class="section">นักศึกษาฝึกงาน</li>
+                <li class="section">นักศึกษาฝึกประสบการณ์</li>
                 <?php while ($valStudent = mysql_fetch_assoc($listStudent)){
-                        $valdegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);?>
+                        $valdegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+                        $valdepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
+                        ?>
                     <li class="message">
                         <a href="index.php?page=message&memberID=<?php echo $valStudent['member_id'];?>&status=student">
                             <span class="badge badge-warning pull-right"></span>
@@ -100,7 +102,7 @@ $user2 = $_SESSION['memberID2'];
                                 <img class="profile" src="../images/member/<?php echo $valStudent['student_picture'];?>">
                                 <div class="content">
                                     <div class="title"><?php echo $valStudent['student_firstname']." ".$valStudent['student_lastname'];?></div>
-                                    <div class="description"><?php echo $valStudent['student_code']." ".$valdegree['status_text']." ".$valStudent['student_department']; ?></div>
+                                    <div class="description"><?php echo $valStudent['student_code']." ".$valdegree['status_text']." ".$valdepartment['status_text']; ?></div>
                                 </div>
                             </div>
                         </a>
@@ -168,12 +170,12 @@ $user2 = $_SESSION['memberID2'];
             </div>
 
             <div class="footer">
-                <div class="row" style="text-align: right;">
-                    <label class="btn right-block btn-file">
-                        <i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i>
-                        <input type="file" name="img" id="img" style="display: none;">
-                    </label>
-                </div>
+<!--                <div class="row" style="text-align: right;">-->
+<!--                    <label class="btn right-block btn-file">-->
+<!--                        <i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i>-->
+<!--                        <input type="file" name="img" id="img" style="display: none;">-->
+<!--                    </label>-->
+<!--                </div>-->
 
                 <div class="message-box">
 

@@ -22,6 +22,7 @@ $valGroup = $classStudent->GetStatusDetailStudent($valStudent['student_group']);
 $valNational = $classStudent->GetStatusDetailStudent($valStudent['student_national']);
 $valReligion = $classStudent->GetStatusDetailStudent($valStudent['student_religion']);
 $valBlood = $classStudent->GetStatusDetailStudent($valStudent['student_blood']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 
 //echo '<pre>';print_r($valStudent);echo'</pre>';
 ?>
@@ -42,7 +43,7 @@ $valBlood = $classStudent->GetStatusDetailStudent($valStudent['student_blood']);
                             <div class="description">
                                 <?php echo $valStudent['student_code'];
                                 echo " / ";
-                                echo $valStudent['student_department']==''?"-":$valStudent['student_department'];
+                                echo $valStudent['student_department']==''?"-":$valDepartment['status_text'];
                                 echo " กลุ่ม ";
                                 echo $valStudent['student_group']==''?"-":$valGroup['status_text'];
                                 echo "<br>";

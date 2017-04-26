@@ -14,14 +14,15 @@
 <!--  </div>-->
 <!--</div>-->
 
-<footer class="app-footer">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="footer-copyright">
-                Copyright © 2016 <a href="http://www.facebook.com/jakkrit2939" target="_blank">Nidchaphon Jaipromma.</a>
-            </div>
-        </div>
+
+<footer class="app-footer"> 
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="footer-copyright">
+        Copyright © 2016 <a href="http://www.facebook.com/jakkrit2939" target="_blank">Nidchaphon Jaipromma.</a>
+      </div>
     </div>
+  </div>
 </footer>
 
 </div></div>

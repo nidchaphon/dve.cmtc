@@ -144,8 +144,10 @@ $listStatus = $classAdmin->GetListStatus($statusVal);
                         $listTeacher = $classStudent->GetListTeacher();
                         $listTeacher2 = $classStudent->GetListTeacher();
                         $listTrainer = $classStudent->GetListTrainer();
-                        $listDegree = $classStudent->GetListDegree();
-                        $listGroup = $classStudent->GetListGroup(); ?>
+                        $listDegree = $classAdmin->GetListStatusType("degree");
+                        $listGroup = $classAdmin->GetListStatusType("group");
+                        $listDepartment = $classAdmin->GetListStatusType("major");
+                        ?>
                         <div class="section">
                             <div class="section-body">
                                 <div class="section-title">ข้อมูลส่วนตัว</div>
@@ -189,9 +191,17 @@ $listStatus = $classAdmin->GetListStatus($statusVal);
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">แผนกวิชา</label>
+                                    <label class="col-md-3 control-label">สาขาวิชา</label>
                                     <div class="col-md-4">
-                                        <input type="text" name="txtDepartment" class="form-control" value="<?php echo $valStudent['student_department']; ?>">
+                                        <div class="input-group">
+                                            <select name="txtDepartment" class="select2">
+                                                <option value="">เลือกสาขาวิชา</option>
+                                                <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
+                                                    <option value="<?php echo $valDepartment['status_value'];?>"<?php if ($valStudent['student_department']==$valDepartment['status_value']){echo "SELECTED";}?>><?php echo $valDepartment['status_text'];?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+<!--                                        <input type="text" name="txtDepartment" class="form-control" value="--><?php //echo $valStudent['student_department']; ?><!--">-->
                                     </div>
                                     <label class="col-md-1 control-label">กลุ่ม</label>
                                     <div class="col-md-3">

@@ -13,8 +13,9 @@ $listCompany = $classAdmin->GetListCompany();
 $listTeacher = $classAdmin->GetListTeacher();
 $listTeacher2 = $classAdmin->GetListTeacher();
 $listTrainer = $classAdmin->GetListTrainer();
-$listDegree = $classStudent->GetListDegree();
-$listGroup = $classStudent->GetListGroup();
+$listDegree = $classAdmin->GetListStatusType("degree");
+$listGroup = $classAdmin->GetListStatusType("group");
+$listDepartment = $classAdmin->GetListStatusType("major");
 //echo '<pre>';print_r($status);echo '</pre>';
 
 //------------กำหนดค่าไอดีใหม่---------------//
@@ -263,7 +264,15 @@ $nextId = $code.$yearMonth.$maxId;
                             <div class="form-group">
                                 <label class="col-md-3 control-label">สาขาวิชา</label>
                                 <div class="col-md-3">
-                                    <input type="text" name="txtDepartment" class="form-control" placeholder="สาขาวิชา">
+                                    <div class="input-group">
+                                        <select name="txtDepartment" class="select2">
+                                            <option value="">เลือกสาขาวิชา</option>
+                                            <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
+                                                <option value="<?php echo $valDepartment['status_value'];?>"><?php echo $valDepartment['status_text'];?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+<!--                                    <input type="text" name="txtDepartment" class="form-control" placeholder="สาขาวิชา">-->
                                 </div>
                                 <label class="col-md-1 control-label">กลุ่ม</label>
                                 <div class="col-md-3">

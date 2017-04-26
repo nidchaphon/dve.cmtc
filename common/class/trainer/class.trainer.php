@@ -121,7 +121,17 @@ class Trainer
         return $resultQuery;
     }
 
-    function GetListStudent($memberID=''){
+    function GetListStudent($memberID='',$degree='',$department=''){
+        if ($degree == ''){
+            $whereDegree = "";
+        }else{
+            $whereDegree = "AND student.student_degree = '".$degree."'";
+        }
+        if ($department == ''){
+            $whereDepartment = "";
+        }else{
+            $whereDepartment = "AND student.student_department = '".$department."'";
+        }
         $strQuery = "SELECT student.student_id,
                             student.student_code,
                             CONCAT(student.student_firstname ,' ',student.student_lastname) AS studentName ,
@@ -138,7 +148,7 @@ class Trainer
                       FROM student 
                             LEFT JOIN trainer ON (student.trainer_id=trainer.trainer_id)
                             LEFT JOIN diary ON(student.student_id=diary.student_id AND diary.diary_date = curdate())
-                      WHERE trainer.member_id = '{$memberID}'
+                      WHERE trainer.member_id = '{$memberID}' {$whereDegree} {$whereDepartment}
                       ORDER BY student.student_degree ASC,
 	                            student.student_year DESC,
 	                            student_department ASC

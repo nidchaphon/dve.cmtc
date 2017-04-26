@@ -20,17 +20,18 @@ $mail->Port = 587;
 $mail->SMTPSecure = 'tls';
 $mail->SMTPAuth = true;
 $mail->Username = "jtoosystem@hotmail.com";
-$mail->Password = "dev-2560";
+$mail->Password = "dve-2560";
 $mail->setFrom('jtoosystem@hotmail.com', 'ระบบสารสนเทศการนิเทศนักศึกษาฝึกงาน');
 
 //$mail->addAddress('jakkrit2939@gmail.com');
 //$mail->Subject = 'แจ้งเตือน การเข้าไปนิเทศนักศึกษาฝึกงาน';
 ////$mail->msgHTML(file_get_contents('content.html'), dirname(__FILE__));
 //$mail->msgHTML("มีนัดหมายการนิเทศนักศึกษาฝึกงาน ที่  วันที่  เวลา");
-
+//
 //if (!$mail->send()) {
 //    echo "Mailer Error: " . $mail->ErrorInfo;
 //} else {
 //    echo "Message sent!";
 //}
+
 ?>

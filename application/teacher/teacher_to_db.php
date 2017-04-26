@@ -57,7 +57,7 @@ if (isset($_POST['insertAppointment'])){
     $valMaxID = mysql_fetch_assoc($resultMaxID);
     $valCompany = $classCompany->GetDetailCompany($_POST['txtCompany']);
     include ("../../common/send_mail.php");
-    $message = "มีการนัดหมายการนิเทศนักศึกษาฝึกงาน ที่ ".$valCompany['company_name']." ในวันที่ ".DBThaiLongDate($dateAppointment)." เวลา ".$_POST['txtTime']. " น. <br> จาก อาจารย์ ".$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']."";
+    $message = "มีการนัดหมายการนิเทศนักศึกษาฝึกประสบการณ์ ที่ ".$valCompany['company_name']." ในวันที่ ".DBThaiLongDate($dateAppointment)." เวลา ".$_POST['txtTime']. " น. <br> จาก อาจารย์ ".$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']."";
     $valSet = "notification_title = 'มีการนัดหมายการนิเทศนักศึกษา ที่ ".$valCompany['company_name']."',
                notification_title_date = 'วันที่ ".DBThaiShortDate($dateAppointment)." เวลา ".$_POST['txtTime']. " น.',
                notification_datetime = '".date("Y-m-d H:i:s")."',
@@ -73,7 +73,7 @@ if (isset($_POST['insertAppointment'])){
         mysql_query("INSERT INTO notification SET {$valSet} , member_id = '".$valStudent['member_id']."'");
         $mail->addAddress($valStudent['student_email']);
     }
-    $mail->Subject = 'แจ้งเตือน การเข้าไปนิเทศนักศึกษาฝึกงาน';
+    $mail->Subject = 'แจ้งเตือน การเข้าไปนิเทศนักศึกษาฝึกประสบการณ์';
     $mail->msgHTML("{$message}");
     $mail->send();
 

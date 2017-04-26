@@ -96,4 +96,15 @@ class Admin
         return $resultQuery;
     }
 
+    function GetListStatusType($statusType=''){
+        $strQuery = "SELECT * FROM status 
+                     WHERE status_type = '{$statusType}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการสถานะ';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
 }

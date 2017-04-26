@@ -189,66 +189,6 @@ class Student
         return $result;
     }
 
-    function GetListDegree(){
-        $strQuery = "SELECT * FROM status WHERE status_type = 'degree'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetListDegree เพื่อแสดงรายการสถานนะ ระดับชั้น ใน Listbox';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        return $resultQuery;
-    }
-
-    function GetListGroup(){
-        $strQuery = "SELECT * FROM status WHERE status_type = 'group'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetListGroup เพื่อแสดงรายการสถานนะ กลุ่ม ใน Listbox';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        return $resultQuery;
-    }
-
-    function GetListSex(){
-        $strQuery = "SELECT * FROM status WHERE status_type = 'sex'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetListSex เพื่อแสดงรายการสถานนะ เพศ ใน RadioButton';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        return $resultQuery;
-    }
-
-    function GetListNational(){
-        $strQuery = "SELECT * FROM status WHERE status_type = 'national'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetListNational เพื่อแสดงรายการสถานนะ สัญชาติ ใน Listbox';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        return $resultQuery;
-    }
-
-    function GetListReligion(){
-        $strQuery = "SELECT * FROM status WHERE status_type = 'religion'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetListReligion เพื่อแสดงรายการสถานนะ ศาสนา ใน Listbox';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        return $resultQuery;
-    }
-
-    function GetListBlood(){
-        $strQuery = "SELECT * FROM status WHERE status_type = 'blood'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetListReligion เพื่อแสดงรายการสถานนะ กรุ๊ปเลือด ใน Listbox';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        return $resultQuery;
-    }
-
     function GetListRestday(){
         $strQuery = "SELECT * FROM status WHERE status_type = 'restday'";
         if ($_GET['debug']=='on'){
@@ -282,6 +222,17 @@ class Student
                       ORDER BY company.company_name ASC LIMIT 10";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetNumStudentInCompany เพื่อแสดงจำนวนนักศึกษาฝึกงานในสถานประกอบการ';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListStatus($statusType=''){
+        $strQuery = "SELECT * FROM status 
+                     WHERE status_type = '{$statusType}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการสถานะ';
             echo "<pre>$strQuery</pre>";
         }
         $resultQuery = mysql_query($strQuery);

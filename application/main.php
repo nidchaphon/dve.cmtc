@@ -63,7 +63,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                 <div class="card-body">
                     <i class="icon fa fa-calendar fa-4x"></i>
                     <div class="content">
-                        <div class="title"><h3>มีนัดหมายนิเทศนักศึกษาฝึกงาน</h3></div>
+                        <div class="title"><h4>มีนัดหมายนิเทศนักศึกษาฝึกประสบการณ์</h4></div>
                         <div class="value"><?php echo $numAppointment." รายการ"; ?></div>
                     </div>
                 </div>
@@ -72,21 +72,21 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                 <div class="card-body">
                     <i class="icon fa fa-pencil-square-o fa-4x"></i>
                     <div class="content">
-                        <div class="title"><h3>นักศึกษาที่ต้องประเมินการฝึกงาน</h3></div>
+                        <div class="title"><h4>นักศึกษาที่ต้องประเมินการฝึกประสบการณ์</h4></div>
                         <div class="value"><?php echo $numStudentEnd==''?"0":$numStudentEnd." คน"; ?></div>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-md-6">
-            <div id="container"></div>
-        </div>
+<!--        <div class="col-md-6">-->
+<!--            <div id="container"></div>-->
+<!--        </div>-->
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="card card-mini">
                 <div class="card-header">
-                    <div class="card-title">นักศึกษาฝึกงาน</div>
+                    <div class="card-title">นักศึกษาฝึกประสบการณ์</div>
                     <ul class="card-action">
                         <li>
                             <a href="index.php">
@@ -112,17 +112,17 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                         $i=0;
                         while ($valStudent = mysql_fetch_assoc($listStudent)){ $i = $i+1;
                             $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
-
+                            $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
                             ?>
                             <tr>
                                 <td><?php echo $valStudent['student_code']; ?></td>
                                 <td><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']; ?></td>
                                 <td><?php echo $valDegree['status_text']; ?></td>
-                                <td><?php echo $valStudent['student_department']; ?></td>
+                                <td><?php echo $valDepartment['status_text']; ?></td>
                                 <td><?php echo $valStudent['company_name']; ?></td>
                                 <td style="text-align: center;"><?php
                                     if ($valStudent['diary_status'] == 'diary'){
-                                        echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" ><span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>ฝึกงาน</span></span></a>';
+                                        echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" ><span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>ฝึกประสบการณ์</span></span></a>';
                                     }elseif ($valStudent['diary_status'] == 'errand'){
                                         echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" ><span class="badge badge-info badge-icon"><i class="fa fa-credit-card" aria-hidden="true"></i><span>ลากิจ</span></span></a>';
                                     }elseif ($valStudent['diary_status'] == 'sick'){
@@ -166,7 +166,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                 <div class="card-body">
                     <i class="icon fa fa-pencil-square-o fa-4x"></i>
                     <div class="content">
-                        <div class="title"><h3>นักศึกษาที่ต้องประเมินการฝึกงาน</h3></div>
+                        <div class="title"><h3>นักศึกษาที่ต้องประเมินการฝึกประสบการณ์</h3></div>
                         <div class="value"><?php echo $numStudentEnd==''?"0":$numStudentEnd." คน"; ?></div>
                     </div>
                 </div>
@@ -180,7 +180,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
     <div class="col-xs-12">
         <div class="card card-mini">
             <div class="card-header">
-                <div class="card-title">นักศึกษาฝึกงาน</div>
+                <div class="card-title">นักศึกษาฝึกประสบการณ์</div>
                 <ul class="card-action">
                     <li>
                         <a href="index.php">
@@ -205,12 +205,13 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                     $i=0;
                     while ($valStudent = mysql_fetch_assoc($listStudent)){ $i = $i+1;
                     $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+                    $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
                     ?>
                     <tr>
                         <td><?php echo $valStudent['student_code']; ?></td>
-                        <td><?php echo $valStudent['student_sex']=='male'?"นาย":"นางสาว"; echo $valStudent['studentName']; ?></td>
+                        <td><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']; ?></td>
                         <td><?php echo $valDegree['status_text']; ?></td>
-                        <td><?php echo $valStudent['student_department']; ?></td>
+                        <td><?php echo $valDepartment['status_text']; ?></td>
                         <td style="text-align: center;"><?php
                             if ($valStudent['diary_status'] == 'diary'){
                                 echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'"> <span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>ฝึกงาน</span></span></a>';
@@ -329,7 +330,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
     var chart = Highcharts.chart('container', {
 
         title: {
-            text: 'สถิติการเลือกสถานประกอบการของนักศึกษาฝึกงาน'
+            text: 'สถิติการเลือกสถานประกอบการของนักศึกษาฝึกประสบการณ์'
         },
 
         subtitle: {

@@ -3120,7 +3120,7 @@ aside.app-sidebar {
     .app-login.__loading .loader-container .sk-folding-cube .sk-cube:before {
       background-color: #FFF; }
   .app-login.__loading:after {
-    background-color: rgba(41, 199, 95, 0.75); }
+    background-color: rgba(4, 61, 93, 0.75); }
 
 ul.icons {
   list-style: none;
@@ -3188,7 +3188,7 @@ ul.icons {
       margin-left: 10px;
       font-size: 0.7em; }
       .app-inbox .messaging > .heading .badge.badge-success {
-        background-color: #18aa4a; }
+        background-color: #d73727; }
   .app-inbox .messaging ul.chat {
     -ms-flex: 1;
         flex: 1;
@@ -3514,9 +3514,9 @@ ui-view > .app-messaging-container {
       overflow: auto;
       position: relative; }
       .app-messaging .messaging ul.chat > li {
-        width: auto !important;
+        width: 100%;
         padding: 0 20px;
-        padding-right: 40%;
+        padding-right: 45%;
         margin-bottom: 10px; }
         .app-messaging .messaging ul.chat > li .message {
           background-color: #e7edee;
@@ -3541,8 +3541,7 @@ ui-view > .app-messaging-container {
         .app-messaging .messaging ul.chat > li.right {
           -ms-flex-item-align: end;
               align-self: flex-end;
-          display: block;
-          padding-left: 40% !important;
+          padding-left: 45%;
           padding-right: 20px;
           text-align: right; }
           .app-messaging .messaging ul.chat > li.right .message {
