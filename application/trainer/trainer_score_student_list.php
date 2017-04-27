@@ -6,9 +6,7 @@
  * Time: 17:14
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
@@ -24,9 +22,9 @@ $listStudent = $classTrainer->GetListStudentScore($_COOKIE['memberID']);
             <div class="card-body app-heading">
                 <div class="app-title">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="title">
-                                <span class="highlight">ประเมินการฝึกงาน</span>
+                                <span class="highlight">ประเมินการฝึกประสบการณ์</span>
                             </div>
                         </div>
 <!--                        <div class="col-md-8">-->
@@ -62,12 +60,13 @@ $listStudent = $classTrainer->GetListStudentScore($_COOKIE['memberID']);
                         $i=0;
                         while ($valStudent = mysql_fetch_assoc($listStudent)){ $i = $i+1;
                         $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+                        $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
                         ?>
                             <tr>
                                 <td align="center" height="30px"><?php echo $i; ?></td>
                                 <td><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['student_firstname']." ".$valStudent['student_lastname']; ?></td>
                                 <td><?php echo $valDegree['status_text']; ?></td>
-                                <td><?php echo $valStudent['student_department']; ?></td>
+                                <td><?php echo $valDepartment['status_text']; ?></td>
                                 <?php
                                 if ($valStudent['score_trainer_1_1'] == '' || $valStudent['score_trainer_1_2'] == '' || $valStudent['score_trainer_1_3'] == '' || $valStudent['score_trainer_2_1'] == '' || $valStudent['score_trainer_2_2'] == '' || $valStudent['score_trainer_3_1'] == '' || $valStudent['score_trainer_rate1'] == '' || $valStudent['score_trainer_rate2'] == '' || $valStudent['score_trainer_rate3'] == '' ||
                                     $valStudent['score_trainer_1_1'] == '0' || $valStudent['score_trainer_1_2'] == '0' || $valStudent['score_trainer_1_3'] == '0' || $valStudent['score_trainer_2_1'] == '0' || $valStudent['score_trainer_2_2'] == '0' || $valStudent['score_trainer_3_1'] == '0' || $valStudent['score_trainer_rate1'] == '0' || $valStudent['score_trainer_rate2'] == '0' || $valStudent['score_trainer_rate3'] == '0'

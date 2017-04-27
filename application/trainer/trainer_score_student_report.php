@@ -11,6 +11,7 @@ $classStudent = new Student();
 
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 $valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
 
@@ -19,25 +20,25 @@ $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3>ประเมินการฝึกงาน</h3>
+                <h3>ประเมินการฝึกประสบการณ์</h3>
             </div>
             <div class="card-body">
                 <div class="section">
                     <div class="section-body">
                         <div class="section">
-                            <div class="section-title">แบบประเมินการฝึกงานโดยสถานประกอบการ</div>
+                            <div class="section-title">แบบประเมินการฝึกประสบกาณ์โดยสถานประกอบการ</div>
                             <div class="section-body">
                                 <div class="row">
-                                    <div class="col-md-12" style="text-align: center;"><p><?php echo $valStudent['student_sex']=='male'?"นาย":"นางสาว";echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valStudent['student_department']; ?></p></div>
+                                    <div class="col-md-12" style="text-align: center;"><p><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";}; echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text']; ?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12" style="text-align: center;"><p><?php echo "ระยะเวลาฝึกงานระหว่าง ".DBThaiLongDateFull($valStudent['student_training_start'])." ถึง ".DBThaiLongDateFull($valStudent['student_training_end'])." เป็นเวลา ".CalDateStartToEnd($valStudent['student_training_start'],$valStudent['student_training_end']);?></p></div>
+                                    <div class="col-md-12" style="text-align: center;"><p><?php echo "ระยะเวลาฝึกประสบกาณ์ระหว่าง ".DBThaiLongDateFull($valStudent['student_training_start'])." ถึง ".DBThaiLongDateFull($valStudent['student_training_end'])." เป็นเวลา ".CalDateStartToEnd($valStudent['student_training_start'],$valStudent['student_training_end']);?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12" style="text-align: center;"><p><?php echo "รวมวัน ฝึกงานจริง ".$valStudent['numWork']." วัน ลากิจ ".$valStudent['numErrand']." วัน ลาป่วย ".$valStudent['numSick']." วัน ขาด ".$valStudent['numAbsent']." วัน";?></p></div>
+                                    <div class="col-md-12" style="text-align: center;"><p><?php echo "รวมวัน ฝึกประสบการณ์จริง ".$valStudent['numWork']." วัน ลากิจ ".$valStudent['numErrand']." วัน ลาป่วย ".$valStudent['numSick']." วัน ขาด ".$valStudent['numAbsent']." วัน";?></p></div>
                                 </div>
                                 <br>
                                 <div class="row">
@@ -143,7 +144,7 @@ $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
                                 </div>
                             </div>
 
-                            <div class="section-title">ความพึงพอใจของท่านต่อนักศึกษาฝึกงาน  สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</div>
+                            <div class="section-title">ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์  สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</div>
                             <div class="section-body">
                                 <div class="row">
                                     <table class="table table-striped table-hover table-bordered">

@@ -6,9 +6,7 @@
  * Time: 17:14
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
@@ -26,13 +24,13 @@ $listDepartment = $classStudent->GetListStatus('major');
             <div class="card-body app-heading">
                 <div class="app-title">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="title">
-                                <span class="highlight">ข้อมูลนักศึกษาฝึกงาน</span>
+                                <span class="highlight">ข้อมูลนักศึกษาฝึกประสบการณ์</span>
                             </div>
                         </div>
                         <form name="frmCheangLsit" action="" method="post">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <select class="select2" name="degree" onchange="this.form.submit()">
                                     <option value="">ระดับชั้นทั้งหมด</option>
                                     <?php while ($valDegree = mysql_fetch_assoc($listDegree)){ ?>
@@ -40,7 +38,7 @@ $listDepartment = $classStudent->GetListStatus('major');
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <select class="select2" name="department" onchange="this.form.submit()">
                                     <option value="">สาขาทั้งหมด</option>
                                     <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
@@ -79,7 +77,7 @@ $listDepartment = $classStudent->GetListStatus('major');
                         $i=0;
                         while ($valStudent = mysql_fetch_assoc($listStudent)){ $i = $i+1;
                             $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
-                            $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department'])
+                            $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
                             ?>
                             <tr>
                                 <td align="center" height="30px"><?php echo $i; ?></td>

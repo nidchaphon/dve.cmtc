@@ -37,8 +37,8 @@ if ($_GET[page] == ''){
 <head>
     <title>ระบบสารสนเทศการนิเทศนักศึกษาฝึกงาน</title>
 
-    <meta name="keyword" content="ระบบสารสนเทศการนิเทศนักศึกษาฝึกงาน , ฝึกงาน , ระบบสารสนเทศ , ทวิภาคี">
-    <meta name="DESCRIPTION" content="ระบบจัดการข้อมูลการฝึกงานของนักศึกษาฝึกงาน อาจารย์นิเทศ และสถานประกอบการ">
+    <meta name="keyword" content="ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ , ฝึกงาน , ระบบสารสนเทศ , ทวิภาคี">
+    <meta name="DESCRIPTION" content="ระบบจัดการข้อมูลการฝึกงานของนักศึกษาฝึกประสบการณ์ อาจารย์นิเทศ และสถานประกอบการ">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
@@ -117,16 +117,16 @@ if ($_GET[page] == ''){
                             <div class="icon">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                             </div>
-                            <div class="title">นักศึกษาฝึกงาน</div>
+                            <div class="title">นักศึกษาฝึกประสบการณ์</div>
                         </a>
                         <div class="dropdown-menu">
                             <ul>
                                 <li class="section"><i class="fa fa-folder-open" aria-hidden="true"></i>ข้อมูล</li>
-                                <li><a href="index.php?page=teacher_student_list">ข้อมูลนักศึกษาฝึกงาน</a></li>
+                                <li><a href="index.php?page=teacher_student_list">ข้อมูลนักศึกษาฝึกประสบการณ์</a></li>
                                 <li class="line"></li>
                                 <li class="section"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>ประเมิน</li>
-                                <li><a href="index.php?page=teacher_score_student_list&result=score">แบบประเมินการฝึกงาน</a></li>
-                                <li><a href="index.php?page=teacher_score_student_list&result=grade">การวัดผลและประเมินผลการฝึกงาน</a></li>
+                                <li><a href="index.php?page=teacher_score_student_list&result=score">แบบประเมินการฝึกประสบการณ์</a></li>
+                                <li><a href="index.php?page=teacher_score_student_list&result=grade">การวัดผลและประเมินผลการฝึกประสบการณ์</a></li>
                             </ul>
                         </div>
                     </li>
@@ -146,7 +146,7 @@ if ($_GET[page] == ''){
                             <div class="icon">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                             </div>
-                            <div class="title">นักศึกษาฝึกงาน</div>
+                            <div class="title">นักศึกษาฝึกประสบการณ์</div>
                         </a>
                     </li>
 
@@ -155,7 +155,7 @@ if ($_GET[page] == ''){
                             <div class="icon">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </div>
-                            <div class="title">ประเมินนักศึกษาฝึกงาน</div>
+                            <div class="title">ประเมินนักศึกษาฝึกประสบการณ์</div>
                         </a>
                     </li>
 

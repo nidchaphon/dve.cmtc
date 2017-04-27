@@ -78,9 +78,9 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                 </div>
             </a>
         </div>
-<!--        <div class="col-md-6">-->
-<!--            <div id="container"></div>-->
-<!--        </div>-->
+        <div class="col-md-6">
+            <div id="container"></div>
+        </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
@@ -166,7 +166,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                 <div class="card-body">
                     <i class="icon fa fa-pencil-square-o fa-4x"></i>
                     <div class="content">
-                        <div class="title"><h3>นักศึกษาที่ต้องประเมินการฝึกประสบการณ์</h3></div>
+                        <div class="title"><h4>นักศึกษาที่ต้องประเมินการฝึกประสบการณ์</h4></div>
                         <div class="value"><?php echo $numStudentEnd==''?"0":$numStudentEnd." คน"; ?></div>
                     </div>
                 </div>

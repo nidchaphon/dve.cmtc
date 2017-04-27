@@ -6,9 +6,7 @@
  * Time: 17:14
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
@@ -73,15 +71,15 @@ $listAppointment = $classTeacher->GetListAppointment();
                                         echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>นิเทศแล้ว</span></span>";} ?> </td>
                                 <td><?php
                                     if ($valAppointment['appointment_trainer_status'] == '0'){
-                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><i class='fa fa-building' title='สถานประกอบการ'></i></span>";
+                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ครูฝึก</span></span>";
                                     }else {
-                                        echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><i class='fa fa-building' title='สถานประกอบการ'></i></span>";
+                                        echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>ครูฝึก</span></span>";
                                     }
                                     echo "<br><br>";
                                     if ($valAppointment['appointment_student_status'] == '0'){
-                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><i class='fa fa-users' title='นักศึกษาฝึกงาน'></i></span>";
+                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>นักศึกษา</span></span>";
                                     }else {
-                                        echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><i class='fa fa-users' title='นักศึกษาฝึกงาน'></i></span>";
+                                        echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>นักศึกษา</span></span>";
                                     } ?></td>
                                 <td align="center">
                                     <a href="index.php?page=teacher_appointment_detail&appointmentID=<?php echo $valAppointment['appointment_id']; ?>"><i class='fa fa-book' title='ข้อมูล'></i></a>  &nbsp

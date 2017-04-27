@@ -6,18 +6,17 @@
  * Time: 17:14
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
 $classTeacher = new Teacher();
 $classStudent = new Student();
 
-$listStudent = $classTeacher->GetListStudent($_COOKIE['memberID'],$_POST['degree'],$_POST['department']);
+$listStudent = $classTeacher->GetListStudent($_COOKIE['memberID'],$_POST['degree'],$_POST['department'],$_POST['year']);
 $listDegree = $classTeacher->GetListStatus('degree');
 $listDepartment = $classTeacher->GetListStatus('major');
+$listYear = $classTeacher->GetListSTDYear();
 
 ?>
 <div class="row">
@@ -26,28 +25,39 @@ $listDepartment = $classTeacher->GetListStatus('major');
             <div class="card-body app-heading">
                 <div class="app-title">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="title">
-                                <span class="highlight">ข้อมูลนักศึกษาฝึกงาน</span>
+                                <span class="highlight">ข้อมูลนักศึกษาฝึกประสบการณ์</span>
                             </div>
                         </div>
+                    </div>
+                    <br>
+                    <div class="row">
                         <form name="frmCheangLsit" action="" method="post">
-                        <div class="col-md-4">
-                            <select class="select2" name="degree" onchange="this.form.submit()">
-                                <option value="">ระดับชั้นทั้งหมด</option>
-                                <?php while ($valDegree = mysql_fetch_assoc($listDegree)){ ?>
-                                <option value="<?php echo $valDegree['status_value'];?>" <?php if ($valDegree['status_value'] == $_POST['degree']){echo "SELECTED";}?>><?php echo $valDegree['status_text']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <select class="select2" name="department" onchange="this.form.submit()">
-                                <option value="">สาขาทั้งหมด</option>
-                                <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
-                                    <option value="<?php echo $valDepartment['status_value'];?>" <?php if ($valDepartment['status_value'] == $_POST['department']){echo "SELECTED";}?>><?php echo $valDepartment['status_text']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                            <div class="col-md-4">
+                                <select class="select2" name="degree" onchange="this.form.submit()">
+                                    <option value="">ระดับชั้นทั้งหมด</option>
+                                    <?php while ($valDegree = mysql_fetch_assoc($listDegree)){ ?>
+                                        <option value="<?php echo $valDegree['status_value'];?>" <?php if ($valDegree['status_value'] == $_POST['degree']){echo "SELECTED";}?>><?php echo $valDegree['status_text']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="select2" name="department" onchange="this.form.submit()">
+                                    <option value="">สาขาทั้งหมด</option>
+                                    <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
+                                        <option value="<?php echo $valDepartment['status_value'];?>" <?php if ($valDepartment['status_value'] == $_POST['department']){echo "SELECTED";}?>><?php echo $valDepartment['status_text']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="select2" name="year" onchange="this.form.submit()">
+                                    <option value="">รุ่นปีทั้งหมด</option>
+                                    <?php while ($valYear = mysql_fetch_assoc($listYear)){ ?>
+                                        <option value="<?php echo $valYear['stdYear'];?>" <?php if ($valYear['stdYear'] == $_POST['year']){echo "SELECTED";}?>><?php echo "รุ่นปี 25".$valYear['stdYear']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </form>
                     </div>
 
@@ -85,8 +95,8 @@ $listDepartment = $classTeacher->GetListStatus('major');
                             <tr>
                                 <td align="center" height="30px"><?php echo $i; ?></td>
                                 <td><?php echo $valStudent['student_code']; ?></td>
-                                <td><a href="index.php?page=student_profile&memberID=<?php echo $valStudent['member_id']; ?>"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}elseif ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']; ?> </a></td>
-                                <td><?php echo $valDegree['status_text']." ปี ".$valStudent['student_year']; ?></td>
+                                <td><a href="index.php?page=student_profile&memberID=<?php echo $valStudent['member_id']; ?>"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}elseif ($valStudent['student_sex']=='female'){echo "นางสาว";}; echo $valStudent['studentName']; ?> </a></td>
+                                <td><?php echo $valDegree['status_text']." "; echo $valStudent['student_year']==''?"":"ปี ".$valStudent['student_year']; ?></td>
                                 <td><?php echo $valDepartment['status_text']; ?></td>
                                 <td><?php echo $valStudent['company_name']; ?></td>
 <!--                                <td align="center"><a href="index.php?page=student_profile&memberID=--><?php //echo $valStudent['member_id']; ?><!--"><i class="fa fa-info-circle" title="ข้อมูลนักศึกษา"></i></a>  </td>-->

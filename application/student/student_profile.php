@@ -36,7 +36,7 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                     <div class="row">
                         <div class="col-md-5">
                             <div class="title"><span class="highlight">
-                                    <?php if ($valStudent['student_sex'] == ''){echo "-";}if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";}
+                                    <?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";}
                                     echo $valStudent['student_firstname']==''?"ชื่อ":$valStudent['student_firstname'];
                                     echo " ";
                                     echo $valStudent['student_lastname']==''?"นามสกุล":$valStudent['student_lastname']; ?></span></div>
@@ -69,10 +69,10 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
             <div class="card-header">
                 <ul class="nav nav-tabs">
                     <li role="tab1" class="active" style="width: auto;">
-                        <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">ประวัตินักศึกษาฝึกงาน</a>
+                        <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">ประวัตินักศึกษาฝึกประสบการณ์</a>
                     </li>
                     <li role="tab2" style="width: auto;">
-                        <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">ข้อมูลการฝึกงาน</a>
+                        <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">ข้อมูลการฝึกประสบการณ์</a>
                     </li>
                     <li role="tab3" style="width: auto;">
                         <a href="#tab3" aria-controls="tab2" role="tab" data-toggle="tab">ข้อมูลอาจารย์</a>
@@ -218,20 +218,20 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="section">
-                                <div class="section-title">ข้อมูลการฝึกงาน</div>
+                                <div class="section-title">ข้อมูลการฝึกประสบการณ์</div>
                                 <div class="section-body">
                                     <div class="row">
-                                        <div class="col-md-2"><p><strong>ระยะเวลาฝึกงาน</strong></p></div>
+                                        <div class="col-md-3"><p><strong>ระยะเวลาฝึกประสบการณ์</strong></p></div>
                                         <div class="col-md-3"><?php echo $valStudent['student_training_start']=='0000-00-00'?"-":DBThaiLongDateFull($valStudent['student_training_start']); ?></div>
                                         <div class="col-md-1"><p><strong>ถึง</strong></p></div>
                                         <div class="col-md-3"><?php echo $valStudent['student_training_end']=='0000-00-00'?"-":DBThaiLongDateFull($valStudent['student_training_end']); ?></div>
                                         </div>
                                     <div class="row">
-                                        <div class="col-md-2"><p><strong>เป็นเวลา</strong></p></div>
+                                        <div class="col-md-3"><p><strong>เป็นเวลา</strong></p></div>
                                         <div class="col-md-2"><?php echo $valStudent['student_training_start']==''?"-":CalDateStartToEnd($valStudent['student_training_start'],$valStudent['student_training_end']); ?></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2"><p><strong>สถานประกอบการ</strong></p></div>
+                                        <div class="col-md-3"><p><strong>สถานประกอบการ</strong></p></div>
                                         <div class="col-md-8"><?php echo $valStudent['company_name']==''?"-":$valStudent['company_name']; ?></div>
                                     </div>
                                 </div>
@@ -312,7 +312,7 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                         <div class="col-md-8"><a href="<?php echo $valStudent['company_website']; ?>" target="_blank"><?php echo $valStudent['company_website']==''?"-":$valStudent['company_website']; ?></a></div>
                                     </div>
                                 </div>
-                                <div class="section-title">ข้อมูลผู้ควบคุมการฝึกงาน</div>
+                                <div class="section-title">ข้อมูลผู้ควบคุมการฝึกประสบการณ์</div>
                                 <div class="section-body">
                                     <div class="row">
                                         <div class="col-md-2"><p><strong>ชื่อผู้ควบคุม</strong></p></div>

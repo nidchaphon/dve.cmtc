@@ -103,6 +103,7 @@ if (isset($_POST['insertStudent'])){
                         student_address = '".$_POST['txtAddress']."',
                         student_tel = '".$_POST['txtTel']."',
                         student_email = '".$_POST['txtEmail']."',
+                        student_picture = 'profile_men.jpg',
                         member_id = '".$_POST['txtID']."',
                         teacher_id = '".$_POST['txtTeacher']."',
                         teacher2_id = '".$_POST['txtTeacher2']."',

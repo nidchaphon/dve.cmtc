@@ -13,6 +13,7 @@ $classCompany = new Company();
 
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 $valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
 $valCompany = $classCompany->GetDetailCompany($valStudent['company_id']);
@@ -24,7 +25,7 @@ $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valSc
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3>การวัดผลและประเมินผลการฝึกงาน</h3>
+                <h3>การวัดผลและประเมินผลการฝึกประสบการณ์</h3>
             </div>
             <div class="card-body">
                 <div class="section">
@@ -33,7 +34,7 @@ $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valSc
                             <div class="section">
                                 <div class="section-body">
                                     <div class="row">
-                                        <div class="col-md-12" style="text-align: center;"><p><?php echo $valStudent['student_sex']=='male'?"นาย":"นางสาว";echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valStudent['student_department']; ?></p></div>
+                                        <div class="col-md-12" style="text-align: center;"><p><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text']; ?></p></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12" style="text-align: center;"><p><?php echo "รหัสนักศึกษา ".$valStudent['student_code']." "." ชื่อสถานประกอบการ ".$valCompany['company_name']; ?></p></div>
@@ -50,14 +51,14 @@ $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valSc
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td style="text-align: left">แบบประเมินการฝึกงานโดยสถานประกอบการ</td>
+                                                <td style="text-align: left">แบบประเมินการฝึกประสบการณ์โดยสถานประกอบการ</td>
                                                 <td style="text-align: center; vertical-align: middle;">50</td>
                                                 <td style="text-align: center; vertical-align: middle;">
                                                     <input type="text" class="txt" name="numScore1" value="<?php echo $scoreTrainer;?>" OnChange="fncSum();" onKeyUp="if(isNaN(this.value)){ alert('กรุณากรอกตัวเลข'); this.value='';} if (this.value > 50){alert('กรุณากรอกตัวเลขไม่เกิน 50'); this.value='';}"  style="width: 50px; text-align: center;" disabled>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="text-align: left">แบบประเมินการฝึกงานโดยอาจารย์นิเทศก์</td>
+                                                <td style="text-align: left">แบบประเมินการฝึกประสบการณ์โดยอาจารย์นิเทศก์</td>
                                                 <td style="text-align: center; vertical-align: middle;">20</td>
                                                 <td style="text-align: center; vertical-align: middle;">
                                                     <input type="text" class="txt" name="numScore2" value="<?php echo $scoreTeacher;?>" OnChange="fncSum();" onKeyUp="if(isNaN(this.value)){ alert('กรุณากรอกตัวเลข'); this.value='';} if (this.value > 20){alert('กรุณากรอกตัวเลขไม่เกิน 20'); this.value='';}"  style="width: 50px; text-align: center;" disabled>

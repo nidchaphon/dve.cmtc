@@ -20,6 +20,7 @@ $classTeacher = new Teacher();
 
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 $valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTeacher = $classTeacher->GetDetailTeacher($memberID,$valScore['teacher_id']);
 
@@ -59,10 +60,10 @@ $valTeacher = $classTeacher->GetDetailTeacher($memberID,$valScore['teacher_id'])
 <div class=Section2>
     <table width="704" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="291" height="50" align="center"><span class="style1"><strong>แบบประเมินการฝึกงานโดยอาจารย์นิเทศ</strong></span></td>
+            <td width="291" height="50" align="center"><span class="style1"><strong>แบบประเมินการฝึกประสบการณ์โดยอาจารย์นิเทศ</strong></span></td>
         </tr>
         <tr>
-            <td height="27" align="center"><span class="style2"><?php echo $valStudent['student_sex']=='male'?"นาย":"นางสาว";echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valStudent['student_department'];?></span></td>
+            <td height="27" align="center"><span class="style2"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text'];?></span></td>
         </tr>
     </table><br>
     <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="0" cellspacing="0" class="style3">
@@ -126,8 +127,8 @@ $valTeacher = $classTeacher->GetDetailTeacher($memberID,$valScore['teacher_id'])
         </tfoot>
     </table>
 
-    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อบกพร่องที่ควรแก้ไขปรับปรุง </strong><?php echo nl2br($valScore['score_teacher_defect']);?></p><br>
-    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อเสนอแนะอื่นๆ </strong><?php echo nl2br($valScore['score_teacher_counsel']);?></p>
+    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อบกพร่องที่ควรแก้ไขปรับปรุง </strong><?php echo nl2br($valScore['score_teacher_defect']==''?"-":$valScore['score_teacher_defect']);?></p><br>
+    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อเสนอแนะอื่นๆ </strong><?php echo nl2br($valScore['score_teacher_counsel']==''?"-":$valScore['score_teacher_counsel']);?></p>
     <br>
     <table width="100%" border="0">
         <tr>
@@ -146,7 +147,7 @@ ob_end_clean();
 $pdf = new mPDF('th', 'A4', '0', 'THSaraban');
 $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
-$pdf->SetTitle('แบบประเมินการฝึกงานโดยอาจารย์นิเทศก์');
+$pdf->SetTitle('แบบประเมินการฝึกประสบการณ์โดยอาจารย์นิเทศก์');
 $pdf->WriteHTML($html, 2);
 $pdf->Output();
 ?>

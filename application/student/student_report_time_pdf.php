@@ -16,6 +16,7 @@ $classStudent = new Student();
 $listReportDiaryTime = $classStudent->GetReportTimeDiary($_COOKIE['memberID']);
 $valDiaryTime = $classStudent->GetTitleRepeotTimeDiary($_COOKIE['memberID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valDiaryTime['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valDiaryTime['student_department']);
 
 ?>
 
@@ -52,10 +53,10 @@ $valDegree = $classStudent->GetStatusDetailStudent($valDiaryTime['student_degree
 <div class=Section2>
     <table width="704" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="291" height="50" align="center"><span class="style1"><strong>บัญชีลงเวลาการปฏิบัติงานของนักศึกษาฝึกงาน</strong></span></td>
+            <td width="291" height="50" align="center"><span class="style1"><strong>บัญชีลงเวลาการปฏิบัติงานของนักศึกษาฝึกประสบการณ์</strong></span></td>
         </tr>
         <tr>
-            <td height="27" align="center"><span class="style2"><?php echo "<strong>ระดับชั้น</strong> ".$valDegree['status_text']." <strong>แผนกวิชา</strong> ".$valDiaryTime['student_department'];?></span></td>
+            <td height="27" align="center"><span class="style2"><?php echo "<strong>ระดับชั้น</strong> ".$valDegree['status_text']." <strong>แผนกวิชา</strong> ".$valDepartment['status_text'];?></span></td>
         </tr>
         <tr>
             <td height="25" align="center"><span class="style2"><?php echo "<strong>ระหว่างวันที่</strong> ".DBThaiLongDateFull($valDiaryTime['beginDate'])." <strong>ถึง</strong> ".DBThaiLongDateFull($valDiaryTime['endDate']); ?></span></td>
@@ -97,7 +98,7 @@ $valDegree = $classStudent->GetStatusDetailStudent($valDiaryTime['student_degree
         <tbody>
         <tr>
             <td width="80%"></td>
-            <td width="12%" align="right">นักศึกษาเข้าฝึกงานจริง</td>
+            <td width="12%" align="right">นักศึกษาเข้าฝึกประสบการณ์จริง</td>
             <td width="5%" align="center"><?php echo $valDiaryTime['numDiary']; ?></td>
             <td width="3%" align="right">วัน</td>
         </tr>
@@ -124,8 +125,8 @@ $valDegree = $classStudent->GetStatusDetailStudent($valDiaryTime['student_degree
     <br>
     <table width="100%" border="0">
         <tr>
-            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$studentName." )"; ?> <br><br> นักศึกษาฝึกงาน</td>
-            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกงาน</td>
+            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$studentName." )"; ?> <br><br> นักศึกษาฝึกประสบการณ์</td>
+            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกประสบการณ์</td>
         </tr>
     </table>
 </div>
@@ -137,7 +138,7 @@ ob_end_clean();
 $pdf = new mPDF('th', 'A4', '0', 'THSaraban');
 $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
-$pdf->SetTitle('บัญชีลงเวลาการปฏิบัติงานของนักศึกษาฝึกงาน');
+$pdf->SetTitle('บัญชีลงเวลาการปฏิบัติงานของนักศึกษาฝึกประสบการณ์');
 $pdf->WriteHTML($html, 2);
 $pdf->Output();
 ?>

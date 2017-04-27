@@ -22,6 +22,7 @@ $classCompany = new Company();
 
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 $valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
 $valCompany = $classCompany->GetDetailCompany($valStudent['company_id']);
@@ -82,10 +83,10 @@ if ($scoreTotal >= 80 && $scoreTotal <= 100){
 <div class=Section2>
     <table width="704" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="291" height="50" align="center"><span class="style1"><strong>การวัดผลและประเมินผลการฝึกงาน</strong></span></td>
+            <td width="291" height="50" align="center"><span class="style1"><strong>การวัดผลและประเมินผลการฝึกประสบการณ์</strong></span></td>
         </tr>
         <tr>
-            <td height="27" align="center"><span class="style2"><?php echo $valStudent['student_sex']=='male'?"นาย":"นางสาว";echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valStudent['student_department'];?></span></td>
+            <td height="27" align="center"><span class="style2"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text'];?></span></td>
         </tr>
         <tr>
             <td height="27" align="center"><span class="style2"><?php echo "รหัสนักศึกษา ".$valStudent['student_code']." "." ชื่อสถานประกอบการ ".$valCompany['company_name']; ?></span></td>
@@ -102,14 +103,14 @@ if ($scoreTotal >= 80 && $scoreTotal <= 100){
         </thead>
         <tbody>
         <tr>
-            <td height="35" style="text-align: left">&nbsp;แบบประเมินการฝึกงานโดยสถานประกอบการ</td>
+            <td height="35" style="text-align: left">&nbsp;แบบประเมินการฝึกประสบการณ์โดยสถานประกอบการ</td>
             <td style="text-align: center; vertical-align: middle;">50</td>
             <td style="text-align: center; vertical-align: middle;">
                 <?php echo $scoreTrainer;?>
             </td>
         </tr>
         <tr>
-            <td height="35" style="text-align: left">&nbsp;แบบประเมินการฝึกงานโดยอาจารย์นิเทศ</td>
+            <td height="35" style="text-align: left">&nbsp;แบบประเมินการฝึกประสบการณ์โดยอาจารย์นิเทศ</td>
             <td style="text-align: center; vertical-align: middle;">20</td>
             <td style="text-align: center; vertical-align: middle;">
                 <?php echo $scoreTeacher;?>
@@ -146,8 +147,8 @@ if ($scoreTotal >= 80 && $scoreTotal <= 100){
     <br><br>
     <table width="100%" border="0">
         <tr>
-            <td width="20%"></td>
-            <td width="5%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
+            <td width="15%"></td>
+            <td width="10%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
             <td width="40%" align="center">.............................................  <br><br> <?php echo "( ".$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']." ) <br><br> ........../....................../............." ?> </td>
             <td width="40%" align="left" style="vertical-align: top;">อาจารย์นิเทศ</td>
         </tr>
@@ -156,10 +157,10 @@ if ($scoreTotal >= 80 && $scoreTotal <= 100){
     <br><br>
     <table width="100%" border="0">
         <tr>
-            <td width="20%"></td>
-            <td width="5%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
+            <td width="15%"></td>
+            <td width="10%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
             <td width="35%" align="center">.............................................  <br><br> <?php echo "( .............................................) <br><br> ........../....................../............." ?> </td>
-            <td width="40%" align="left" style="vertical-align: top;">อาจารย์ผู้ควบคุมการฝึกงานประจำแผนก</td>
+            <td width="40%" align="left" style="vertical-align: top;">อาจารย์ผู้ควบคุมการฝึกประสบการณ์ประจำแผนก</td>
         </tr>
     </table>
     <br>
@@ -218,7 +219,7 @@ ob_end_clean();
 $pdf = new mPDF('th', 'A4', '0', 'THSaraban');
 $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
-$pdf->SetTitle('การวัดผลและประเมินผลการฝึกงาน');
+$pdf->SetTitle('การวัดผลและประเมินผลการฝึกประสบการณ์');
 $pdf->WriteHTML($html, 2);
 $pdf->Output();
 ?>

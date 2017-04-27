@@ -20,6 +20,7 @@ $classTeacher = new Teacher();
 
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 $valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTrainer = $classTrainer->GetDetailTrainer($memberID,$valScore['trainer_id']);
 
@@ -66,16 +67,16 @@ if ($valTrainer['trainer_prefix'] == 'mr'){
 <div class=Section2>
     <table width="704" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="291" height="50" align="center"><span class="style1"><strong>แบบประเมินการฝึกงานโดยสถานประกอบการ</strong></span></td>
+            <td width="291" height="50" align="center"><span class="style1"><strong>แบบประเมินการฝึกประสบการณ์โดยสถานประกอบการ</strong></span></td>
         </tr>
         <tr>
-            <td height="27" align="center"><span class="style2"><?php echo $valStudent['student_sex']=='male'?"นาย":"นางสาว";echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valStudent['student_department']; ?></span></td>
+            <td height="27" align="center"><span class="style2"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";}; echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text']; ?></span></td>
         </tr>
         <tr>
-            <td height="27" align="center"><span class="style2"><?php echo "ระยะเวลาฝึกงานระหว่าง ".DBThaiLongDateFull($valStudent['student_training_start'])." ถึง ".DBThaiLongDateFull($valStudent['student_training_end']);?></span></td>
+            <td height="27" align="center"><span class="style2"><?php echo "ระยะเวลาฝึกประสบการณ์ระหว่าง ".DBThaiLongDateFull($valStudent['student_training_start'])." ถึง ".DBThaiLongDateFull($valStudent['student_training_end']);?></span></td>
         </tr>
         <tr>
-            <td height="27" align="center"><span class="style2"><?php echo "รวมวัน ฝึกงานจริง ".$valStudent['numWork']." วัน ลากิจ ".$valStudent['numErrand']." วัน ลาป่วย ".$valStudent['numSick']." วัน ขาด ".$valStudent['numAbsent']." วัน";?></span></td>
+            <td height="27" align="center"><span class="style2"><?php echo "รวมวัน ฝึกประสบการณ์จริง ".$valStudent['numWork']." วัน ลากิจ ".$valStudent['numErrand']." วัน ลาป่วย ".$valStudent['numSick']." วัน ขาด ".$valStudent['numAbsent']." วัน";?></span></td>
         </tr>
     </table><br>
 
@@ -182,7 +183,7 @@ if ($valTrainer['trainer_prefix'] == 'mr'){
     <br><br><br><br><br><br><br><br><br><br>
     <table width="704" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="291" height="50" align="center"><span class="style1"><strong>ความพึงพอใจของท่านต่อนักศึกษาฝึกงาน <br><br> วิทยาลัยเทคนิคเชียงใหม่</strong></span></td>
+            <td width="291" height="50" align="center"><span class="style1"><strong>ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์ <br><br> สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</strong></span></td>
         </tr>
     </table><br>
 
@@ -255,14 +256,14 @@ if ($valTrainer['trainer_prefix'] == 'mr'){
         </tbody>
     </table>
     <p><strong>ข้อเสนอแนะอื่นๆ </strong></p>
-    <p style="text-align: justify; text-indent: 50px;"><?php echo nl2br($valScore['score_trainer_counsel']);?></p>
+    <p style="text-align: justify; text-indent: 50px;"><?php echo nl2br($valScore['score_trainer_counsel']==''?"-":$valScore['score_trainer_counsel']);?></p>
     <br><br>
     <table width="100%" border="0">
         <tr>
             <td width="20%"></td>
             <td width="5%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
             <td width="30%" align="center">.............................................  <br><br> <?php echo "( ".$prefix.$valTrainer['trainer_firstname']." ".$valTrainer['trainer_lastname']." )<br> <br>ตำแหน่ง ".$valTrainer['trainer_rank']."<br><br>........../....................../............."; ?> </td>
-            <td width="40%" align="left" style="vertical-align: top;">ผู้ประเมิน (ผู้ควบคุมการฝึกงาน)</td>
+            <td width="40%" align="left" style="vertical-align: top;">ผู้ประเมิน (ผู้ควบคุมการฝึกประสบการณ์)</td>
         </tr>
     </table>
 </div>
@@ -274,7 +275,7 @@ ob_end_clean();
 $pdf = new mPDF('th', 'A4', '0', 'THSaraban');
 $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
-$pdf->SetTitle('แบบประเมินการฝึกงานโดยสถานประกอบการ');
+$pdf->SetTitle('แบบประเมินการฝึกประสบการณ์โดยสถานประกอบการ');
 $pdf->WriteHTML($html, 2);
 $pdf->Output();
 ?>

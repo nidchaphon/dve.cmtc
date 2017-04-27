@@ -15,7 +15,7 @@ $classStudent = new Student();
 
 $listReportDiary = $classStudent->GetReportDiary($_COOKIE['memberID']);
 $valStudent = $classStudent->GetDetailStudent($_COOKIE['memberID'],$studentID);
-$valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+//$valDepartment = $classStudent->GetStatusDetailStudent($valDiaryTime['student_department']);
 
 //echo strtotime("2008-10-31");
 //echo date("w",strtotime("2017-02-15"));
@@ -72,8 +72,8 @@ $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']
             <td width="60%" align="center" bgcolor="#D5D5D5"><strong>บันทึกรายงานการปฏิบัติงาน</strong></td>
             <td width="20%" align="center" bgcolor="#D5D5D5"><strong>หมายเหตุ</strong></td>
         </tr>
-        <?php $week = 0; while ($valReportDiary = mysql_fetch_assoc($listReportDiary)){ $week = $week+1;
-        ?>
+        <?php while ($valReportDiary = mysql_fetch_assoc($listReportDiary)){ ;
+//        ?>
             <tr>
                 <td height="70" align="left" style="vertical-align: top;"><?php echo FullThaiDate(strtotime($valReportDiary['diary_date'])); ?></td>
                 <td align="left" class="style3" style="vertical-align: top; ">&nbsp;<?php echo nl2br(wordwrap($valReportDiary['diary_job'],55,"<br>",true)); ?></td>
@@ -84,7 +84,7 @@ $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']
     <br>
     <table width="100%" border="0">
         <tr>
-            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกงาน</td>
+            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกประสบการณ์</td>
             <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$teacherName." )"; ?> <br><br> อาจารย์นิเทศ</td>
         </tr>
     </table>

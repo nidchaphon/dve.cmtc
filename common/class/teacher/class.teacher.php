@@ -149,7 +149,7 @@ class Teacher
         return $resultQuery;
     }
 
-    function GetListStudent($memberID='',$degree='',$department=''){
+    function GetListStudent($memberID='',$degree='',$department='',$year=''){
         if ($degree == ''){
             $whereDegree = "";
         }else{
@@ -159,6 +159,11 @@ class Teacher
             $whereDepartment = "";
         }else{
             $whereDepartment = "AND student.student_department = '".$department."'";
+        }
+        if ($year == ''){
+            $whereYear = "";
+        }else{
+            $whereYear = "AND LEFT(student.student_code,2) = '".$year."'";
         }
         $strQuery = "SELECT student.student_id,
                             student.student_code,
@@ -178,7 +183,7 @@ class Teacher
                             LEFT JOIN teacher ON (student.teacher_id=teacher.teacher_id or student.teacher2_id=teacher.teacher_id)
                             LEFT JOIN diary ON(student.student_id=diary.student_id AND diary.diary_date = curdate())
                             LEFT JOIN company ON(student.company_id=company.company_id)
-                      WHERE teacher.member_id = '{$memberID}' {$whereDegree} {$whereDepartment}
+                      WHERE teacher.member_id = '{$memberID}' {$whereDegree} {$whereDepartment} {$whereYear}
                       ORDER BY student.student_degree ASC,
 	                            student.student_year DESC,
 	                            student_department ASC
@@ -196,6 +201,16 @@ class Teacher
                      WHERE status_type = '{$statusType}'";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetListStatus เพื่อแสดงรายการสถานะ';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListSTDYear(){
+        $strQuery = "SELECT LEFT(student_code,2) AS stdYear FROM student GROUP BY LEFT(student_code,2) ORDER BY LEFT(student_code,2) ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการรุ่นปี';
             echo "<pre>$strQuery</pre>";
         }
         $resultQuery = mysql_query($strQuery);

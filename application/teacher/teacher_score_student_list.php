@@ -6,9 +6,7 @@
  * Time: 17:14
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
@@ -18,9 +16,9 @@ $classStudent = new Student();
 $listStudent = $classTeacher->GetDetailStudentScoreForm($_COOKIE['memberID']);
 
 if ($_GET['result'] == 'score'){
-    $title = "ประเมินการฝึกงาน";
+    $title = "ประเมินการฝึกประสบการณ์";
 }if ($_GET['result'] == 'grade'){
-    $title = "การวัดผลและประเมินผลการฝึกงาน";
+    $title = "การวัดผลและประเมินผลการฝึกประสบการณ์";
 }
 
 ?>
@@ -30,7 +28,7 @@ if ($_GET['result'] == 'score'){
             <div class="card-body app-heading">
                 <div class="app-title">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="title">
                                 <span class="highlight"><?php echo $title; ?></span>
                             </div>
@@ -70,13 +68,14 @@ if ($_GET['result'] == 'score'){
                         $i=0;
                         while ($valStudent = mysql_fetch_assoc($listStudent)){ $i = $i+1;
                             $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+                            $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
                             ?>
                             <tr>
                                 <td align="center" height="30px"><?php echo $i; ?></td>
                                 <td><?php echo $valStudent['student_code']; ?></td>
                                 <td><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['student_firstname']." ".$valStudent['student_lastname']; ?></td>
                                 <td><?php echo $valDegree['status_text']; ?></td>
-                                <td><?php echo $valStudent['student_department']; ?></td>
+                                <td><?php echo $valDepartment['status_text']; ?></td>
                                 <?php
                                 if ($_GET['result'] == 'score'){
                                     if ($valStudent['score_teacher_1'] == '' || $valStudent['score_teacher_2'] == '' || $valStudent['score_teacher_3'] == '' || $valStudent['score_teacher_1'] == '0' || $valStudent['score_teacher_2'] == '0' || $valStudent['score_teacher_3'] == '0' ){

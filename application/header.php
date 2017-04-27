@@ -90,7 +90,7 @@ $valNumNotiTrainer2 = $classNotification->GetNumNotification($_COOKIE['memberID'
                 </ul>
 
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="navbar-title"><?php echo $valNumNotiTeacher['numNoti'];?>ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ <br> On The Job Training Observation Online System</li>
+                    <li class="navbar-title">ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ <br> On The Job Training Observation Online System</li>
                     <!--        <li class="navbar-search hidden-sm">-->
                     <!--          <input id="search" type="text" placeholder="ค้นหา...">-->
                     <!--          <button class="btn-search"><i class="fa fa-search"></i></button>-->

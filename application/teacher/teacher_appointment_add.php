@@ -73,7 +73,7 @@ $valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">สถานประกอบการที่จะนิเทศนักศึกษาฝึกงาน</label>
+                                <label class="col-md-4 control-label">สถานประกอบการที่จะนิเทศนักศึกษาฝึกประสบการณ์</label>
                                 <div class="col-md-5">
                                     <select class="select2" name="txtCompany">
                                         <option value="">เลือกสถานประกอบการ</option>
