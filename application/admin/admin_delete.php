@@ -29,6 +29,8 @@ if ($_GET['action'] == 'deleteUser'){
 }
 
 if ($_GET['action'] == 'delCompany'){
+
+    unlink("../../images/logo_company/".$_GET['companyLogo']."");
     $company_id = $_GET['companyID'];
     $sqlDeleteCompany = "DELETE FROM company WHERE company_id = '$company_id'";
     mysql_query($sqlDeleteCompany) or die(mysql_error());

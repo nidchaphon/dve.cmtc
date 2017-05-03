@@ -12,6 +12,24 @@ $detailCompany = $classCompany->GetDetailCompany($_GET['companyID']);
 //echo '<pre>';print_r($detail);echo '</pre>';
 
 ?>
+<script language="JavaScript">
+    function showPreview(ele)
+    {
+        $('#imgAvatar').attr('src', ele.value); // for IE
+        if (ele.files && ele.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgAvatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(ele.files[0]);
+        }
+    }
+
+</script>
+
 <style type="text/css">
     /* css กำหนดความกว้าง ความสูงของแผนที่ */
     #map_canvas {
@@ -35,9 +53,10 @@ $detailCompany = $classCompany->GetDetailCompany($_GET['companyID']);
                 แก้ไขข้อมูลสถานประกอบการ
             </div>
             <div class="card-body">
-                <form name="frmAddUser" class="form form-horizontal" action="admin/admin_update.php?companyID=<?php echo $detailCompany['company_id']?>" method="post">
+                <form name="frmAddUser" class="form form-horizontal" action="admin/admin_update.php?companyID=<?php echo $detailCompany['company_id']?>" method="post" enctype="multipart/form-data">
                     <div class="section">
                         <div class="section-body">
+                            <div class="section-title">ข้อมูลทั่วไป</div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">ชื่อสถานประกอบการ</label>
                                 <div class="col-md-5">
@@ -50,6 +69,17 @@ $detailCompany = $classCompany->GetDetailCompany($_GET['companyID']);
                                     <textarea type="text" name="txtCompanyDetail" class="form-control" placeholder="รายละเอียดของสถานประกอบการ"><?php echo $detailCompany['company_detail']?></textarea>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">โลโก้สถานประกอบการ</label>
+                                <div class="col-md-5">
+                                    <input type="file" name="fileLogo" class="form-control-file" aria-describedby="fileHelp" OnChange="showPreview(this)">
+                                </div>
+                                <div class="col-md-3">
+                                    <img id="imgAvatar" <?php if ($detailCompany['company_logo'] != ''){ echo 'src="../images/logo_company/'.$detailCompany['company_logo'].'"';}else { echo ''; } ?> width="150px">
+                                    <input type="hidden" name="txtCompanyLogo" value="<?php echo $detailCompany['company_logo']?>">
+                                </div>
+                            </div>
+                            <div class="section-title">ข้อมูลการติดต่อ</div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">ที่อยู่</label>
                                 <div class="col-md-8">
@@ -74,6 +104,47 @@ $detailCompany = $classCompany->GetDetailCompany($_GET['companyID']);
                                     <input type="text" name="txtCompanyWebsite" class="form-control" placeholder="เว็บไต์" value="<?php echo $detailCompany['company_website']?>">
                                 </div>
                             </div>
+                            <div class="section-title">ข้อมูลผู้บริหาร</div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">ชื่อผู้บริหาร</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerName" class="form-control" placeholder="ชื่อผู้บริหาร" value="<?php echo $detailCompany['company_manager_name']?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">ตำแหน่ง</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerRank" class="form-control" placeholder="ตำแหน่ง" value="<?php echo $detailCompany['company_manager_rank']?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">เบอร์โทรศัพท์</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerTel" class="form-control" placeholder="เบอร์โทรศัพท์" value="<?php echo $detailCompany['company_manager_tel']?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">อีเมลล์</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerEmail" class="form-control" placeholder="อีเมลล์" value="<?php echo $detailCompany['company_manager_email']?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Facebook</label>
+                                <div class="col-md-3" align="right">
+                                    http://www.facebook.com/
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" name="txtManagerFacebook" class="form-control" placeholder="FacebookID" value="<?php echo $detailCompany['company_manager_facebook']?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">LineID</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerLine" class="form-control" placeholder="LineID" value="<?php echo $detailCompany['company_manager_line']?>">
+                                </div>
+                            </div>
+                            <div class="section-title">ข้อมูลที่ตั้งในแผนที่ Google Map</div>
                             <div id="contain_map">
                                 <div id="map_canvas"></div>
                             </div><br>

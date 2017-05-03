@@ -61,6 +61,14 @@ if (isset($_POST['updateUser'])) {
 }
 
 if (isset($_POST['updateCompany'])){
+
+    if($_FILES['fileLogo']['name']!=""){
+        unlink("../../images/logo_company/".$_POST['txtCompanyLogo']."");
+        $imgName=UpImg($_FILES['fileLogo'],"../../images/logo_company/");
+        $sqlUpdateLogoCompany = "UPDATE company SET company_logo = '".$imgName."' WHERE company_id = '".$_GET['companyID']."'";
+        mysql_query($sqlUpdateLogoCompany) or die(mysql_error());
+    }
+
     $sqlUpdateCompany = "UPDATE company SET
                             company_name = '".$_POST['txtCompanyName']."',
                             company_detail = '".$_POST['txtCompanyDetail']."',
@@ -68,6 +76,12 @@ if (isset($_POST['updateCompany'])){
                             company_tel = '".$_POST['txtCompanyTel']."',
                             company_email = '".$_POST['txtCompanyEmail']."',
                             company_website = '".$_POST['txtCompanyWebsite']."',
+                            company_manager_name = '" . $_POST['txtManagerName'] . "',
+                            company_manager_rank = '" . $_POST['txtManagerRank'] . "',
+                            company_manager_tel = '" . $_POST['txtManagerTel'] . "',
+                            company_manager_email = '" . $_POST['txtManagerEmail'] . "',
+                            company_manager_facebook = '" . $_POST['txtManagerFacebook'] . "',
+                            company_manager_line = '" . $_POST['txtManagerLine'] . "',
                             company_lat = '".$_POST['txtCompanyLat']."',
                             company_lon = '".$_POST['txtCompanyLon']."'
                          WHERE company_id = '".$_GET['companyID']."'";

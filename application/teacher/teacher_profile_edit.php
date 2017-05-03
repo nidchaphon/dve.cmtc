@@ -11,6 +11,7 @@ $memberID = $_COOKIE['memberID'];
 $classTeacher = new Teacher();
 
 $valTeacher = $classTeacher->GetDetailTeacher($memberID,$teacherID);
+$listPrefix = $classTrainer->GetListPrefix();
 
 //echo '<pre>';print_r($data);echo'</pre>';
 ?>
@@ -52,10 +53,18 @@ $valTeacher = $classTeacher->GetDetailTeacher($memberID,$teacherID);
                         <div class="col-md-9">
                             <div class="app-title">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <?php  $idrd=0; while ($valPrefix = mysql_fetch_assoc($listPrefix)){ $idrd = $idrd+1; ?>
+                                            <div class="radio radio-inline">
+                                                <input type="radio" name="txtPrefix" id="radio<?php echo $idrd; ?>" value="<?php echo $valPrefix['status_value'];?>" <?php if ($valTeacher['teacher_prefix']==$valPrefix['status_value']){echo "checked";} ?>>
+                                                <label for="radio<?php echo $idrd; ?>"><?php echo $valPrefix['status_text'];?></label>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="col-md-4">
                                         <input type="text" name="txtFirstname" class="form-control" placeholder="ชื่อ" value="<?php echo $valTeacher['teacher_firstname']; ?>">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <input type="text" name="txtLastname" class="form-control" placeholder="นามสกุล" value="<?php echo $valTeacher['teacher_lastname']; ?>">
                                     </div>
                                 </div>
@@ -77,16 +86,34 @@ $valTeacher = $classTeacher->GetDetailTeacher($memberID,$teacherID);
                                 <div class="section-title">ข้อมูลการติดต่อ</div>
                                 <div class="section-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">เบอร์โทรศัพท์</label>
-                                        <div class="col-md-4">
+                                        <label class="col-md-2 control-label">เบอร์โทรศัพท์</label>
+                                        <div class="col-md-5">
                                             <input type="tel" maxlength="10" name="txtTel" class="form-control" placeholder="เบอร์โทรศัพท์" value="<?php echo $valTeacher['teacher_tel']; ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">อีเมลล์</label>
-                                        <div class="col-md-4">
+                                        <label class="col-md-2 control-label">อีเมลล์</label>
+                                        <div class="col-md-5">
                                             <input type="email" name="txtEmail" class="form-control" placeholder="อีเมลล์" value="<?php echo $valTeacher['teacher_email']; ?>">
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 control-label">Facebook</div>
+                                        <div class="col-md-3" align="right">https://www.facebook.com/</div>
+                                        <div class="col-md-2"><input type="text" name="txtFacebook" class="form-control" placeholder="" value="<?php echo $valTeacher['teacher_facebook']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 control-label">LineID</div>
+                                        <div class="col-md-5"><input type="text" name="txtLine" class="form-control" placeholder="" value="<?php echo $valTeacher['teacher_line']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 control-label">Instagram</div>
+                                        <div class="col-md-5"><input type="text" name="txtInstagram" class="form-control" placeholder="" value="<?php echo $valTeacher['teacher_instagram']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 control-label">Twitter</div>
+                                        <div class="col-md-3" align="right">https://twitter.com/</div>
+                                        <div class="col-md-2"><input type="text" name="txtTwitter" class="form-control" placeholder="" value="<?php echo $valTeacher['teacher_twitter']; ?>"></div>
                                     </div>
                                 </div>
                             </div>

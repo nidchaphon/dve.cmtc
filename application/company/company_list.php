@@ -48,6 +48,7 @@ $listCompany = $classCompany->GetListCompany();
                             <th style="text-align: center" height="50px">ชื่อสถานประกอบการ</th>
                             <th style="text-align: center">เบอร์โทรศัพท์</th>
                             <th style="text-align: center">อีเมลล์</th>
+                            <th style="text-align: center">จำนวนนักศึกษา</th>
                             <th width="15%" style="text-align: center">รายละเอียด</th>
                         </tr>
                         </thead>
@@ -58,6 +59,7 @@ $listCompany = $classCompany->GetListCompany();
                                 <td height="30px"><?php echo $valCompany['company_name'] ?></td>
                                 <td><?php echo $valCompany['company_tel'] ?></td>
                                 <td><?php echo $valCompany['company_email'] ?></td>
+                                <td align="center"><?php if ($valCompany['numStudent'] == '0'){echo "ไม่มีนักศึกษาฝึกประสบการณ์";}else{echo $valCompany['numStudent']." คน";} ?></td>
                                 <td align="center">
                                     <a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><i class='fa fa-institution (alias)' title='ข้อมูลสถานประกอบการ'></i></a> &nbsp
                                     </tr>

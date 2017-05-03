@@ -12,7 +12,8 @@ if ($detect->isMobile() || $detect->isTablet()) {
 
 $classTeacher = new Teacher();
 
-$listAppointment = $classTeacher->GetListAppointment();
+$valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
+$listAppointment = $classTeacher->GetListAppointment($valTeacher['teacher_id']);
 
 ?>
 <div class="row">
@@ -43,7 +44,7 @@ $listAppointment = $classTeacher->GetListAppointment();
             <div class="card-header"><br><br></div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="datatable table-responsive table-striped table-bordered table-hover " id="dataTables-example" style="width: 100%; margin: auto;"  cellspacing="0">
+                    <table class="datatable table-responsive table-striped table-bordered table-hover " id="dataTables-example" style="width: 100%; margin: auto;" cellpadding="5"  cellspacing="0">
                         <thead>
                         <tr>
                             <th style="text-align: center" width="5%" height="50px">ลำดับ</th>
@@ -64,18 +65,18 @@ $listAppointment = $classTeacher->GetListAppointment();
                                 <td align="center"><?php echo DBThaiShortDate($valAppointment['appointment_date']); ?></td>
                                 <td><?php echo timeThai($valAppointment['appointment_time']); ?></td>
                                 <td><?php echo $valAppointment['company_name']; ?></td>
-                                <td><?php
+                                <td align="center"><?php
                                     if ($valAppointment['appointment_status'] == '0'){
-                                        echo "<span class='badge badge-info badge-icon'><i class='fa fa-calendar' aria-hidden='true'></i><span>นัดหมาย</span></span> ";
+                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-calendar' aria-hidden='true'></i><span>นัดหมาย</span></span> <a href='teacher/teacher_to_db.php?action=updateAppointment&appointmentID=".$valAppointment['appointment_id']."'><button class='btn btn-default btn-xs'>นิเทศแล้ว</button>";
                                     }else{
                                         echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>นิเทศแล้ว</span></span>";} ?> </td>
-                                <td><?php
+                                <td align="center"><?php
                                     if ($valAppointment['appointment_trainer_status'] == '0'){
                                         echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ครูฝึก</span></span>";
                                     }else {
                                         echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>ครูฝึก</span></span>";
                                     }
-                                    echo "<br><br>";
+                                    echo "<br>";
                                     if ($valAppointment['appointment_student_status'] == '0'){
                                         echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>นักศึกษา</span></span>";
                                     }else {

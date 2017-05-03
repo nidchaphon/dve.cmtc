@@ -42,6 +42,10 @@ if (isset($_POST['editTrainer'])){
                     trainer_rank = '".$_POST['txtRank']."',
                     trainer_tel = '".$_POST['txtTel']."',
                     trainer_email = '".$_POST['txtEmail']."',
+                    trainer_facebook = '".$_POST['txtFacebook']."',
+                    trainer_line = '".$_POST['txtLine']."',
+                    trainer_instagram = '".$_POST['txtInstagram']."',
+                    trainer_twitter = '".$_POST['txtTwitter']."',
                     company_id = '".$_POST['txtCompany']."'
                   WHERE member_id = '$memberID'";
     mysql_query($sqlUpdateTrainer) or die(mysql_error());
@@ -61,7 +65,8 @@ if (isset($_POST['updateScoreStudent'])){
                                 score_trainer_rate2 = '".$_POST['radioRate2']."',
                                 score_trainer_rate3 = '".$_POST['radioRate3']."',
                                 score_trainer_counsel = '".$_POST['txtCounsel']."',
-                                trainer_id = '".$_POST['txtTrainerID']."'
+                                trainer_id = '".$_POST['txtTrainerID']."',
+                                trainer_status = '1'
                               WHERE student_id = '".$_GET['studentID']."'
                               ";
     mysql_query($sqlUpdateScoreStudent) or die(mysql_error($sqlUpdateScoreStudent));

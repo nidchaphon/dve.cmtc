@@ -63,19 +63,34 @@ $valCompany = $classTrainer->GetDetailCompany($valTrainer['company_id']);
                                 <div class="section-title">ข้อมูลการติดต่อ</div>
                                 <div class="section-body">
                                     <div class="row">
-                                        <div class="col-md-3"><p><strong>เบอร์โทรศัพท์</strong></p></div>
+                                        <div class="col-md-2"><p><strong>เบอร์โทรศัพท์</strong></p></div>
                                         <div class="col-md-7"><?php echo $valTrainer['trainer_tel']==''?"-":$valTrainer['trainer_tel']; ?></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3"><p><strong>อีเมลล์</strong></p></div>
+                                        <div class="col-md-2"><p><strong>อีเมลล์</strong></p></div>
                                         <div class="col-md-7"><?php echo $valTrainer['trainer_email']==''?"-":$valTrainer['trainer_email']; ?></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3"><p><strong>บริษัท</strong></p></div>
+                                        <div class="col-md-2"><p><strong>Facebook</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTrainer['trainer_facebook'] != ''){ echo '<a href="https://www.facebook.com/'.$valTrainer['trainer_facebook'].'" target="_blank">https://www.facebook.com/'.$valTrainer['trainer_facebook'].'&nbsp;&nbsp;<img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Line</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTrainer['trainer_line'] != ''){ echo '<a href="http://line.me/ti/p/~'.$valTrainer['trainer_line'].'" target="_blank">'.$valTrainer['trainer_line'].'&nbsp;&nbsp;<img src="../images_sys/icon_line.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Instagram</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTrainer['trainer_instagram'] != ''){ echo '<a href="https://www.instagram.com/'.$valTrainer['trainer_instagram'].'" target="_blank">'.$valTrainer['trainer_instagram'].'&nbsp;&nbsp;<img src="../images_sys/icon_instagram.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div><div class="row">
+                                        <div class="col-md-2"><p><strong>Twitter</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTrainer['trainer_twitter'] != ''){ echo '<a href="https://twitter.com/'.$valTrainer['trainer_twitter'].'" target="_blank">https://twitter.com/'.$valTrainer['trainer_twitter'].'&nbsp;&nbsp;<img src="../images_sys/icon_twitter.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>บริษัท</strong></p></div>
                                         <div class="col-md-7"><?php echo $valCompany['company_name']==''?"-":$valCompany['company_name']; ?></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3"><p><strong>ที่อยู่</strong></p></div>
+                                        <div class="col-md-2"><p><strong>ที่อยู่</strong></p></div>
                                         <div class="col-md-7"><?php echo $valCompany['company_address']==''?"-":$valCompany['company_address']; ?></div>
                                     </div>
                                 </div>

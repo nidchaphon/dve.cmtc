@@ -103,7 +103,6 @@ if (isset($_POST['insertStudent'])){
                         student_address = '".$_POST['txtAddress']."',
                         student_tel = '".$_POST['txtTel']."',
                         student_email = '".$_POST['txtEmail']."',
-                        student_picture = 'profile_men.jpg',
                         member_id = '".$_POST['txtID']."',
                         teacher_id = '".$_POST['txtTeacher']."',
                         teacher2_id = '".$_POST['txtTeacher2']."',
@@ -119,16 +118,30 @@ if (isset($_POST['insertStudent'])){
 }
 
 if (isset($_POST['insertCompany'])){
-    $sqlAddCompany = "INSERT INTO company SET
-                        company_name = '".$_POST['txtCompanyName']."',
-                        company_detail = '".$_POST['txtCompanyDetail']."',
-                        company_address = '".$_POST['txtCompanyAddress']."',
-                        company_tel = '".$_POST['txtCompanyTel']."',
-                        company_email = '".$_POST['txtCompanyEmail']."',
-                        company_website = '".$_POST['txtCompanyWebsite']."',
-                        company_lat = '".$_POST['txtCompanyLat']."',
-                        company_lon = '".$_POST['txtCompanyLon']."'";
-    mysql_query($sqlAddCompany) or die(mysql_error());
+
+    $sqlAddCompany = "INSERT INTO company SET ";
+    $sqlAddCompany .= "company_name = '" . $_POST['txtCompanyName'] . "',
+                        company_detail = '" . $_POST['txtCompanyDetail'] . "',
+                        company_address = '" . $_POST['txtCompanyAddress'] . "',
+                        company_tel = '" . $_POST['txtCompanyTel'] . "',
+                        company_email = '" . $_POST['txtCompanyEmail'] . "',
+                        company_website = '" . $_POST['txtCompanyWebsite'] . "',
+                        company_manager_name = '" . $_POST['txtManagerName'] . "',
+                        company_manager_rank = '" . $_POST['txtManagerRank'] . "',
+                        company_manager_tel = '" . $_POST['txtManagerTel'] . "',
+                        company_manager_email = '" . $_POST['txtManagerEmail'] . "',
+                        company_manager_facebook = '" . $_POST['txtManagerFacebook'] . "',
+                        company_manager_line = '" . $_POST['txtManagerLine'] . "',
+                        company_lat = '" . $_POST['txtCompanyLat'] . "',
+                        company_lon = '" . $_POST['txtCompanyLon'] . "'";
+
+    if($_FILES['fileLogo']['name']!="") {
+        $imgName = UpImg($_FILES['fileLogo'], "../../images/logo_company/");
+        $sqlAddCompany .= ",company_logo = '" . $imgName . "'";
+        mysql_query($sqlAddCompany) or die(mysql_error());
+    }else {
+        mysql_query($sqlAddCompany) or die(mysql_error());
+    }
 
     header("refresh:1; url=../index.php?page=admin_company_list");
 }

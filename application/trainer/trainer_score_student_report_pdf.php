@@ -80,7 +80,7 @@ if ($valTrainer['trainer_prefix'] == 'mr'){
         </tr>
     </table><br>
 
-    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="0" cellspacing="0" class="style3">
+    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="3" cellspacing="0" class="style3">
         <thead>
         <tr style="background: rgba(0,0,0,0.07);">
             <th width="26%" height="50" style="text-align: center; vertical-align: middle;">หัวข้อการประเมิน</th>
@@ -187,7 +187,7 @@ if ($valTrainer['trainer_prefix'] == 'mr'){
         </tr>
     </table><br>
 
-    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="0" cellspacing="0" class="style3">
+    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="3" cellspacing="0" class="style3">
         <thead>
         <tr style="background: rgba(0,0,0,0.07);">
             <th height="50" width="50%" style="text-align: center; vertical-align: middle;">ความพึงพอใจ</th>

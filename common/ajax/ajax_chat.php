@@ -78,9 +78,11 @@ if(isset($_POST['viewData']) && $_POST['viewData']!=""){
             $json_data[]=array(
                 "max_id"=>$valChat['chat_id'],
                 "data_align"=>($user1==$valChat['chat_user1'])?"right":"left",// ถ้าเป็นข้อความที่ส่งจากผู้ใช้ขณะนั้น
-                "data_msg"=>$valChat['chat_msg'],
+                "data_color"=>($user1==$valChat['chat_user1'])?"#EEEEEE":"rgba(231,76,60,0.23)",// ถ้าเป็นข้อความที่ส่งจากผู้ใช้ขณะนั้น
+                "data_msg"=>nl2br($valChat['chat_msg']),
                 "data_date"=>DBThaiLongDate($valChat['chat_date']),
                 "data_time"=>timeThai($valChat['chat_time']),
+                "data_date"=>DBThaiShortDate($valChat['chat_date']),
                 "data_status"=>($valChat['chat_status']=='1' and $user1==$valChat['chat_user1'])?"<i class='fa fa-check' aria-hidden='true'></i> อ่านแล้ว":""
             );
         }

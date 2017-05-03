@@ -25,7 +25,7 @@ $valNumNotiTrainer2 = $classNotification->GetNumNotification($_COOKIE['memberID'
         $txtStatus = $valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname'];
         $linkProfile = "index.php?page=teacher_profile";
         $linkToProfile = "<a href='index.php?page=teacher_profile'>ข้อมูลส่วนตัว</a>";
-        $imageProfile = $valTeacher['teacher_picture'];
+        $imageProfile = $valTeacher['teacher_picture']==''?"profile_men.jpg":$valTeacher['teacher_picture'];
     } elseif ($_COOKIE['memberStatus'] == "teacher2") {
         $txtStatus = $valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname'];
         $linkProfile = "index.php?page=teacher_profile";
@@ -40,7 +40,7 @@ $valNumNotiTrainer2 = $classNotification->GetNumNotification($_COOKIE['memberID'
         $txtStatus = $valTrainer['trainer_firstname']." ".$valTrainer['trainer_lastname'];
         $linkProfile = "index.php?page=trainer_profile";
         $linkToProfile = "<a href='index.php?page=trainer_profile'>ข้อมูลส่วนตัว</a>";
-        $imageProfile = $valTrainer['trainer_picture'];
+        $imageProfile = $valTrainer['trainer_picture']==''?"profile_men.jpg":$valTrainer['trainer_picture'];
     }else {
         $titleProfile = "ข้อมูลส่วนตัว";
     }

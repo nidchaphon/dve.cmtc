@@ -45,8 +45,11 @@ class Teacher
         return $resultQuery;
     }
 
-    function GetListAppointment(){
-        $strQuery = "SELECT * FROM appointment INNER JOIN company ON (appointment.company_id = company.company_id)ORDER BY appointment_date DESC";
+    function GetListAppointment($teacherID){
+        $strQuery = "SELECT * FROM appointment 
+                      INNER JOIN company ON (appointment.company_id = company.company_id) 
+                      WHERE teacher_id = '{$teacherID}'
+                      ORDER BY appointment_date DESC";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetListAppointment เพื่อรายการนัดหมายการนิเทศ';
             echo "<pre>$strQuery</pre>";
@@ -97,11 +100,30 @@ class Teacher
         return $resultQuery;
     }
 
-    function GetDetailStudentScoreForm($memberID=''){
+    function GetDetailStudentScoreForm($memberID='',$degree='',$department='',$year=''){
+        if ($degree == ''){
+            $whereDegree = "";
+        }else{
+            $whereDegree = "AND student.student_degree = '".$degree."'";
+        }
+        if ($department == ''){
+            $whereDepartment = "";
+        }else{
+            $whereDepartment = "AND student.student_department = '".$department."'";
+        }
+        if ($year == ''){
+            $whereYear = "";
+        }else{
+            $whereYear = "AND LEFT(student.student_code,2) = '".$year."'";
+        }
         $strQuery = "SELECT * FROM student 
                         LEFT JOIN teacher ON (student.teacher_id=teacher.teacher_id) 
                         LEFT JOIN score ON (student.student_id=score.student_id)
-                      WHERE teacher.member_id = '{$memberID}'
+                      WHERE teacher.member_id = '{$memberID}' {$whereDegree} {$whereDepartment} {$whereYear}
+                      ORDER BY  student.student_degree ASC,
+	                            student.student_year DESC,
+	                            student_department ASC,
+	                            student.student_code ASC
                       ";
 //        AND student.student_training_end <= CURDATE()
         if ($_GET['debug']=='on'){
@@ -178,15 +200,19 @@ class Teacher
 	                        student.member_id,
 	                        diary.diary_status,
 	                        diary.diary_id,
-	                        company.company_name
+	                        diary.diary_time_start,
+	                        diary.diary_time_end,
+	                        company.company_name,
+	                        company.company_id
                       FROM student
                             LEFT JOIN teacher ON (student.teacher_id=teacher.teacher_id or student.teacher2_id=teacher.teacher_id)
                             LEFT JOIN diary ON(student.student_id=diary.student_id AND diary.diary_date = curdate())
                             LEFT JOIN company ON(student.company_id=company.company_id)
                       WHERE teacher.member_id = '{$memberID}' {$whereDegree} {$whereDepartment} {$whereYear}
-                      ORDER BY student.student_degree ASC,
+                      ORDER BY  student.student_degree ASC,
 	                            student.student_year DESC,
-	                            student_department ASC
+	                            student_department ASC,
+	                            student.student_code ASC
                      ";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetListStudent เพื่อแสดงรายชื่อนักศึกษาฝึกงาน';
@@ -215,6 +241,66 @@ class Teacher
         }
         $resultQuery = mysql_query($strQuery);
         return $resultQuery;
+    }
+
+    function GetListDepartment(){
+        $strQuery = "SELECT status_text,status_value 
+                      FROM student 
+                        LEFT JOIN `status` ON status_value=student_department 
+                      WHERE 1 AND status_value != ''
+                      GROUP BY student_department";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการสาขาวิชา';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListDegree(){
+        $strQuery = "SELECT status_text,status_value 
+                      FROM student 
+                        LEFT JOIN `status` ON status_value=student_degree 
+                      WHERE 1 AND status_value != ''
+                      GROUP BY student_degree";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการระดับชั้น';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListNumStudentInYear($memberID=''){
+        $strQuery = "SELECT LEFT(student_code,2) AS yearCode,
+                        student.student_degree,
+                        student.student_department,
+                        COUNT(student.student_id) AS totalStd,
+                        COUNT(IF(score.teacher_status='0'||score.grade_teacher_status='0',1,NULL)) AS totalNotScore
+                      FROM student 
+                        LEFT JOIN score ON (student.student_id=score.student_id)
+                        JOIN teacher ON (student.teacher_id=teacher.teacher_id)
+                      WHERE 1 AND teacher.member_id = '{$memberID}'
+                      GROUP BY student.student_department,
+                                student.student_degree,
+                                LEFT(student_code,2)";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการรุ่นปี';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetDetailStatusType($status=''){
+        $strQuery = "SELECT * FROM `status` WHERE status_value = '{$status}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetDetailStatusType เพื่อแสดง ข้อมูลสถานะ';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
     }
 
 }

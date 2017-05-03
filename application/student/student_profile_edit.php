@@ -238,11 +238,29 @@ if ($valStudent['trainer_prefix'] == 'mr'){
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2">เบอร์โทรศัพท์</div>
-                                        <div class="col-md-3"><input type="tel" maxlength="10" name="txtTel" class="form-control" placeholder="" value="<?php echo $valStudent['student_tel']; ?>"></div>
+                                        <div class="col-md-4"><input type="tel" maxlength="10" name="txtTel" class="form-control" placeholder="" value="<?php echo $valStudent['student_tel']; ?>"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2">อีเมลล์</div>
-                                        <div class="col-md-3"><input type="email" name="txtEmail" class="form-control" placeholder="" value="<?php echo $valStudent['student_email']; ?>"></div>
+                                        <div class="col-md-4"><input type="email" name="txtEmail" class="form-control" placeholder="" value="<?php echo $valStudent['student_email']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">Facebook</div>
+                                        <div class="col-md-2" style="width: auto;">https://www.facebook.com/</div>
+                                        <div class="col-md-2"><input type="text" name="txtFacebook" class="form-control" placeholder="" value="<?php echo $valStudent['student_facebook']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">LineID</div>
+                                        <div class="col-md-4"><input type="text" name="txtLine" class="form-control" placeholder="" value="<?php echo $valStudent['student_line']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">Instagram</div>
+                                        <div class="col-md-4"><input type="text" name="txtInstagram" class="form-control" placeholder="" value="<?php echo $valStudent['student_instagram']; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">Twitter</div>
+                                        <div class="col-md-2" style="width: auto;">https://twitter.com/</div>
+                                        <div class="col-md-2"><input type="text" name="txtTwitter" class="form-control" placeholder="" value="<?php echo $valStudent['student_twitter']; ?>"></div>
                                     </div>
                                 </div>
                                 <div class="section-title">ข้อมูลเพื่อนสนิท</div>

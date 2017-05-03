@@ -136,6 +136,22 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                         <div class="col-md-2"><p><strong>อีเมลล์</strong></p></div>
                                         <div class="col-md-8"><?php echo $valStudent['student_email']==''?"-":$valStudent['student_email']; ?></div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Facebook</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['student_facebook'] != ''){ echo '<a href="https://www.facebook.com/'.$valStudent['student_facebook'].'" target="_blank">https://www.facebook.com/'.$valStudent['student_facebook'].'&nbsp;&nbsp;<img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Line</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['student_line'] != ''){ echo '<a href="http://line.me/ti/p/~'.$valStudent['student_line'].'" target="_blank">'.$valStudent['student_line'].'&nbsp;&nbsp;<img src="../images_sys/icon_line.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Instagram</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['student_instagram'] != ''){ echo '<a href="https://www.instagram.com/'.$valStudent['student_instagram'].'" target="_blank">'.$valStudent['student_instagram'].'&nbsp;&nbsp;<img src="../images_sys/icon_instagram.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div><div class="row">
+                                        <div class="col-md-2"><p><strong>Twitter</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['student_twitter'] != ''){ echo '<a href="https://twitter.com/'.$valStudent['student_twitter'].'" target="_blank">https://twitter.com/'.$valStudent['student_twitter'].'&nbsp;&nbsp;<img src="../images_sys/icon_twitter.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+
                                 </div>
                                 <div class="section-title">ข้อมูลเพื่อนสนิท</div>
                                 <div class="section-body">
@@ -261,6 +277,21 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                         <div class="col-md-2"><p><strong>อีเมลล์</strong></p></div>
                                         <div class="col-md-8"><?php echo $valTeacher2['teacher_email']==''?"-":$valTeacher2['teacher_email']; ?></div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Facebook</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTeacher2['teacher_facebook'] != ''){ echo '<a href="https://www.facebook.com/'.$valTeacher2['teacher_facebook'].'" target="_blank">https://www.facebook.com/'.$valTeacher2['teacher_facebook'].'&nbsp;&nbsp;<img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Line</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTeacher2['teacher_line'] != ''){ echo '<a href="http://line.me/ti/p/~'.$valTeacher2['teacher_line'].'" target="_blank">'.$valTeacher2['teacher_line'].'&nbsp;&nbsp;<img src="../images_sys/icon_line.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Instagram</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTeacher2['teacher_instagram'] != ''){ echo '<a href="https://www.instagram.com/'.$valTeacher2['teacher_instagram'].'" target="_blank">'.$valTeacher2['teacher_instagram'].'&nbsp;&nbsp;<img src="../images_sys/icon_instagram.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div><div class="row">
+                                        <div class="col-md-2"><p><strong>Twitter</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valTeacher2['teacher_twitter'] != ''){ echo '<a href="https://twitter.com/'.$valTeacher2['teacher_twitter'].'" target="_blank">https://twitter.com/'.$valTeacher2['teacher_twitter'].'&nbsp;&nbsp;<img src="../images_sys/icon_twitter.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
                                 </div>
                                 <div class="section-title">ข้อมูลอาจารย์นิเทศ</div>
                                 <div class="section-body">
@@ -279,6 +310,21 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                     <div class="row">
                                         <div class="col-md-2"><p><strong>อีเมลล์</strong></p></div>
                                         <div class="col-md-8"><?php echo $valStudent['teacher_email']==''?"-":$valStudent['teacher_email']; ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Facebook</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['teacher_facebook'] != ''){ echo '<a href="https://www.facebook.com/'.$valStudent['teacher_facebook'].'" target="_blank">https://www.facebook.com/'.$valStudent['teacher_facebook'].'&nbsp;&nbsp;<img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Line</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['teacher_line'] != ''){ echo '<a href="http://line.me/ti/p/~'.$valStudent['teacher_line'].'" target="_blank">'.$valStudent['teacher_line'].'&nbsp;&nbsp;<img src="../images_sys/icon_line.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Instagram</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['teacher_instagram'] != ''){ echo '<a href="https://www.instagram.com/'.$valStudent['teacher_instagram'].'" target="_blank">'.$valStudent['teacher_instagram'].'&nbsp;&nbsp;<img src="../images_sys/icon_instagram.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div><div class="row">
+                                        <div class="col-md-2"><p><strong>Twitter</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['teacher_twitter'] != ''){ echo '<a href="https://twitter.com/'.$valStudent['teacher_twitter'].'" target="_blank">https://twitter.com/'.$valStudent['teacher_twitter'].'&nbsp;&nbsp;<img src="../images_sys/icon_twitter.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -329,6 +375,21 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                     <div class="row">
                                         <div class="col-md-2"><p><strong>อีเมลล์</strong></p></div>
                                         <div class="col-md-8"><?php echo $valStudent['trainer_email']==''?"-":$valStudent['trainer_email']; ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Facebook</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['trainer_facebook'] != ''){ echo '<a href="https://www.facebook.com/'.$valStudent['trainer_facebook'].'" target="_blank">https://www.facebook.com/'.$valStudent['trainer_facebook'].'&nbsp;&nbsp;<img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Line</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['trainer_line'] != ''){ echo '<a href="http://line.me/ti/p/~'.$valStudent['trainer_line'].'" target="_blank">'.$valStudent['trainer_line'].'&nbsp;&nbsp;<img src="../images_sys/icon_line.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Instagram</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['trainer_instagram'] != ''){ echo '<a href="https://www.instagram.com/'.$valStudent['trainer_instagram'].'" target="_blank">'.$valStudent['trainer_instagram'].'&nbsp;&nbsp;<img src="../images_sys/icon_instagram.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
+                                    </div><div class="row">
+                                        <div class="col-md-2"><p><strong>Twitter</strong></p></div>
+                                        <div class="col-md-8"><?php if ($valStudent['trainer_twitter'] != ''){ echo '<a href="https://twitter.com/'.$valStudent['trainer_twitter'].'" target="_blank">https://twitter.com/'.$valStudent['trainer_twitter'].'&nbsp;&nbsp;<img src="../images_sys/icon_twitter.png" width="30px" height="30px"></a>';}else{ echo '-'; } ?></div>
                                     </div>
                                 </div>
                             </div>

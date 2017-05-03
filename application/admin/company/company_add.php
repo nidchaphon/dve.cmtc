@@ -7,6 +7,23 @@
  */
 
 ?>
+<script language="JavaScript">
+    function showPreview(ele)
+    {
+        $('#imgAvatar').attr('src', ele.value); // for IE
+        if (ele.files && ele.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgAvatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(ele.files[0]);
+        }
+    }
+
+</script>
 
 <style type="text/css">
     /* css กำหนดความกว้าง ความสูงของแผนที่ */
@@ -24,9 +41,10 @@
                 เพิ่มสถานประกอบการ
             </div>
             <div class="card-body">
-                <form name="frmAddUser" class="form form-horizontal" action="admin/admin_insert.php" method="post">
+                <form name="frmAddUser" class="form form-horizontal" action="admin/admin_insert.php" method="post" enctype="multipart/form-data">
                     <div class="section">
                         <div class="section-body">
+                            <div class="section-title">ข้อมูลทั่วไป</div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">ชื่อสถานประกอบการ</label>
                                 <div class="col-md-5">
@@ -39,6 +57,16 @@
                                     <textarea type="text" name="txtCompanyDetail" class="form-control" placeholder="รายละเอียดของสถานประกอบการ"></textarea>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">โลโก้สถานประกอบการ</label>
+                                <div class="col-md-5">
+                                    <input type="file" name="fileLogo" class="form-control-file" aria-describedby="fileHelp" OnChange="showPreview(this)">
+                                </div>
+                                <div class="col-md-3">
+                                    <img id="imgAvatar" src="" width="150px">
+                                </div>
+                            </div>
+                            <div class="section-title">ข้อมูลการติดต่อ</div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">ที่อยู่</label>
                                 <div class="col-md-8">
@@ -63,6 +91,47 @@
                                     <input type="text" name="txtCompanyWebsite" class="form-control" placeholder="เว็บไซต์">
                                 </div>
                             </div>
+                            <div class="section-title">ข้อมูลผู้บริหาร</div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">ชื่อผู้บริหาร</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerName" class="form-control" placeholder="ชื่อผู้บริหาร">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">ตำแหน่ง</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerRank" class="form-control" placeholder="ตำแหน่ง">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">เบอร์โทรศัพท์</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerTel" class="form-control" placeholder="เบอร์โทรศัพท์">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">อีเมลล์</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerEmail" class="form-control" placeholder="อีเมลล์">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Facebook</label>
+                                <div class="col-md-3" align="right">
+                                    http://www.facebook.com/
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" name="txtManagerFacebook" class="form-control" placeholder="FacebookID">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">LineID</label>
+                                <div class="col-md-5">
+                                    <input type="text" name="txtManagerLine" class="form-control" placeholder="LineID">
+                                </div>
+                            </div>
+                            <div class="section-title">ข้อมูลที่ตั้งในแผนที่ Google Map</div>
                             <div id="map_canvas"></div><br>
                             <div class="row" style="text-align: center; color: #fb0000;">
                                 <strong>ลากจุดมาร์คสีแดงเพื่อกำหนดตำแหน่งของสถานประกอบการ</strong>

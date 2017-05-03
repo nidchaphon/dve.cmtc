@@ -13,7 +13,26 @@ if ($detect->isMobile() || $detect->isTablet()) {
 $classTeacher = new Teacher();
 $classStudent = new Student();
 
-$listStudent = $classTeacher->GetDetailStudentScoreForm($_COOKIE['memberID']);
+if (isset($_GET['degree'])){
+    $degree = $_GET['degree'];
+}else{
+    $degree = $_POST['degree'];
+}
+if (isset($_GET['department'])){
+    $department = $_GET['department'];
+}else{
+    $department = $_POST['department'];
+}
+if (isset($_GET['year'])){
+    $year = $_GET['year'];
+}else{
+    $year = $_POST['year'];
+}
+
+$listStudent = $classTeacher->GetDetailStudentScoreForm($_COOKIE['memberID'],$degree,$department,$year);
+$listDegree = $classTeacher->GetListDegree();
+$listDepartment = $classTeacher->GetListDepartment();
+$listYear = $classTeacher->GetListSTDYear();
 
 if ($_GET['result'] == 'score'){
     $title = "ประเมินการฝึกประสบการณ์";
@@ -33,10 +52,39 @@ if ($_GET['result'] == 'score'){
                                 <span class="highlight"><?php echo $title; ?></span>
                             </div>
                         </div>
-<!--                        <div class="col-md-6">-->
-<!--                            <a href="index.php?page=teacher_appointment_add"><button type="button" class="btn btn-primary">เพิ่มนัดหมาย  <i class='fa fa-plus'></i></button></a>-->
-<!--                        </div>-->
                     </div>
+
+                    <?php if (!isset($_GET['degree'])){ ?>
+                        <br>
+                    <div class="row">
+                        <form name="frmCheangLsit" action="" method="post">
+                            <div class="col-md-4">
+                                <select class="select2" name="degree" onchange="this.form.submit()">
+                                    <option value="">ระดับชั้นทั้งหมด</option>
+                                    <?php while ($valDegree = mysql_fetch_assoc($listDegree)){ ?>
+                                        <option value="<?php echo $valDegree['status_value'];?>" <?php if ($valDegree['status_value'] == $degree){echo "SELECTED";}?>><?php echo $valDegree['status_text']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="select2" name="department" onchange="this.form.submit()">
+                                    <option value="">สาขาทั้งหมด</option>
+                                    <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
+                                        <option value="<?php echo $valDepartment['status_value'];?>" <?php if ($valDepartment['status_value'] == $department){echo "SELECTED";}?>><?php echo $valDepartment['status_text']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="select2" name="year" onchange="this.form.submit()">
+                                    <option value="">รุ่นปีทั้งหมด</option>
+                                    <?php while ($valYear = mysql_fetch_assoc($listYear)){ ?>
+                                        <option value="<?php echo $valYear['stdYear'];?>" <?php if ($valYear['stdYear'] == $year){echo "SELECTED";}?>><?php echo "รุ่นปี 25".$valYear['stdYear']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <?php } ?>
 
                 </div>
             </div>
@@ -74,19 +122,19 @@ if ($_GET['result'] == 'score'){
                                 <td align="center" height="30px"><?php echo $i; ?></td>
                                 <td><?php echo $valStudent['student_code']; ?></td>
                                 <td><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['student_firstname']." ".$valStudent['student_lastname']; ?></td>
-                                <td><?php echo $valDegree['status_text']; ?></td>
+                                <td><?php echo $valDegree['status_text']." "; echo $valStudent['student_year']==''?"":"ปี ".$valStudent['student_year'];; ?></td>
                                 <td><?php echo $valDepartment['status_text']; ?></td>
                                 <?php
                                 if ($_GET['result'] == 'score'){
                                     if ($valStudent['score_teacher_1'] == '' || $valStudent['score_teacher_2'] == '' || $valStudent['score_teacher_3'] == '' || $valStudent['score_teacher_1'] == '0' || $valStudent['score_teacher_2'] == '0' || $valStudent['score_teacher_3'] == '0' ){
                                         echo '<td style="text-align: center">';
-                                        echo "ยังไม่มีการประเมิน";
+                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ยังไม่มีการประเมิน</span>";
                                         echo '</td>';
                                         echo '<td align="center"><a href="index.php?page=teacher_score_student_complete&studentID='.$valStudent['student_id'].'"><i class="fa fa-edit (alias)" title="ประเมินนักศึกษา"></i></a>';
                                         echo '</td>';
                                     }else{
                                         echo '<td style="text-align: center">';
-                                        echo "ประเมินแล้ว";
+                                        echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>ประเมินแล้ว</span>";
                                         echo '</td>';
                                         echo '<td align="center">
                                               <a href="index.php?page=teacher_score_student_report&studentID='.$valStudent['student_id'].'"><i class="fa fa-book" title="ข้อมูลการประเมินนักศึกษา"></i></a> &nbsp;
@@ -97,13 +145,13 @@ if ($_GET['result'] == 'score'){
                                 }if ($_GET['result'] == 'grade'){
                                     if ($valStudent['score_report'] == '' || $valStudent['score_join'] == '' || $valStudent['score_report'] == '0' || $valStudent['score_join'] == '0'){
                                         echo '<td style="text-align: center">';
-                                        echo "ยังไม่มีการประเมิน";
+                                        echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ยังไม่มีการประเมิน</span>";
                                         echo '</td>';
                                         echo '<td align="center"><a href="index.php?page=teacher_grade_student_complete&studentID='.$valStudent['student_id'].'"><i class="fa fa-edit (alias)" title="ประเมินนักศึกษา"></i></a>';
                                         echo '</td>';
                                     }else{
                                         echo '<td style="text-align: center">';
-                                        echo "ประเมินแล้ว";
+                                        echo "<span class='badge badge-success badge-icon'><i class='fa fa-check' aria-hidden='true'></i><span>ประเมินแล้ว</span>";
                                         echo '</td>';
                                         echo '<td align="center">
                                               <a href="index.php?page=teacher_grade_student_report&studentID='.$valStudent['student_id'].'"><i class="fa fa-book" title="ข้อมูลการประเมินนักศึกษา"></i></a> &nbsp;
@@ -117,7 +165,7 @@ if ($_GET['result'] == 'score'){
                                 $valStudent['score_trainer_1_1'] == '0' || $valStudent['score_trainer_1_2'] == '0' || $valStudent['score_trainer_1_3'] == '0' || $valStudent['score_trainer_2_1'] == '0' || $valStudent['score_trainer_2_2'] == '0' || $valStudent['score_trainer_3_1'] == '0' || $valStudent['score_trainer_rate1'] == '0' || $valStudent['score_trainer_rate2'] == '0' || $valStudent['score_trainer_rate3'] == '0'
                                 ){
                                     echo '<td style="text-align: center">';
-                                    echo "ยังไม่มีการประเมิน";
+                                    echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ยังไม่มีการประเมิน</span>";
                                     echo '</td>';
                                 }else{
                                     echo '<td align="center">

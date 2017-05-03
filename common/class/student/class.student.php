@@ -130,6 +130,8 @@ class Student
 	                    diary.diary_time_end ,
 	                    diary.diary_status,
 	                    diary.diary_leave,
+	                    student.student_sex,
+	                    trainer.trainer_prefix,
 	                    CONCAT(student.student_firstname ,' ' ,student.student_lastname) AS studentName,
 	                    CONCAT(trainer.trainer_firstname,' ',trainer.trainer_lastname) AS trainerName
                       FROM diary
@@ -150,6 +152,7 @@ class Student
 	                    diary.diary_date,
 	                    diary.diary_job,
 	                    diary.diary_problem,
+	                    trainer.trainer_prefix,
 	                    CONCAT(student.student_firstname ,' ' ,student.student_lastname) AS studentName,
 	                    CONCAT(trainer.trainer_firstname,' ',trainer.trainer_lastname) AS trainerName,
 	                    CONCAT(teacher.teacher_firstname,' ',teacher.teacher_lastname) AS teacherName

@@ -7,9 +7,12 @@
  */
 
 $classCompany = new Company();
+$classStudent = new Student();
 $valCompany = $classCompany->GetDetailCompany($_GET['companyID']);
+$listStudent = $classCompany->GetListStudent($_GET['companyID']);
 
 $placeTo = "18.830775,99.016754"
+
 ?>
 
 <style type="text/css">
@@ -60,12 +63,20 @@ $placeTo = "18.830775,99.016754"
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-tab">
-            <div class="card-header">
-            </div>
             <div class="card-body ">
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <div class="section">
+                            <div class="row">
+                                <div class="col-md-12" align="center">
+                                    <?php if ($valCompany['company_logo'] != ''){
+                                        echo '<img src="../images/logo_company/'.$valCompany['company_logo'].'" width="150px">';
+                                    }else{
+                                        echo '';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
                             <div class="section-title">ข้อมูลทั่วไป</div>
                             <div class="section-body">
                                 <div class="row">
@@ -96,6 +107,45 @@ $placeTo = "18.830775,99.016754"
                                     <div class="col-md-8"><a href="<?php echo $valCompany['company_website'] ; ?>" target="_blank"><?php echo $valCompany['company_website']==''?"-":$valCompany['company_website'] ; ?></a></div>
                                 </div>
                             </div>
+                            <div class="section-title">ข้อมูลผู้บริหาร</div>
+                            <div class="section-body">
+                                <div class="row">
+                                    <div class="col-md-2"><p><strong>ชื่อผู้บริหาร</strong></p></div>
+                                    <div class="col-md-8"><?php echo $valCompany['company_manager_name']==''?"-":$valCompany['company_manager_name'] ; ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><p><strong>ตำแหน่ง</strong></p></div>
+                                    <div class="col-md-8"><?php echo $valCompany['company_manager_rank']==''?"-":$valCompany['company_manager_rank'] ; ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><p><strong>เบอร์โทรศัพท์</strong></p></div>
+                                    <div class="col-md-8"><?php echo $valCompany['company_manager_tel']==''?"-":$valCompany['company_manager_tel'] ; ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><p><strong>อีเมลล์</strong></p></div>
+                                    <div class="col-md-8"><?php echo $valCompany['company_manager_email']==''?"-":$valCompany['company_manager_email'] ; ?></div>
+                                </div>
+                                <?php if ($valCompany['company_manager_facebook'] != ''){
+                                    echo '
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Facebook</strong></p></div>
+                                        <div class="col-md-8"><a href="https://www.facebook.com/'.$valCompany['company_manager_facebook'].'" target="_blank">https://www.facebook.com/'.$valCompany['company_manager_facebook'].'&nbsp;&nbsp;<img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>
+                                        </div>
+                                    </div>';}
+                                    else{
+                                    echo ''; }
+                                    if ($valCompany['company_manager_line'] != ''){
+                                    echo '
+                                    <div class="row">
+                                        <div class="col-md-2"><p><strong>Line</strong></p></div>
+                                        <div class="col-md-8"><a href="http://line.me/ti/p/~'.$valCompany['company_manager_line'].'" target="_blank">'.$valCompany['company_manager_line'].'&nbsp;&nbsp;<img src="../images_sys/icon_line.png" width="30px" height="30px"></a>
+                                        </div>
+                                    </div>';}
+                                    else{
+                                        echo ''; }
+                                        ?>
+
+                            </div>
                             <div class="section-title">แผนที่และการเดินทาง</div>
                             <div class="row">
                                 <div class="col-md-12" style="text-align: center">
@@ -110,6 +160,30 @@ $placeTo = "18.830775,99.016754"
                                 <div id="map_canvas"></div>
                             </div>
                             <div id="directionsPanel"></div>
+                            <br>
+                            <div class="section-title">นักศึกษาในสถานประกอบการ</div>
+                            <?php if ($valCompany['numStudent'] != '0'){ ?>
+                            <div class="section-body">
+                                <div class="row">
+                                    <div class="col-md-3"><p><strong>จำนวนนักศึกษาฝึกประสบการณ์</strong></p></div>
+                                    <div class="col-md-8"><?php echo $valCompany['numStudent']." คน"; ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><p><strong>รายชื่อนักศึกษา</strong></p></div>
+                                    <div class="col-md-8">
+                                        <ol>
+                                        <?php while ($valStudent = mysql_fetch_assoc($listStudent)){
+                                            $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+                                            $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
+                                            echo "<li>".$valStudent['student_code']." <a href='index.php?page=student_profile&memberID=".$valStudent['member_id']."'>";
+                                            if ($valStudent['student_sex']== 'male'){echo "นาย";}elseif ($valStudent['student_sex']== 'female'){echo "นางสาว";}
+                                            echo $valStudent['student_firstname']." ".$valStudent['student_lastname']."</a> ".$valDegree['status_text']." ปี ".$valStudent['student_year']." ".$valDepartment['status_text']."</li>";
+                                        }  ?>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } else { echo "ไม่มีนักศึกษาฝึกประสบการณ์"; } ?>
                         </div>
                     </div>
                 </div>

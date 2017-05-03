@@ -9,11 +9,15 @@ session_start();
 $classMessage = new Message();
 $classStudent = new Student();
 
-$listMember = $classMessage->GetListMember();
 $listTeacher = $classMessage->GetListTeacher();
-$listTrainer = $classMessage->GetListTrainer();
-$listStudent = $classMessage->GetListStudent();
-$detailCotact = $classMessage ->GetDetailContact($_GET['status']);
+$listTrainerForTeacher = $classMessage->GetListTrainerForTeacher($_COOKIE['memberID']);
+$listStudentForTeacher = $classMessage->GetListStudentForTeacher($_COOKIE['memberID']);
+$listTeacherForTrainer = $classMessage->GetListTeacherForTrainer($_COOKIE['memberID']);
+$listStudentForTrainer = $classMessage->GetListStudentForTrainer($_COOKIE['memberID']);
+$listTeacherForStudent = $classMessage->GetListTeacherForStudent($_COOKIE['memberID']);
+$listTrainerForStudent = $classMessage->GetListTrainerForStudent($_COOKIE['memberID']);
+$listStudentForStudent = $classMessage->GetListStudentForStudent($_COOKIE['memberID']);
+$detailCotact = $classMessage ->GetDetailContact($_GET['status'],$_GET['memberID']);
 
 $_SESSION['memberID2'] = $_GET['memberID'];
 $user1 = $_COOKIE['memberID'];
@@ -55,59 +59,174 @@ $user2 = $_SESSION['memberID2'];
             <div class="heading">พูดคุย/สอบถาม</div>
             <div id="contactDiv">
             <ul class="group full-height">
-                <?php if ($_COOKIE['memberStatus'] == 'student' || $_COOKIE['memberStatus'] == 'trainer'){ ?>
-                <li class="section">อาจารย์นิเทศ</li>
-                <?php while ($valTeacher = mysql_fetch_assoc($listTeacher)){ ?>
-                <li class="message">
-                    <a href="index.php?page=message&memberID=<?php echo $valTeacher['member_id'];?>&status=teacher">
-                        <span class="badge badge-warning pull-right"></span>
-                        <div class="message">
-                            <img class="profile" src="../images/member/<?php echo $valTeacher['teacher_picture'];?>">
-                            <div class="content">
-                                <div class="title"><?php echo "อ. ".$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname'];?></div>
-                                <div class="description"></div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <?php }} ?>
 
-                <?php if ($_COOKIE['memberStatus'] == 'student' || $_COOKIE['memberStatus'] == 'teacher'){ ?>
-                <li class="section">ผู้ควบคุมการฝึกประสบการณ์</li>
-                <?php while ($valTrainer = mysql_fetch_assoc($listTrainer)){ ?>
-                    <li class="message">
-                        <a href="index.php?page=message&memberID=<?php echo $valTrainer['member_id'];?>&status=trainer">
-                            <span class="badge badge-warning pull-right"></span>
-                            <div class="message">
-                                <img class="profile" src="../images/member/<?php echo $valTrainer['trainer_picture'];?>">
-                                <div class="content">
-                                    <div class="title"><?php echo $valTrainer['trainer_firstname']." ".$valTrainer['trainer_lastname'];?></div>
-                                    <div class="description"><?php echo $valTrainer['company_name']; ?></div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                <?php }} ?>
-
-                <?php if ($_COOKIE['memberStatus'] == 'teacher' || $_COOKIE['memberStatus'] == 'trainer'){ ?>
-                <li class="section">นักศึกษาฝึกประสบการณ์</li>
-                <?php while ($valStudent = mysql_fetch_assoc($listStudent)){
-                        $valdegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
-                        $valdepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
+                <?php if ($_COOKIE['memberStatus'] == 'teacher'){ ?>
+                    <li class="section">ผู้ควบคุมการฝึกประสบการณ์</li>
+                    <?php while ($valTrainerForTeacher = mysql_fetch_assoc($listTrainerForTeacher)){
+                        if ($valTrainerForTeacher['trainer_prefix'] == "mr"){
+                            $prefixTrainer = "นาย";
+                        }elseif ($valTrainerForTeacher['trainer_prefix'] == "mrs"){
+                            $prefixTrainer = "นาง";
+                        }elseif ($valTrainerForTeacher['trainer_prefix'] == "miss"){
+                            $prefixTrainer = "นางสาว";
+                        }else{
+                            $prefixTrainer = "";
+                        }
                         ?>
-                    <li class="message">
-                        <a href="index.php?page=message&memberID=<?php echo $valStudent['member_id'];?>&status=student">
-                            <span class="badge badge-warning pull-right"></span>
-                            <div class="message">
-                                <img class="profile" src="../images/member/<?php echo $valStudent['student_picture'];?>">
-                                <div class="content">
-                                    <div class="title"><?php echo $valStudent['student_firstname']." ".$valStudent['student_lastname'];?></div>
-                                    <div class="description"><?php echo $valStudent['student_code']." ".$valdegree['status_text']." ".$valdepartment['status_text']; ?></div>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valTrainerForTeacher['member_id'];?>&status=trainer">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valTrainerForTeacher['trainer_picture']==''?"profile_men.jpg":$valTrainerForTeacher['trainer_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo $prefixTrainer.$valTrainerForTeacher['trainer_firstname']." ".$valTrainerForTeacher['trainer_lastname'];?></div>
+                                        <div class="description"><?php echo $valTrainerForTeacher['company_name']; ?></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                <?php }} ?>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <li class="section">นักศึกษาฝึกประสบการณ์</li>
+                    <?php while ($valStudentForTeacher = mysql_fetch_assoc($listStudentForTeacher)){
+                        $valdegree = $classStudent->GetStatusDetailStudent($valStudentForTeacher['student_degree']);
+                        $valdepartment = $classStudent->GetStatusDetailStudent($valStudentForTeacher['student_department']);
+                        if ($valStudentForTeacher['student_sex'] == "male"){
+                            $prefixStudent = "นาย";
+                        }elseif ($valStudentForTeacher['student_sex'] == "female"){
+                            $prefixStudent = "นางสาว";
+                        }else{
+                            $prefixStudent = "";
+                        }
+                        ?>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valStudentForTeacher['member_id'];?>&status=student">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valStudentForTeacher['student_picture']==''?"profile_men.jpg":$valStudentForTeacher['student_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo $prefixStudent.$valStudentForTeacher['student_firstname']." ".$valStudentForTeacher['student_lastname'];?></div>
+                                        <div class="description"><?php echo $valStudentForTeacher['student_code']." ".$valdegree['status_text']."<br>".$valdepartment['status_text']; ?></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                <?php } ?>
+
+
+                <?php if ($_COOKIE['memberStatus'] == 'trainer'){ ?>
+                    <li class="section">อาจารย์นิเทศ</li>
+                    <?php while ($valTeacherForTrainer = mysql_fetch_assoc($listTeacherForTrainer)){
+                        ?>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valTeacherForTrainer['member_id'];?>&status=teacher">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valTeacherForTrainer['teacher_picture']==''?"profile_men.jpg":$valTeacherForTrainer['teacher_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo "อ. ".$valTeacherForTrainer['teacher_firstname']." ".$valTeacherForTrainer['teacher_lastname'];?></div>
+                                        <div class="description"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <li class="section">นักศึกษาฝึกประสบการณ์</li>
+                    <?php while ($valStudentForTrainer = mysql_fetch_assoc($listStudentForTrainer)){
+                        $valdegree = $classStudent->GetStatusDetailStudent($valStudentForTrainer['student_degree']);
+                        $valdepartment = $classStudent->GetStatusDetailStudent($valStudentForTrainer['student_department']);
+                        if ($valStudentForTrainer['student_sex'] == "male"){
+                            $prefixStudent = "นาย";
+                        }elseif ($valStudentForTrainer['student_sex'] == "female"){
+                            $prefixStudent = "นางสาว";
+                        }else{
+                            $prefixStudent = "";
+                        }
+                        ?>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valStudentForTrainer['member_id'];?>&status=student">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valStudentForTrainer['student_picture']==''?"profile_men.jpg":$valStudentForTrainer['student_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo $prefixStudent.$valStudentForTrainer['student_firstname']." ".$valStudentForTrainer['student_lastname'];?></div>
+                                        <div class="description"><?php echo $valStudentForTrainer['student_code']." ".$valdegree['status_text']."<br>".$valdepartment['status_text']; ?></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                <?php } ?>
+
+
+                <?php if ($_COOKIE['memberStatus'] == 'student'){ ?>
+                    <li class="section">อาจารย์นิเทศ</li>
+                    <?php while ($valTeacherForStudent = mysql_fetch_assoc($listTeacherForStudent)){
+                        ?>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valTeacherForStudent['member_id'];?>&status=teacher">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valTeacherForStudent['teacher_picture']==''?"profile_men.jpg":$valTeacherForStudent['teacher_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo "อ. ".$valTeacherForStudent['teacher_firstname']." ".$valTeacherForStudent['teacher_lastname'];?></div>
+                                        <div class="description"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <li class="section">ผู้ควบคุมการฝึกประสบการณ์</li>
+                    <?php while ($valTrainerForStudent = mysql_fetch_assoc($listTrainerForStudent)){
+                        if ($valTrainerForStudent['trainer_prefix'] == "mr"){
+                            $prefixTrainer = "นาย";
+                        }elseif ($valTrainerForStudent['trainer_prefix'] == "mrs"){
+                            $prefixTrainer = "นาง";
+                        }elseif ($valTrainerForStudent['trainer_prefix'] == "miss"){
+                            $prefixTrainer = "นางสาว";
+                        }else{
+                            $prefixTrainer = "";
+                        }
+                        ?>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valTrainerForStudent['member_id'];?>&status=trainer">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valTrainerForStudent['trainer_picture']==''?"profile_men.jpg":$valTrainerForStudent['trainer_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo $prefixTrainer.$valTrainerForStudent['trainer_firstname']." ".$valTrainerForStudent['trainer_lastname'];?></div>
+                                        <div class="description"><?php echo $valTrainerForStudent['company_name']; ?></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <li class="section">เพื่อนร่วมห้องเรียน</li>
+                    <?php while ($valStudentForStudent = mysql_fetch_assoc($listStudentForStudent)){
+                        $valdegree = $classStudent->GetStatusDetailStudent($valStudentForStudent['student_degree']);
+                        $valdepartment = $classStudent->GetStatusDetailStudent($valStudentForStudent['student_department']);
+                        if ($valStudentForStudent['student_sex'] == "male"){
+                            $prefixStudent = "นาย";
+                        }elseif ($valStudentForStudent['student_sex'] == "female"){
+                            $prefixStudent = "นางสาว";
+                        }else{
+                            $prefixStudent = "";
+                        }
+                        ?>
+                        <li class="message">
+                            <a href="index.php?page=message&memberID=<?php echo $valStudentForStudent['member_id'];?>&status=student">
+                                <span class="badge badge-warning pull-right"></span>
+                                <div class="message">
+                                    <img class="profile" src="../images/member/<?php echo $valStudentForStudent['student_picture']==''?"profile_men.jpg":$valStudentForStudent['student_picture'];?>">
+                                    <div class="content">
+                                        <div class="title"><?php echo $prefixStudent.$valStudentForStudent['student_firstname']." ".$valStudentForStudent['student_lastname'];?></div>
+                                        <div class="description"><?php echo $valStudentForStudent['student_code']." ".$valdegree['status_text']."<br>".$valdepartment['status_text']; ?></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                <?php } ?>
 
 <!--                <li class="section">readed</li>-->
 <!--                <li class="message">-->
@@ -132,13 +251,21 @@ $user2 = $_SESSION['memberID2'];
 <!--                    <a class="btn-back" data-toggle="collapse" href="#collapseMessaging" aria-expanded="false" aria-controls="collapseMessaging">-->
 <!--                        <i class="fa fa-angle-left" aria-hidden="true"></i>-->
 <!--                    </a>-->
-                    <?php echo $detailCotact[$_GET['status'].'_firstname'].' '.$detailCotact[$_GET['status'].'_lastname'];
+                    <?php if (isset($_GET['memberID'])){echo "กำลังติดต่อกับ ";} echo $detailCotact[$_GET['status'].'_firstname'].' '.$detailCotact[$_GET['status'].'_lastname'];
                     if ($detailCotact['member_loginstatus'] == '1'){
                         echo "<span class='badge badge-success badge-icon'><i class='fa fa-circle' aria-hidden='true'></i><span>ออนไลน์</span></span>";
                     }else if ($detailCotact['member_loginstatus'] == '0'){
                         echo "<span class='badge badge-danger badge-icon'><i class='fa fa-circle' aria-hidden='true'></i><span>ออฟไลน์</span></span>";
                     }else{
                         echo "";
+                    }
+                    echo "&nbsp;&nbsp;";
+                    if ($detailCotact[$_GET['status'].'_facebook'] != ''){
+                        echo '<a href="https://www.facebook.com/messages/t/'.$detailCotact[$_GET['status'].'_facebook'].'" target="_blank"><img src="../images_sys/icon_facebook.png" width="30px" height="30px"></a>';
+                    }
+                    echo "&nbsp;&nbsp;";
+                    if ($detailCotact[$_GET['status'].'_line'] != ''){
+                        echo '<a href="http://line.me/ti/p/~'.$detailCotact[$_GET['status'].'_line'].'" target="_blank"><img src="../images_sys/icon_line.png" width="30px" height="30px"></a>';
                     }
                     ?>
                 </div>
@@ -210,7 +337,7 @@ $user2 = $_SESSION['memberID2'];
                     if(parseInt(data[0].max_id)>parseInt(maxID)){ // เทียบว่าข้อมูล chat_id .ใหม่กว่าที่แสดงหรือไม่
                         $("#h_maxID").val(data[k].max_id); // เก็บ chat_id เป็น ค่าล่าสุด
                         // แสดงข้อความการ chat มีการประยุกต์ใช้ ตำแหน่งข้อความ เพื่อจัด css class ของข้อความที่แสดง
-                        $("#messagesDiv").append("<ul class='chat'><li class='"+data[k].data_align+"'><div class='message' style='word-break: break-all;'>"+data[k].data_msg+"</div><div class='info'><div class='datetime'>"+data[k].data_time+"</div><div class='status'>"+data[k].data_status+"</div></div></li></ul>");
+                        $("#messagesDiv").append("<ul class='chat'><li class='"+data[k].data_align+"'><div class='message' style='word-break: break-all; background: "+data[k].data_color+";'>"+data[k].data_msg+"</div><div class='info'><div class='datetime'>"+data[k].data_date+" "+data[k].data_time+"</div><div class='status'>"+data[k].data_status+"</div></div></li></ul>");
                         $("#messagesDiv")[0].scrollTop = $("#messagesDiv")[0].scrollHeight; // เลือน scroll ไปข้อความล่าสุด
                     }
                 };
@@ -218,7 +345,7 @@ $user2 = $_SESSION['memberID2'];
                 if(parseInt(data[0].max_id)>parseInt(maxID)){ // เทียบว่าข้อมูล chat_id .ใหม่กว่าที่แสดงหรือไม่
                     $("#h_maxID").val(data[0].max_id); // เก็บ chat_id เป็น ค่าล่าสุด
                     // แสดงข้อความการ chat มีการประยุกต์ใช้ ตำแหน่งข้อความ เพื่อจัด css class ของข้อความที่แสดง
-                    $("#messagesDiv").append("<ul class='chat'><li class='"+data[0].data_align+"'><div class='message' style='word-break: break-all;'>"+data[0].data_msg+"</div><div class='info'><div class='datetime'>"+data[0].data_time+"</div><div class='status'>"+data[0].data_status+"</div></div></li></ul>");
+                    $("#messagesDiv").append("<ul class='chat'><li class='"+data[0].data_align+"'><div class='message' style='word-break: break-all; background: "+data[0].data_color+";'>"+data[0].data_msg+"</div><div class='info'><div class='datetime'>"+data[0].data_date+" "+data[0].data_time+"</div><div class='status'>"+data[0].data_status+"</div></div></li></ul>");
                     $("#messagesDiv")[0].scrollTop = $("#messagesDiv")[0].scrollHeight;   // เลือน scroll ไปข้อความล่าสุด
                 }
             }

@@ -22,7 +22,7 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body app-heading">
-                <img class="profile-img" src="../images/member/<?php echo $valStudent['student_picture']==''?"profile_men":$valStudent['student_picture'];?>">
+                <img class="profile-img" src="../images/member/<?php echo $valStudent['student_picture']==''?"profile_men.jpg":$valStudent['student_picture'];?>">
                 <div class="app-title">
                     <div class="row">
                         <div class="col-md-5">
@@ -53,8 +53,6 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-tab">
-            <div class="card-header">
-            </div>
             <div class="card-body ">
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">

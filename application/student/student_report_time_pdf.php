@@ -11,6 +11,7 @@ require ('../../config/dbconnection.php');
 require ('../../config/php_config.php');
 require_once('../../common/mpdf/mpdf.php');
 include ("../../common/class/student/class.student.php");
+
 $classStudent = new Student();
 
 $listReportDiaryTime = $classStudent->GetReportTimeDiary($_COOKIE['memberID']);
@@ -69,14 +70,14 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valDiaryTime['student_de
         </tr>
         </tbody>
     </table>
-    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="0" cellspacing="0" class="style3">
+    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="2" cellspacing="0" class="style3">
         <tr align="center">
             <td width="15%" height="50" align="center" bgcolor="#D5D5D5"><strong>วัน เดือน ปี</strong></td>
             <td width="25%" align="center" bgcolor="#D5D5D5"><strong>ชื่อ - นามสกุล</strong></td>
             <td width="10%" align="center" bgcolor="#D5D5D5"><strong>เวลามา</strong></td>
             <td width="10%" align="center" bgcolor="#D5D5D5"><strong>เวลากลับ</strong></td>
-            <td width="20%" align="center" bgcolor="#D5D5D5"><strong>ผู้ควบคุม</strong></td>
-            <td width="20%" align="center" bgcolor="#D5D5D5"><strong>หมายเหตุ</strong></td>
+            <td width="25%" align="center" bgcolor="#D5D5D5"><strong>ผู้ควบคุม</strong></td>
+            <td width="15%" align="center" bgcolor="#D5D5D5"><strong>หมายเหตุ</strong></td>
         </tr>
         <?php while ($valReportTime = mysql_fetch_assoc($listReportDiaryTime)){ ?>
         <tr>
@@ -85,48 +86,62 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valDiaryTime['student_de
             <td align="center" class="style3"><?php echo $valReportTime['diary_time_start']==''?"-":TimeThai($valReportTime['diary_time_start']); ?></td>
             <td align="center" class="style3"><?php echo $valReportTime['diary_time_end']==''?"-":TimeThai($valReportTime['diary_time_end']); ?></td>
             <td align="left" class="style3">&nbsp;<?php echo " ".$valReportTime['trainerName']; ?></td>
-            <td align="left" class="style3">&nbsp;<?php
+            <td align="left" class="style3"><?php
                 if ($valReportTime['diary_status'] == 'errand'){echo "ลากิจ - ".$valReportTime['diary_leave'];}
                 if ($valReportTime['diary_status'] == 'sick'){echo "ลาป่าย - ".$valReportTime['diary_leave'];}
                 if ($valReportTime['diary_status'] == 'absent'){echo "ขาด - ".$valReportTime['diary_leave'];}
             ?></td>
         </tr>
-        <?php $studentName = $valReportTime['studentName']; $trainerName = $valReportTime['trainerName']; } ?>
+        <?php $studentName = $valReportTime['studentName']; $trainerName = $valReportTime['trainerName'];
+        if ($valReportTime['student_sex'] == "male"){
+            $prefixStudent = "นาย";
+        }elseif ($valReportTime['student_sex'] == "female"){
+            $prefixStudent = "นางสาว";
+        }
+        if ($valReportTime['trainer_prefix'] == "mr"){
+            $prefixTrainer = "นาย";
+        }elseif ($valReportTime['trainer_prefix'] == "mrs"){
+            $prefixTrainer = "นาง";
+        }elseif ($valReportTime['trainer_prefix'] == "miss"){
+            $prefixTrainer = "นาวสาว";
+        }
+
+        } ?>
     </table>
     <br>
     <table width="100%" border="0">
         <tbody>
         <tr>
-            <td width="80%"></td>
-            <td width="12%" align="right">นักศึกษาเข้าฝึกประสบการณ์จริง</td>
+            <td width="72%"></td>
+            <td width="20%" align="right">นักศึกษาเข้าฝึกประสบการณ์จริง</td>
             <td width="5%" align="center"><?php echo $valDiaryTime['numDiary']; ?></td>
             <td width="3%" align="right">วัน</td>
         </tr>
         <tr>
-            <td width="80%"></td>
-            <td width="12%" align="right">ลาป่วย</td>
-            <td width="5%" align="center"><?php echo $valDiaryTime['numSick']; ?></td>
-            <td width="3%" align="right">วัน</td>
+            <td></td>
+            <td align="right">ลาป่วย</td>
+            <td align="center"><?php echo $valDiaryTime['numSick']; ?></td>
+            <td align="right">วัน</td>
         </tr>
         <tr>
-            <td width="80%"></td>
-            <td width="12%" align="right">ลากิจ</td>
-            <td width="5%" align="center"><?php echo $valDiaryTime['numErrand']; ?></td>
-            <td width="3%" align="right">วัน</td>
+            <td></td>
+            <td align="right">ลากิจ</td>
+            <td align="center"><?php echo $valDiaryTime['numErrand']; ?></td>
+            <td align="right">วัน</td>
         </tr>
         <tr>
-            <td width="80%"></td>
-            <td width="12%" align="right">ขาด</td>
-            <td width="5%" align="center"><?php echo $valDiaryTime['numAbsent']; ?></td>
-            <td width="3%" align="right">วัน</td>
+            <td></td>
+            <td align="right">ขาด</td>
+            <td align="center"><?php echo $valDiaryTime['numAbsent']; ?></td>
+            <td align="right">วัน</td>
         </tr>
         </tbody>
     </table>
     <br>
     <table width="100%" border="0">
         <tr>
-            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$studentName." )"; ?> <br><br> นักศึกษาฝึกประสบการณ์</td>
-            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกประสบการณ์</td>
+            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$prefixStudent.$studentName." )"; ?> <br><br> นักศึกษาฝึกประสบการณ์</td>
+            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$prefixTrainer.$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกประสบการณ์</td>
         </tr>
     </table>
 </div>
@@ -134,6 +149,7 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valDiaryTime['student_de
 </html>
 <?Php
 $html = ob_get_contents();
+$html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
 ob_end_clean();
 $pdf = new mPDF('th', 'A4', '0', 'THSaraban');
 $pdf->SetAutoFont();

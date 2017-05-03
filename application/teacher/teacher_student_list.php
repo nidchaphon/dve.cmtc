@@ -14,8 +14,8 @@ $classTeacher = new Teacher();
 $classStudent = new Student();
 
 $listStudent = $classTeacher->GetListStudent($_COOKIE['memberID'],$_POST['degree'],$_POST['department'],$_POST['year']);
-$listDegree = $classTeacher->GetListStatus('degree');
-$listDepartment = $classTeacher->GetListStatus('major');
+$listDegree = $classTeacher->GetListDegree();
+$listDepartment = $classTeacher->GetListDepartment();
 $listYear = $classTeacher->GetListSTDYear();
 
 ?>
@@ -98,7 +98,7 @@ $listYear = $classTeacher->GetListSTDYear();
                                 <td><a href="index.php?page=student_profile&memberID=<?php echo $valStudent['member_id']; ?>"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}elseif ($valStudent['student_sex']=='female'){echo "นางสาว";}; echo $valStudent['studentName']; ?> </a></td>
                                 <td><?php echo $valDegree['status_text']." "; echo $valStudent['student_year']==''?"":"ปี ".$valStudent['student_year']; ?></td>
                                 <td><?php echo $valDepartment['status_text']; ?></td>
-                                <td><?php echo $valStudent['company_name']; ?></td>
+                                <td><a href="index.php?page=company_detail&companyID=<?php echo $valStudent['company_id']; ?>"><?php echo $valStudent['company_name']; ?></a></td>
 <!--                                <td align="center"><a href="index.php?page=student_profile&memberID=--><?php //echo $valStudent['member_id']; ?><!--"><i class="fa fa-info-circle" title="ข้อมูลนักศึกษา"></i></a>  </td>-->
                             </tr>
                         <?php } ?>

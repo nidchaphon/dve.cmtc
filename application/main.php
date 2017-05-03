@@ -38,9 +38,13 @@ while ($valChat = mysql_fetch_assoc($listChat)){
     </div>
 </div>
 <?php if ($_COOKIE['memberStatus'] == 'teacher'){
-    $listStudent = $classTeacher->GetListStudent($_COOKIE['memberID']);
-    $listStudentEnd = $classTeacher->GetListStudent($_COOKIE['memberID']);
+    $listStudent = $classTeacher->GetListStudent($_COOKIE['memberID'],$_POST['degree'],$_POST['department'],$_POST['year']);
+    $listDegree = $classTeacher->GetListDegree();
+    $listDepartment = $classTeacher->GetListDepartment();
+    $listYear = $classTeacher->GetListSTDYear();
+//    $listStudentEnd = $classTeacher->GetListStudent($_COOKIE['memberID']);
     $listAppointment = $classTeacher->GetListAppointment();
+    $listStudentGroup = $classTeacher->GetListNumStudentInYear($_COOKIE['memberID']);
 
     while ($valAppointment = mysql_fetch_assoc($listAppointment)){
         if ($valAppointment['appointment_status'] == '0'){
@@ -49,12 +53,12 @@ while ($valChat = mysql_fetch_assoc($listChat)){
     }
     $numAppointment = count($appointment);
 
-    while ($valStudentEnd = mysql_fetch_assoc($listStudentEnd)){
-        if ($valStudentEnd['student_training_end'] <= date("Y-m-d") && $valStudentEnd['student_score_teacher'] == ''){
-            $studnet[] = $valStudentEnd['student_id'];
-        }
-    }
-    $numStudentEnd = count($studnet);
+//    while ($valStudentEnd = mysql_fetch_assoc($listStudentEnd)){
+//        if ($valStudentEnd['student_training_end'] <= date("Y-m-d") && $valStudentEnd['student_score_teacher'] == ''){
+//            $studnet[] = $valStudentEnd['student_id'];
+//        }
+//    }
+//    $numStudentEnd = count($studnet);
 
     ?>
     <div class="row">
@@ -68,15 +72,22 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                     </div>
                 </div>
             </a><br>
-            <a href="index.php?page=teacher_score_student_list&result=score" class="card card-banner card-blue-light">
+
+            <?php while ($valStudentGroup = mysql_fetch_assoc($listStudentGroup)){
+                $valDegree = $classTeacher->GetDetailStatusType($valStudentGroup['student_degree']);
+                $valDepartment = $classTeacher->GetDetailStatusType($valStudentGroup['student_department']);
+                ?>
+            <a href="index.php?page=teacher_score_student_list&result=score&degree=<?php echo $valStudentGroup['student_degree'];?>&department=<?php echo $valStudentGroup['student_department']; ?>&year=<?php echo $valStudentGroup['yearCode']; ?>" class="card card-banner card-blue-light">
                 <div class="card-body">
                     <i class="icon fa fa-pencil-square-o fa-4x"></i>
                     <div class="content">
-                        <div class="title"><h4>นักศึกษาที่ต้องประเมินการฝึกประสบการณ์</h4></div>
-                        <div class="value"><?php echo $numStudentEnd==''?"0":$numStudentEnd." คน"; ?></div>
+                        <div class="title">ต้องประเมินนักศึกษา <?php echo $valDegree['status_text']." ".$valDepartment['status_text']." รุ่นปี 25".$valStudentGroup['yearCode']; ?></div>
+                        <div class="value"><?php echo $valStudentGroup['totalNotScore']." / ".$valStudentGroup['totalStd']." คน"; ?></div>
                     </div>
                 </div>
             </a>
+                <br>
+            <?php } ?>
         </div>
         <div class="col-md-6">
             <div id="container"></div>
@@ -86,7 +97,39 @@ while ($valChat = mysql_fetch_assoc($listChat)){
         <div class="col-xs-12">
             <div class="card card-mini">
                 <div class="card-header">
-                    <div class="card-title">นักศึกษาฝึกประสบการณ์</div>
+                    <div class="card-title">
+                        <div class="row">นักศึกษาฝึกประสบการณ์</div>
+                        <br>
+                        <div class="row">
+                            <form name="frmCheangLsit" action="" method="post">
+                                <div class="col-md-4">
+                                    <select class="select2" name="degree" onchange="this.form.submit()">
+                                        <option value="">ระดับชั้นทั้งหมด</option>
+                                        <?php while ($valDegree = mysql_fetch_assoc($listDegree)){ ?>
+                                            <option value="<?php echo $valDegree['status_value'];?>" <?php if ($valDegree['status_value'] == $_POST['degree']){echo "SELECTED";}?>><?php echo $valDegree['status_text']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="select2" name="department" onchange="this.form.submit()">
+                                        <option value="">สาขาทั้งหมด</option>
+                                        <?php while ($valDepartment = mysql_fetch_assoc($listDepartment)){ ?>
+                                            <option value="<?php echo $valDepartment['status_value'];?>" <?php if ($valDepartment['status_value'] == $_POST['department']){echo "SELECTED";}?>><?php echo $valDepartment['status_text']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="select2" name="year" onchange="this.form.submit()">
+                                        <option value="">รุ่นปีทั้งหมด</option>
+                                        <?php while ($valYear = mysql_fetch_assoc($listYear)){ ?>
+                                            <option value="<?php echo $valYear['stdYear'];?>" <?php if ($valYear['stdYear'] == $_POST['year']){echo "SELECTED";}?>><?php echo "รุ่นปี 25".$valYear['stdYear']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
                     <ul class="card-action">
                         <li>
                             <a href="index.php">
@@ -96,15 +139,15 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                     </ul>
                 </div>
                 <div class="card-body no-padding table-responsive">
-                    <table class="table card-table">
+                    <table class="table card-table table-hover ">
                         <thead>
                         <tr>
-                            <th width="10%" style="text-align: center;">รหัสนักศึกษา</th>
-                            <th width="20%" style="text-align: center;">ชื่อ</th>
+                            <th width="5%" style="text-align: center;">รหัสนักศึกษา</th>
+                            <th width="25%" style="text-align: center;">ชื่อ</th>
                             <th width="15%" style="text-align: center;">ระดับ</th>
                             <th width="15%" style="text-align: center;">สาขา</th>
-                            <th width="30%" style="text-align: center;">สถานประกอบการ</th>
-                            <th width="10%" style="text-align: center;">วันนี้</th>
+                            <th width="20%" style="text-align: center;">สถานประกอบการ</th>
+                            <th width="20%" style="text-align: center;">วันนี้</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -122,7 +165,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                                 <td><?php echo $valStudent['company_name']; ?></td>
                                 <td style="text-align: center;"><?php
                                     if ($valStudent['diary_status'] == 'diary'){
-                                        echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" ><span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>ฝึกประสบการณ์</span></span></a>';
+                                        echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" ><span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>ฝึกประสบการณ์</span></span></a><br>'.timeThai($valStudent['diary_time_start'])." - ".timeThai($valStudent['diary_time_end']);
                                     }elseif ($valStudent['diary_status'] == 'errand'){
                                         echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" ><span class="badge badge-info badge-icon"><i class="fa fa-credit-card" aria-hidden="true"></i><span>ลากิจ</span></span></a>';
                                     }elseif ($valStudent['diary_status'] == 'sick'){
@@ -131,7 +174,8 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                                         echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'" > <span class="badge badge-danger badge-icon"><i class="fa fa-times" aria-hidden="true"></i><span>ขาด</span></span></a>';
                                     }
                                     else {
-                                        echo '<span class="badge badge-warning badge-icon"><i class="fa fa-clock-o" aria-hidden="true"></i><span>ไม่ได้ฝึกงาน</span></span>';
+                                        echo '';
+//                                        echo '<span class="badge badge-warning badge-icon"><i class="fa fa-clock-o" aria-hidden="true"></i><span>ไม่ได้ฝึกงาน</span></span>';
 //                                        echo " <br> <a href='trainer/trainer_to_db.php?action=addDiaryStudent&studentID=".$valStudent['student_id']."&memberID=".$valStudent['member_id']."'><button class='btn btn-default btn-xs'>เช็คขาด</button></a> ";
                                     }
                                     ?>
@@ -214,7 +258,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                         <td><?php echo $valDepartment['status_text']; ?></td>
                         <td style="text-align: center;"><?php
                             if ($valStudent['diary_status'] == 'diary'){
-                                echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'"> <span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>ฝึกงาน</span></span></a>';
+                                echo '<a href="index.php?page=student_diary_detail&diaryID='.$valStudent['diary_id'].'&studentID='.$valStudent['student_id'].'"> <span class="badge badge-success badge-icon"><i class="fa fa-check" aria-hidden="true"></i><span>มาฝึกงาน</span></span></a>';
                             }elseif ($valStudent['diary_status'] == 'errand'){
                                 echo '<span class="badge badge-info badge-icon"><i class="fa fa-credit-card" aria-hidden="true"></i><span>ลากิจ</span></span>';
                             }elseif ($valStudent['diary_status'] == 'sick'){
@@ -249,18 +293,18 @@ while ($valChat = mysql_fetch_assoc($listChat)){
 
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <?php if ($maxDateDiary['maxDate'] != date("Y-m-d") && $valDiary['diary_time_start']=='' || $valDiary['diary_time_end']==''){ ?>
-            <?php if ($valDiary['diary_time_start']!=''){ ?>
-            <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkout&studentID=<?php echo $valStudent['student_id'];?>&diaryID=<?php echo $valDiary['diary_id']; ?>">
-                <div class="card-body">
-                    <i class="icon fa fa-calendar-check-o fa-4x"></i>
-                    <div class="content">
-                        <div class="title"><h3>ลงเวลาออกงาน</h3></div>
-                        <div class="value"><div id="css_time_run"><?=date("H:i:s")?></div></div>
+            <?php if ($valDiary['diary_status'] == "absent" || $valDiary['diary_status'] == "errand" || $valDiary['diary_status'] == "sick" && $valDiary['diary_status'] != "diary"){?>
+                <a class="card card-banner card-green-light" href="index.php?page=student_diary_edit&diaryID=<?php echo $valDiary['diary_id'];?>">
+                    <div class="card-body">
+                        <i class="icon fa fa-calendar-check-o fa-4x"></i>
+                        <div class="content">
+                            <div class="title"><h3>วันนี้นักศึกษาฝึกประสบการณ์</h3></div>
+                            <div class="value"><?php if ($valDiary['diary_status'] == "absent"){echo "ขาด";}if ($valDiary['diary_status'] == "errand"){echo "ลากิจ";}if ($valDiary['diary_status'] == "sick"){echo "ลาป่วย";} ?></div>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <?php }else{ ?>
+                </a>
+            <?php } ?>
+            <?php if ($maxDateDiary['maxDate'] != date("Y-m-d") && $valDiary['diary_time_start']=='' && $valDiary['diary_time_end']==''){ ?>
                 <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkin&studentID=<?php echo $valStudent['student_id'];?>">
                     <div class="card-body">
                         <i class="icon fa fa-calendar-check-o fa-4x"></i>
@@ -270,17 +314,65 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                         </div>
                     </div>
                 </a>
-            <?php }} else{ ?>
-                <a class="card card-banner card-green-light">
+            <?php } ?>
+            <?php if ($maxDateDiary['maxDate'] == date("Y-m-d") && $valDiary['diary_time_start']!='' && $valDiary['diary_time_end']==''){ ?>
+                <a class="card card-banner card-blue-light" href="index.php?page=student_diary_edit&diaryID=<?php echo $valDiary['diary_id'];?>">
                     <div class="card-body">
                         <i class="icon fa fa-calendar-check-o fa-4x"></i>
                         <div class="content">
-                            <div class="title"><h3>ขณะนี้เวลา</h3></div>
+                            <div class="title"><h3>เวลาเข้างาน</h3></div>
+                            <div class="value"><?php echo TimeThai($valDiary['diary_time_start']); ?></div>
+                        </div>
+                    </div>
+                </a>
+                <br>
+                <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkout&studentID=<?php echo $valStudent['student_id'];?>&diaryID=<?php echo $valDiary['diary_id']; ?>">
+                    <div class="card-body">
+                        <i class="icon fa fa-calendar-check-o fa-4x"></i>
+                        <div class="content">
+                            <div class="title"><h3>ลงเวลาออกงาน</h3></div>
                             <div class="value"><div id="css_time_run"><?=date("H:i:s")?></div></div>
                         </div>
                     </div>
                 </a>
             <?php } ?>
+            <?php if ($maxDateDiary['maxDate'] == date("Y-m-d") && $valDiary['diary_time_start']!='' && $valDiary['diary_time_end']!='' && $valDiary['diary_status'] == "diary"){ ?>
+                <a class="card card-banner card-blue-light" href="index.php?page=student_diary_edit&diaryID=<?php echo $valDiary['diary_id'];?>">
+                    <div class="card-body">
+                        <i class="icon fa fa-calendar-check-o fa-4x"></i>
+                        <div class="content">
+                            <div class="title"><h3>เวลาเข้างาน</h3></div>
+                            <div class="value"><h1><?php echo TimeThai($valDiary['diary_time_start'])." - ".TimeThai($valDiary['diary_time_end']); ?></h1></div>
+                        </div>
+                    </div>
+                </a>
+            <?php } ?>
+
+<!--    --><?php //if ($valDiary['diary_time_start']==''){ ?>
+<!--                        <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkin&studentID=--><?php //echo $valStudent['student_id'];?><!--">-->
+<!--                            <div class="card-body">-->
+<!--                                <i class="icon fa fa-calendar-check-o fa-4x"></i>-->
+<!--                                <div class="content">-->
+<!--                                    <div class="title"><h3>ลงเวลาเข้างาน</h3></div>-->
+<!--                                    <div class="value"><div id="css_time_run">--><?//=date("H:i:s")?><!--</div></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    --><?php //}elseif ($valDiary['diary_time_end']==''){ ?>
+<!--                        <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkout&studentID=--><?php //echo $valStudent['student_id'];?><!--&diaryID=--><?php //echo $valDiary['diary_id']; ?><!--">-->
+<!--                            <div class="card-body">-->
+<!--                                <i class="icon fa fa-calendar-check-o fa-4x"></i>-->
+<!--                                <div class="content">-->
+<!--                                    <div class="title"><h3>ลงเวลาออกงาน</h3></div>-->
+<!--                                    <div class="value"><div id="css_time_run">--><?//=date("H:i:s")?><!--</div></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--            --><?php //} else{  ?>
+<!---->
+<!--            --><?php //} ?>
+
+
         </div>
         <div class="col-md-6">
             <div id="container"></div>

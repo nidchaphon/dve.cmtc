@@ -29,11 +29,16 @@ if (isset($_POST['editTeacher'])){
         mysql_query($sqlUpdateImgTeacher) or die(mysql_error());
     }
     $sqlUpdateTeacher = "UPDATE teacher SET
+                    teacher_prefix = '".$_POST['txtPrefix']."',
                     teacher_firstname = '".$_POST['txtFirstname']."',
                     teacher_lastname = '".$_POST['txtLastname']."',
                     teacher_rank = '".$_POST['txtRank']."',
                     teacher_tel = '".$_POST['txtTel']."',
-                    teacher_email = '".$_POST['txtEmail']."'
+                    teacher_email = '".$_POST['txtEmail']."',
+                    teacher_facebook = '".$_POST['txtFacebook']."',
+                    teacher_line = '".$_POST['txtLine']."',
+                    teacher_instagram = '".$_POST['txtInstagram']."',
+                    teacher_twitter = '".$_POST['txtTwitter']."'
                   WHERE member_id = '$memberID'";
     mysql_query($sqlUpdateTeacher) or die(mysql_error());
 
@@ -112,7 +117,8 @@ if (isset($_POST['updateScoreStudent'])){
                                 score_teacher_3 = '".$_POST['numScore3']."',
                                 score_teacher_defect = '".$_POST['txtDefect']."',
                                 score_teacher_counsel = '".$_POST['txtCounsel']."',
-                                teacher_id = '".$_POST['txtTeacherID']."'
+                                teacher_id = '".$_POST['txtTeacherID']."',
+                                teacher_status = '1'
                               WHERE student_id = '".$_GET['studentID']."'
                               ";
     mysql_query($sqlUpdateScoreStudent) or die(mysql_error($sqlUpdateScoreStudent));
@@ -126,7 +132,8 @@ if (isset($_POST['updateGradeStudent'])){
     $sqlUpdateScoreStudent = "UPDATE score SET
                                 score_report = '".$_POST['numScoreReport']."',
                                 score_join = '".$_POST['numScoreJoin']."',
-                                grade_teacher_id = '".$_POST['txtTeacherID']."'
+                                grade_teacher_id = '".$_POST['txtTeacherID']."',
+                                grade_teacher_status = '1'
                               WHERE student_id = '".$_GET['studentID']."'
                               ";
     mysql_query($sqlUpdateScoreStudent) or die(mysql_error($sqlUpdateScoreStudent));
@@ -141,6 +148,13 @@ if ($_GET['action'] == 'deleteAppointment'){
     mysql_query($sqlDeleteAppointment) or die(mysql_error());
     $sqlDeleteNotification = "DELETE FROM notification WHERE notification_type_id = '".$_GET['appointmentID']."'";
     mysql_query($sqlDeleteNotification);
+
+    header("refresh:1; url=../index.php?page=teacher_appointment_report");
+}
+
+if ($_GET['action'] == 'updateAppointment'){
+    mysql_query("UPDATE appointment SET appointment_status = '1', appointment_student_status = '1', appointment_trainer_status = '1' WHERE appointment_id = '{$_GET['appointmentID']}'") or die(mysql_error());
+    mysql_query("DELETE FROM notification WHERE notification_type_id = '{$_GET['appointmentID']}'");
 
     header("refresh:1; url=../index.php?page=teacher_appointment_report");
 }

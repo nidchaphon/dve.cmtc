@@ -88,20 +88,38 @@ $listPrefix = $classTrainer->GetListPrefix();
                             <div class="section">
                                 <div class="section-title">ข้อมูลการติดต่อ</div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">เบอร์โทรศัพท์</label>
-                                    <div class="col-md-4">
+                                    <label class="col-md-2 control-label">เบอร์โทรศัพท์</label>
+                                    <div class="col-md-5">
                                         <input type="tel" maxlength="10" name="txtTel" class="form-control" placeholder="เบอร์โทรศัพท์" value="<?php echo $valTrainer['trainer_tel']; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">อีเมลล์</label>
-                                    <div class="col-md-4">
+                                    <label class="col-md-2 control-label">อีเมลล์</label>
+                                    <div class="col-md-5">
                                         <input type="email" name="txtEmail" class="form-control" placeholder="อีเมลล์" value="<?php echo $valTrainer['trainer_email']; ?>">
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-2 control-label">Facebook</div>
+                                    <div class="col-md-3" align="right">https://www.facebook.com/</div>
+                                    <div class="col-md-2"><input type="text" name="txtFacebook" class="form-control" placeholder="" value="<?php echo $valTrainer['trainer_facebook']; ?>"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 control-label">LineID</div>
+                                    <div class="col-md-5"><input type="text" name="txtLine" class="form-control" placeholder="" value="<?php echo $valTrainer['trainer_line']; ?>"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 control-label">Instagram</div>
+                                    <div class="col-md-5"><input type="text" name="txtInstagram" class="form-control" placeholder="" value="<?php echo $valTrainer['trainer_instagram']; ?>"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 control-label">Twitter</div>
+                                    <div class="col-md-3" align="right">https://twitter.com/</div>
+                                    <div class="col-md-2"><input type="text" name="txtTwitter" class="form-control" placeholder="" value="<?php echo $valTrainer['trainer_twitter']; ?>"></div>
+                                </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">บริษัท</label>
-                                    <div class="col-md-4">
+                                    <label class="col-md-2 control-label">บริษัท</label>
+                                    <div class="col-md-5">
                                         <select class="select2" name="txtCompany">
                                             <option value="">เลือกสถานประกอบการ</option>
                                             <?php while ($valListCompany = mysql_fetch_assoc($listCompany)){ ?>
