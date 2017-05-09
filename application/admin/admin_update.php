@@ -104,5 +104,16 @@ if (isset($_POST['updateCompany'])){
     header("refresh:1; url=../index.php?page=admin_company_list");
 }
 
+if (isset($_POST['updateFile'])){
+
+    $user = implode(',' , $_POST[user]);
+
+    mysql_query("UPDATE file SET
+                        file_user = '".$user."'
+                        WHERE file_id = '".$_GET['fileID']."'");
+
+    header("refresh:1; url=../index.php?page=admin_file_list");
+}
+
 include ("../load_page.html");
 ?>

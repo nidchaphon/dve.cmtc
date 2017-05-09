@@ -107,4 +107,36 @@ class Admin
         return $resultQuery;
     }
 
+    function GetListFileDownload(){
+        $strQuery = "SELECT * FROM file ";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListStatus เพื่อแสดงรายการไฟล์ดาวน์โหลด';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetTextStatusType($value=''){
+        $strQuery = "SELECT * FROM status WHERE status_value = '{$value}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ getMaxMemberID เพื่อแสดง ข้อความสถานะ';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
+    }
+
+    function GetDetailFileDownload($fileID=''){
+        $strQuery = "SELECT * FROM file WHERE file_id = '{$fileID}' ORDER BY file_name ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ getMaxMemberID เพื่อแสดง ข้อมูลไฟล์ดาวน์โหลด';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
+    }
+
 }

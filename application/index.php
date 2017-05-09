@@ -28,6 +28,7 @@ include ("../common/class/trainer/class.trainer.php");
 include ("../common/class/message/class.message.php");
 include ("../common/class/company/class.company.php");
 include ("../common/class/member/class.member.php");
+include ("../common/class/file_download/class.filedownload.php");
 
 $detect = new Mobile_Detect();
 $classMember = new Member();
@@ -68,6 +69,9 @@ if ($_GET[page] == 'admin_user_edit'){include ('admin/user/user_edit.php');}
 if ($_GET[page] == 'admin_company_list'){include ('admin/company/company_list.php');}
 if ($_GET[page] == 'admin_company_add'){include ('admin/company/company_add.php');}
 if ($_GET[page] == 'admin_company_edit'){include ('admin/company/company_edit.php');}
+if ($_GET[page] == 'admin_file_list'){include ('admin/file_download/file_list.php');}
+if ($_GET[page] == 'admin_file_add'){include ('admin/file_download/file_add.php');}
+if ($_GET[page] == 'admin_file_edit'){include ('admin/file_download/file_edit.php');}
 
 //--Teacher--//
 if ($_GET[page] == 'teacher_profile'){include ('teacher/teacher_profile.php');}
@@ -102,6 +106,9 @@ if ($_GET[page] == 'student_diary_edit'){include ('student/student_diary_edit.ph
 //--Company--//
 if ($_GET[page] == 'company_list'){include ('company/company_list.php');}
 if ($_GET[page] == 'company_detail'){include ('company/company_detail.php');}
+
+//--FileDownload--//
+if ($_GET[page] == 'file_list'){include ('file_download/file_list.php');}
 
 //--Notification--//
 if ($_GET[page] == 'notification_detail'){include ('notification/notification_detail.php');}

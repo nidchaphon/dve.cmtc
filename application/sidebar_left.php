@@ -16,12 +16,16 @@ if ($_GET[page] == ''){
     $active_admin_user = 'class="active"';
 }if ($_GET[page] == 'admin_company_list' || $_GET[page] == 'admin_company_add' || $_GET[page] == 'admin_company_edit' || $_GET[page] == 'company_detail'){
     $active_admin_company = 'class="active"';
+}if ($_GET[page] == 'admin_file_list' || $_GET[page] == 'admin_file_add' || $_GET[page] == 'admin_file_edit'){
+    $active_admin_file = 'class="active"';
 }if ($_GET[page] == 'student_diary_report' || $_GET[page] == 'student_diary_add' || $_GET[page] == 'student_diary_detail' || $_GET[page] == 'student_diary_edit'){
     $active_student_diary = 'class="active"';
 }if ($_GET[page] == 'teacher_appointment_report' || $_GET[page] == 'teacher_appointment_add' || $_GET[page] == 'teacher_appointment_edit' || $_GET[page] == 'teacher_appointment_detail') {
     $active_teacher_appointment = 'class="active"';
 }if ($_GET[page] == 'company_list' || $_GET[page] == 'company_detail') {
     $active_company = 'class="active"';
+}if ($_GET[page] == 'file_list') {
+    $active_file = 'class="active"';
 }if ($_GET[page] == 'trainer_score_student_list' || $_GET[page] == 'trainer_score_student_complete' || $_GET[page] == 'trainer_score_student_report') {
     $active_trainer_score = 'class="active"';
 }if ($_GET[page] == 'teacher_score_student_list' || $_GET[page] == 'teacher_score_student_complete' || $_GET[page] == 'teacher_score_student_report') {
@@ -86,6 +90,15 @@ if ($_GET[page] == ''){
                             <div class="title">จัดการข้อมูลสถานประกอบการ</div>
                         </a>
                     </li>
+                    <li <?php echo $active_admin_file; ?>>
+                        <a href="index.php?page=admin_file_list">
+                            <div class="icon">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">จัดการไฟล์ดาวน์โหลด</div>
+                        </a>
+                    </li>
+
                 <?php } if ($_COOKIE['memberStatus']=='teacher'){ ?>
                     <li <?php echo $active_teacher_appointment; ?>>
                         <a href="index.php?page=teacher_appointment_report">
@@ -186,6 +199,15 @@ if ($_GET[page] == ''){
                                 <i class="fa fa-comments" aria-hidden="true"></i>
                             </div>
                             <div class="title">ข้อความ</div>
+                        </a>
+                    </li>
+
+                    <li <?php echo $active_file; ?>>
+                        <a href="index.php?page=file_list">
+                            <div class="icon">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">ดาวน์โหลดไฟล์</div>
                         </a>
                     </li>
                 <?php } ?>

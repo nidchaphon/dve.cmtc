@@ -46,6 +46,14 @@ if ($_GET['action'] == 'delPicture'){
     header("refresh:1; url=../index.php?page=admin_company_edit&companyID=".$_GET['companyID']."");
 }
 
+if ($_GET['action'] == 'delFile'){
+    unlink("../../file_download/".$_GET['fileName']."");
+    $sqlDeleteFile = "DELETE FROM file WHERE file_id = '{$_GET['fileID']}'";
+    mysql_query($sqlDeleteFile) or die(mysql_error());
+
+    header("refresh:1; url=../index.php?page=admin_file_list");
+}
+
 
 include ("../load_page.html");
 ?>

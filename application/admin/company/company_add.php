@@ -79,7 +79,7 @@
                 เพิ่มสถานประกอบการ
             </div>
             <div class="card-body">
-                <form name="frmAddUser" class="form form-horizontal" action="admin/admin_insert.php" method="post" enctype="multipart/form-data">
+                <form name="frmAddCompany" class="form form-horizontal" action="admin/admin_insert.php" method="post" enctype="multipart/form-data">
                     <div class="section">
                         <div class="section-body">
                             <div class="section-title">ข้อมูลทั่วไป</div>

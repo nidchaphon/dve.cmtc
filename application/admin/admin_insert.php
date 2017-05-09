@@ -8,9 +8,12 @@
 
 include ("../../config/dbconnection.php");
 include ("../../config/php_config.php");
+include ("../../common/class/admin/class.admin.php");
 include ("../../common/class/teacher/class.teacher.php");
 include ("../../common/class/trainer/class.trainer.php");
 include ("../../common/class/student/class.student.php");
+
+$classAdmin = new Admin();
 
 $teacher = new Teacher();
 $maxNumTC = $teacher->getMaxTeacherID();
@@ -161,6 +164,26 @@ if (isset($_POST['insertCompany'])){
     }
 
     header("refresh:1; url=../index.php?page=admin_company_list");
+}
+
+if (isset($_POST['insertFile'])){
+
+    $user = implode(',' , $_POST[user]);
+
+    for($i=0;$i<count($_FILES["file"]["name"]);$i++)
+    {
+        if($_FILES["file"]["name"][$i] != "")
+        {
+            if(move_uploaded_file($_FILES["file"]["tmp_name"][$i],"../../file_download/".$_FILES["file"]["name"][$i]))
+            {
+                mysql_query("INSERT INTO file SET
+                                    file_name = '".$_FILES["file"]["name"][$i]."',
+                                    file_user = '".$user."'");
+            }
+        }
+    }
+
+    header("refresh:1; url=../index.php?page=admin_file_list");
 }
 
 include ("../load_page.html");
