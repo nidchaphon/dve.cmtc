@@ -10,10 +10,15 @@ $classCompany = new Company();
 $classStudent = new Student();
 $valCompany = $classCompany->GetDetailCompany($_GET['companyID']);
 $listStudent = $classCompany->GetListStudent($_GET['companyID']);
+$listPicture = $classCompany->GetListPicture($_GET['companyID']);
+
+$numPicture = mysql_num_rows($listPicture);
 
 $placeTo = "18.830775,99.016754"
 
 ?>
+
+<link href="../common/lightbox/lightbox.css" rel="stylesheet">
 
 <style type="text/css">
     /* css สำหรับ div คลุม google map */
@@ -77,6 +82,7 @@ $placeTo = "18.830775,99.016754"
                                     ?>
                                 </div>
                             </div>
+
                             <div class="section-title">ข้อมูลทั่วไป</div>
                             <div class="section-body">
                                 <div class="row">
@@ -88,6 +94,7 @@ $placeTo = "18.830775,99.016754"
                                     <div class="col-md-8"><?php echo $valCompany['company_detail']==''?"-":$valCompany['company_detail'] ; ?></div>
                                 </div>
                             </div>
+
                             <div class="section-title">ข้อมูลการติดต่อ</div>
                             <div class="section-body">
                                 <div class="row">
@@ -107,6 +114,7 @@ $placeTo = "18.830775,99.016754"
                                     <div class="col-md-8"><a href="<?php echo $valCompany['company_website'] ; ?>" target="_blank"><?php echo $valCompany['company_website']==''?"-":$valCompany['company_website'] ; ?></a></div>
                                 </div>
                             </div>
+
                             <div class="section-title">ข้อมูลผู้บริหาร</div>
                             <div class="section-body">
                                 <div class="row">
@@ -146,6 +154,20 @@ $placeTo = "18.830775,99.016754"
                                         ?>
 
                             </div>
+
+                            <?php if ($numPicture != '0'){ ?>
+                            <div class="section-title">รูปสถานประกอบการ</div>
+                            <div class="row">
+                                <?php while ($valPicture = mysql_fetch_assoc($listPicture)){?>
+                                    <div class="col-md-3 col-sm-6">
+                                        <a href="../images/company/<?php echo $valPicture['picture_name'];?>" data-toggle="lightbox" data-gallery="example-gallery" class="thumbnail">
+                                            <img src="../images/company/<?php echo $valPicture['picture_name'];?>" class="img-responsive">
+                                        </a>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <?php } ?>
+
                             <div class="section-title">แผนที่และการเดินทาง</div>
                             <div class="row">
                                 <div class="col-md-12" style="text-align: center">
@@ -192,8 +214,93 @@ $placeTo = "18.830775,99.016754"
     </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<script src="../common/lightbox/lightbox.js"></script>
+
+<!-- for documentation only -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.1/anchor.min.js"></script>
+
 <script type="text/javascript">
+
+    $(document).ready(function ($) {
+        // delegate calls to data-toggle="lightbox"
+        $(document).on('click', '[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', function(event) {
+            event.preventDefault();
+            return $(this).ekkoLightbox({
+                onShown: function() {
+                    if (window.console) {
+                        return console.log('Checking our the events huh?');
+                    }
+                },
+                onNavigate: function(direction, itemIndex) {
+                    if (window.console) {
+                        return console.log('Navigating '+direction+'. Current item: '+itemIndex);
+                    }
+                }
+            });
+        });
+
+        //Programmatically call
+        $('#open-image').click(function (e) {
+            e.preventDefault();
+            $(this).ekkoLightbox();
+        });
+        $('#open-youtube').click(function (e) {
+            e.preventDefault();
+            $(this).ekkoLightbox();
+        });
+
+        // navigateTo
+        $(document).on('click', '[data-toggle="lightbox"][data-gallery="navigateTo"]', function(event) {
+            event.preventDefault();
+
+            return $(this).ekkoLightbox({
+                onShown: function() {
+
+                    this.modal().on('click', '.modal-footer a', function(e) {
+
+                        e.preventDefault();
+                        this.navigateTo(2);
+
+                    }.bind(this));
+
+                }
+            });
+        });
+
+
+        /**
+         * Documentation specific - ignore this
+         */
+        anchors.options.placement = 'left';
+        anchors.add('h3');
+        $('code[data-code]').each(function() {
+
+            var $code = $(this),
+                $pair = $('div[data-code="'+$code.data('code')+'"]');
+
+            $code.hide();
+            var text = $code.text($pair.html()).html().trim().split("\n");
+            var indentLength = text[text.length - 1].match(/^\s+/)
+            indentLength = indentLength ? indentLength[0].length : 24;
+            var indent = '';
+            for(var i = 0; i < indentLength; i++)
+                indent += ' ';
+            if($code.data('trim') == 'all') {
+                for (var i = 0; i < text.length; i++)
+                    text[i] = text[i].trim();
+            } else  {
+                for (var i = 0; i < text.length; i++)
+                    text[i] = text[i].replace(indent, '    ').replace('    ', '');
+            }
+            text = text.join("\n");
+            $code.html(text).show();
+
+        });
+    });
+
     var directionShow; // กำหนดตัวแปรสำหรับใช้งาน กับการสร้างเส้นทาง
     var directionsService; // กำหนดตัวแปรสำหรับไว้เรียกใช้ข้อมูลเกี่ยวกับเส้นทาง
     var map; // กำหนดตัวแปร map ไว้ด้านนอกฟังก์ชัน เพื่อให้สามารถเรียกใช้งาน จากส่วนอื่นได้

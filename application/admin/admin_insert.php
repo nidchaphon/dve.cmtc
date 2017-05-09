@@ -143,6 +143,23 @@ if (isset($_POST['insertCompany'])){
         mysql_query($sqlAddCompany) or die(mysql_error());
     }
 
+    $resultCompany = mysql_query("SELECT MAX(company_id) AS maxCompanyID FROM company");
+    $valCompany = mysql_fetch_assoc($resultCompany);
+
+    for($i=0;$i<count($_FILES["imgCompany"]["name"]);$i++)
+    {
+        if($_FILES["imgCompany"]["name"][$i] != "")
+        {
+            if(move_uploaded_file($_FILES["imgCompany"]["tmp_name"][$i],"../../images/company/".$_FILES["imgCompany"]["name"][$i]))
+            {
+                mysql_query("INSERT INTO picture SET 
+                                    picture_name = '".$_FILES["imgCompany"]["name"][$i]."',
+                                    picture_type = 'company',
+                                    picture_type_id = '".$valCompany['maxCompanyID']."'");
+            }
+        }
+    }
+
     header("refresh:1; url=../index.php?page=admin_company_list");
 }
 

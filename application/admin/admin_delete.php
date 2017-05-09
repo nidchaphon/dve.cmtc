@@ -38,5 +38,14 @@ if ($_GET['action'] == 'delCompany'){
     header("refresh:1; url=../index.php?page=admin_company_list");
 }
 
+if ($_GET['action'] == 'delPicture'){
+    unlink("../../images/company/".$_GET['pictureName']."");
+    $sqlDeletePictureCompany = "DELETE FROM picture WHERE picture_id = '{$_GET['pictureID']}'";
+    mysql_query($sqlDeletePictureCompany) or die(mysql_error());
+
+    header("refresh:1; url=../index.php?page=admin_company_edit&companyID=".$_GET['companyID']."");
+}
+
+
 include ("../load_page.html");
 ?>

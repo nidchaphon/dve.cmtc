@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="16fa6c5e-1f66-4e9f-9340-a9863abbc2b7" name="dve_cmtc" url="http://dve.cmtc.ac.th">
-        <fileTransfer host="dve.cmtc.ac.th" port="2001" rootFolder="/web">
+        <fileTransfer host="dve.cmtc.ac.th" port="2001" rootFolder="/home/dve/web">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
           </advancedOptions>

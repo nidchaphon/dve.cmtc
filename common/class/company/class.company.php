@@ -53,4 +53,17 @@ class Company
         return $resultQuery;
     }
 
+    function GetListPicture($companyID=''){
+        $strQuery = "SELECT * 
+                      FROM picture
+                      WHERE picture_type_id = '{$companyID}'
+                      ORDER BY picture_id DESC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ getCompanyList เพื่อแสดงรูปภาพสถานประกอบการ';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
 }

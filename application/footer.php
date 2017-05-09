@@ -30,6 +30,9 @@
 <script type="text/javascript" src="../common/js/vendor.js"></script>
 <script type="text/javascript" src="../common/js/app.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+<?php if ($_GET['page'] == 'teacher_appointment_add' || $_GET['page'] == 'student_diary_add' || $_GET['page'] == 'student_profile_edit' || $_GET['page'] == 'admin_user_add' || $_GET['page'] == 'admin_user_edit'){ ?>
 <script src="../common/datepicker/jquery-ui/external/jquery/jquery.js"></script>
 <script src="../common/datepicker/jquery-ui/jquery-ui-thai.js"></script>
 <script src="../common/datepicker/datepicker.js"></script>
@@ -51,6 +54,8 @@
         dateEnd.Create();
     });
 </script>
+
+<?php } ?>
 
 
 </body>

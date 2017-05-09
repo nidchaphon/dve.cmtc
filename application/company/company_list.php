@@ -56,13 +56,14 @@ $listCompany = $classCompany->GetListCompany();
                         <?php
                         while ($valCompany = mysql_fetch_assoc($listCompany)){ ?>
                             <tr>
-                                <td height="30px"><?php echo $valCompany['company_name'] ?></td>
+                                <td height="30px"><a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><?php echo $valCompany['company_name'] ?></a></td>
                                 <td><?php echo $valCompany['company_tel'] ?></td>
                                 <td><?php echo $valCompany['company_email'] ?></td>
                                 <td align="center"><?php if ($valCompany['numStudent'] == '0'){echo "ไม่มีนักศึกษาฝึกประสบการณ์";}else{echo $valCompany['numStudent']." คน";} ?></td>
                                 <td align="center">
-                                    <a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><i class='fa fa-institution (alias)' title='ข้อมูลสถานประกอบการ'></i></a> &nbsp
-                                    </tr>
+                                    <a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><i class='fa fa-institution (alias)' title='ข้อมูลสถานประกอบการ'></i></a>
+                                </td>
+                            </tr>
                         <?php } ?>
                         </tbody>
                     </table>

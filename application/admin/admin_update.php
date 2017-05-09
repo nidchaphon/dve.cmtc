@@ -87,6 +87,20 @@ if (isset($_POST['updateCompany'])){
                          WHERE company_id = '".$_GET['companyID']."'";
     mysql_query($sqlUpdateCompany) or die(mysql_error());
 
+    for($i=0;$i<count($_FILES["imgCompany"]["name"]);$i++)
+    {
+        if($_FILES["imgCompany"]["name"][$i] != "")
+        {
+            if(move_uploaded_file($_FILES["imgCompany"]["tmp_name"][$i],"../../images/company/".$_FILES["imgCompany"]["name"][$i]))
+            {
+                mysql_query("INSERT INTO picture SET 
+                                    picture_name = '".$_FILES["imgCompany"]["name"][$i]."',
+                                    picture_type = 'company',
+                                    picture_type_id = '".$_GET['companyID']."'");
+            }
+        }
+    }
+
     header("refresh:1; url=../index.php?page=admin_company_list");
 }
 
