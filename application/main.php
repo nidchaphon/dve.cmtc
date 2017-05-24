@@ -139,7 +139,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                     </ul>
                 </div>
                 <div class="card-body no-padding table-responsive">
-                    <table class="table card-table table-hover ">
+                    <table class="table card-table table-hover table-striped">
                         <thead>
                         <tr>
                             <th width="5%" style="text-align: center;">รหัสนักศึกษา</th>
@@ -347,32 +347,6 @@ while ($valChat = mysql_fetch_assoc($listChat)){
                     </div>
                 </a>
             <?php } ?>
-
-<!--    --><?php //if ($valDiary['diary_time_start']==''){ ?>
-<!--                        <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkin&studentID=--><?php //echo $valStudent['student_id'];?><!--">-->
-<!--                            <div class="card-body">-->
-<!--                                <i class="icon fa fa-calendar-check-o fa-4x"></i>-->
-<!--                                <div class="content">-->
-<!--                                    <div class="title"><h3>ลงเวลาเข้างาน</h3></div>-->
-<!--                                    <div class="value"><div id="css_time_run">--><?//=date("H:i:s")?><!--</div></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                    --><?php //}elseif ($valDiary['diary_time_end']==''){ ?>
-<!--                        <a class="card card-banner card-green-light" href="student/student_to_db.php?addTimeDiary=checkout&studentID=--><?php //echo $valStudent['student_id'];?><!--&diaryID=--><?php //echo $valDiary['diary_id']; ?><!--">-->
-<!--                            <div class="card-body">-->
-<!--                                <i class="icon fa fa-calendar-check-o fa-4x"></i>-->
-<!--                                <div class="content">-->
-<!--                                    <div class="title"><h3>ลงเวลาออกงาน</h3></div>-->
-<!--                                    <div class="value"><div id="css_time_run">--><?//=date("H:i:s")?><!--</div></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--            --><?php //} else{  ?>
-<!---->
-<!--            --><?php //} ?>
-
-
         </div>
         <div class="col-md-6">
             <div id="container"></div>
@@ -422,7 +396,7 @@ while ($valChat = mysql_fetch_assoc($listChat)){
     var chart = Highcharts.chart('container', {
 
         title: {
-            text: 'สถิติการเลือกสถานประกอบการของนักศึกษาฝึกประสบการณ์'
+            text: '<?php if ($_COOKIE['memberStatus'] == 'student'){ echo "สถิติการเลือกสถานประกอบการของนักศึกษาฝึกประสบการณ์"; } else { echo "จำนวนนักศึกษาในสถานประกอบการ"; } ?>'
         },
 
         subtitle: {
@@ -455,6 +429,5 @@ while ($valChat = mysql_fetch_assoc($listChat)){
         }]
 
     });
-
 
 </script>

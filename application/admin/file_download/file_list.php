@@ -59,18 +59,21 @@ $listFileDownload  = $classAdmin->GetListFileDownload();
                         $userExplode = explode(',',$valFileDownload['file_user']);
                         ?>
                         <tr>
-                            <td height="30px"><?php echo $valFileDownload['file_name'] ?></td>
+                            <td height="30px"><?php echo $valFileDownload['file_name']; ?></td>
                             <td>
-                                <?php  foreach ($userExplode AS $valUser){
-                                    $textUser = $classAdmin->GetTextStatusType($valUser);
-                                    echo $textUser['status_text']."<br>";
-                                } ?>
+                                <ul>
+                                    <?php  foreach ($userExplode AS $valUser){
+                                        $textUser = $classAdmin->GetTextStatusType($valUser);
+                                        echo "<li>".$textUser['status_text']."</li>";
+                                    } ?>
+                                </ul>
+
                             </td>
                             <td><?php echo DateTimeThai($valFileDownload['file_date']); ?></td>
                             <td align="center">
                                 <a href="../file_download/<?php echo $valFileDownload['file_name'] ?>" onclick="return confirm('ต้องการดาวน์โหลดไฟล์ <?php echo $valFileDownload['file_name']; ?> หรือไม่')"><i class='fa fa-download' title='ดาวน์โหลด'></i></a> &nbsp
                                 <a href="index.php?page=admin_file_edit&fileID=<?php echo $valFileDownload['file_id']; ?>"><i class='fa fa-edit (alias)' title='แก้ไขข้อมูล'></i></a>  &nbsp
-                                <a href="admin/admin_delete.php?action=delFile&fileID=<?php echo $valFileDownload['file_id']; ?>&fileName=<?php echo $valFileDownload['file_name'] ?>" onclick="return confirm('ต้องการลบไฟล์นี้ หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a>
+                                <a href="admin/admin_delete.php?action=delFile&fileID=<?php echo $valFileDownload['file_id']; ?>&fileName=<?php echo $valFileDownload['file_name'] ?>" onclick="return confirm('ต้องการลบไฟล์ <?php echo $valFileDownload['file_name'] ?> หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a>
                             </td>
                         </tr>
                     <?php } ?>

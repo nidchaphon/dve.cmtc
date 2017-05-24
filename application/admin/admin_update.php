@@ -60,6 +60,16 @@ if (isset($_POST['updateUser'])) {
     header("refresh:1; url=../index.php?page=admin_user_list");
 }
 
+if (isset($_POST['updateUserPassword'])){
+    $sqlUpdateUser = "UPDATE member SET
+                        member_username = '".$_POST['txtUsername']."',
+                        member_password = '".$_POST['txtPassword']."'
+                      WHERE Member_ID = '".$_COOKIE['memberID']."'";
+    mysql_query($sqlUpdateUser) or die(mysql_error());
+
+    header("refresh:1; url=../index.php");
+}
+
 if (isset($_POST['updateCompany'])){
 
     if($_FILES['fileLogo']['name']!=""){
@@ -101,7 +111,14 @@ if (isset($_POST['updateCompany'])){
         }
     }
 
-    header("refresh:1; url=../index.php?page=admin_company_list");
+    if ($_COOKIE['memberStatus'] == 'admin'){
+        header("refresh:1; url=../index.php?page=admin_company_list");
+    }elseif ($_COOKIE['memberStatus'] == 'student'){
+        header("refresh:1; url=../index.php?page=student_profile");
+    }elseif ($_COOKIE['memberStatus'] == 'teacher' || $_COOKIE['memberStatus'] == 'teacher2'){
+        header("refresh:1; url=../index.php?page=company_list");
+    }
+
 }
 
 if (isset($_POST['updateFile'])){
@@ -113,6 +130,57 @@ if (isset($_POST['updateFile'])){
                         WHERE file_id = '".$_GET['fileID']."'");
 
     header("refresh:1; url=../index.php?page=admin_file_list");
+}
+
+if (isset($_POST['updateEvaluation'])){
+
+    $degree = implode(',' , $_POST[degree]);
+    $department = implode(',' , $_POST[department]);
+    $year = implode(',' , $_POST[year]);
+
+    mysql_query("UPDATE evaluation SET
+                        evaluation_std_degree = '".$degree."',
+                        evaluation_std_department = '".$department."',
+                        evaluation_std_year = '".$year."',
+                        evaluation_type = '".$_POST['type']."',
+                        evaluation_assessor = '".$_POST['assessor']."'
+                        WHERE evaluation_id = '".$_GET['evaluationID']."'");
+
+    header("refresh:1; url=../index.php?page=admin_evaluation_list");
+}
+
+if (isset($_POST['updateQuestion'])){
+
+    mysql_query("UPDATE evaluation_question SET
+                        question_topic = '".$_POST['mainTopic']."',
+                        question_detail = '".$_POST['mainDetail']."',
+                        question_score = '".$_POST['mainScore']."'
+                        WHERE question_id = '".$_GET['questionID']."' ");
+
+    if (isset($_GET['mainID'])){
+        $questionID = $_GET['mainID'];
+    }else {
+        $questionID = $_GET['questionID'];
+    }
+
+    if (isset($_POST['topic']) || $_GET['type'] == 'subtopic'){
+        for($i=0;$i<count($_POST['topic']);$i++) {
+            mysql_query("INSERT INTO evaluation_question SET
+                            question_topic = '" . $_POST['topic'][$i] . "',
+                            question_detail = '" . $_POST['detail'][$i] . "',
+                            question_score = '" . $_POST['score'][$i] . "',
+                            question_type = '" . $_POST['type'][$i] . "',
+                            question_sub_id = '" . $_POST['subID'][$i] . "',
+                            evaluation_id = '" . $_GET['evaluationID'] . "'");
+        }
+        mysql_query("UPDATE evaluation_question SET
+                            question_sub_id = 'yes'
+                            WHERE question_id = '".$_POST['subID'][0]."'");
+
+        header("refresh:1; url=../index.php?page=admin_evaluation_edit_question&questionID=".$questionID);
+    } else {
+        header("refresh:1; url=../index.php?page=admin_evaluation_add_question&evaluationID=".$_GET['evaluationID']);
+    }
 }
 
 include ("../load_page.html");

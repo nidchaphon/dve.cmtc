@@ -108,7 +108,7 @@ class Admin
     }
 
     function GetListFileDownload(){
-        $strQuery = "SELECT * FROM file ";
+        $strQuery = "SELECT * FROM file ORDER BY file_name ASC";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetListStatus เพื่อแสดงรายการไฟล์ดาวน์โหลด';
             echo "<pre>$strQuery</pre>";
@@ -137,6 +137,65 @@ class Admin
         $resultQuery = mysql_query($strQuery);
         $result = mysql_fetch_assoc($resultQuery);
         return $result;
+    }
+
+    function GetListEvaluation(){
+        $strQuery = "SELECT * FROM evaluation ORDER BY evaluation_date DESC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListEvaluation เพื่อแสดงรายการแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetDetailEvaluation($evaluationID=''){
+        $strQuery = "SELECT * FROM evaluation WHERE evaluation_id = '{$evaluationID}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetDetailEvaluation เพื่อแสดงรายละเอียดแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
+    }
+
+    function GetListQuestion($evaluationID=''){
+        $strQuery = "SELECT * FROM evaluation_question 
+                      WHERE evaluation_id = '{$evaluationID}' 
+                        AND question_type = 'maintopic'
+                      ORDER BY question_topic ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListQuestion เพื่อแสดงรายการแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetDetailQuestion($questionID=''){
+        $strQuery = "SELECT * FROM evaluation_question WHERE question_id = '{$questionID}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetDetailQuestion เพื่อแสดงรายละเอียดแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
+    }
+
+    function GetListSubQuestion($evaluationID='',$questionID=''){
+        $strQuery = "SELECT * FROM evaluation_question 
+                      WHERE evaluation_id = '{$evaluationID}' 
+                        AND question_sub_id = '{$questionID}' 
+                        AND question_type = 'subtopic'
+                      ORDER BY question_topic ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListQuestion เพื่อแสดงรายการแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
     }
 
 }

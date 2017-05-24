@@ -54,6 +54,31 @@ if ($_GET['action'] == 'delFile'){
     header("refresh:1; url=../index.php?page=admin_file_list");
 }
 
+if ($_GET['action'] == 'delEvaluation'){
+    mysql_query("DELETE FROM evaluation WHERE evaluation_id = '{$_GET['evaluationID']}'") or die(mysql_error());
+    mysql_query("DELETE FROM evaluation_question WHERE evaluation_id = '{$_GET['evaluationID']}'") or die(mysql_error());
+
+    header("refresh:1; url=../index.php?page=admin_evaluation_list");
+}
+
+if ($_GET['action'] == 'delQuestion'){
+    $sqlDeleteFile = "DELETE FROM evaluation_question WHERE question_id = '{$_GET['questionID']}'";
+    mysql_query($sqlDeleteFile) or die(mysql_error());
+
+    if ($_GET['numRowQuestion'] == '1'){
+        mysql_query("UPDATE evaluation_question SET
+                            question_sub_id = ''
+                            WHERE question_id = '".$_GET['mainQuestionID']."'");
+    }
+
+    if ($_GET['type'] == 'maintopic'){
+        header("refresh:1; url=../index.php?page=admin_evaluation_add_question&evaluationID=".$_GET['evaluationID']);
+
+    } elseif ($_GET['type'] == 'subtopic'){
+        header("refresh:1; url=../index.php?page=admin_evaluation_edit_question&questionID=".$_GET['mainQuestionID']);
+    }
+}
+
 
 include ("../load_page.html");
 ?>

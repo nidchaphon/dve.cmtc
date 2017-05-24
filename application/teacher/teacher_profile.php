@@ -27,8 +27,11 @@ $valTeacher = $classTeacher->GetDetailTeacher($memberID,$teacherID);
                                     echo $valTeacher['teacher_lastname']==''?"นามสกุล":$valTeacher['teacher_lastname']; ?></span></div>
                             <div class="description"><?php echo $valTeacher['teacher_rank']==''?"-":$valTeacher['teacher_rank']; ?></div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-3">
                             <a href="index.php?page=teacher_profile_edit"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="index.php?page=admin_user_edit_password"><button type="button" class="btn btn-primary">แก้ไข User&Password &nbsp <i class='fa fa-edit (alias)'></i></button></a>
                         </div>
                     </div>
 

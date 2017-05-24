@@ -6,17 +6,13 @@
  * Time: 10:05
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
-$memberID = $_COOKIE['memberID'];
-
 $classStudent = new Student();
 
-$valStudent = $classStudent->GetDetailStudent($memberID,$studentID);
+$valStudent = $classStudent->GetDetailStudent($_COOKIE['memberID'],$studentID);
 $listDiary = $classStudent->GetListDiary($valStudent['student_id']);
 $maxDateDiary = $classStudent->GetMaxDateDiary($valStudent['student_id']);
 
@@ -107,7 +103,7 @@ $maxDateDiary = $classStudent->GetMaxDateDiary($valStudent['student_id']);
                             <td align="center">
                                 <a href="index.php?page=student_diary_detail&diaryID=<?php echo $valDiary['diary_id']; ?>"> <i class='fa fa-book' title='รายละเอียด'></i></a> &nbsp
                                 <a href="index.php?page=student_diary_edit&diaryID=<?php echo $valDiary['diary_id']; ?>"><i class='fa fa-edit (alias)' title='แก้ไขข้อมูล'></i></a>  &nbsp
-<!--                                <a href="student/student_to_db.php?action=deleteDiary&diaryID=--><?php //echo $valDiary['diary_id']; ?><!--" onclick="return confirm('ต้องการลบรายการนี้ หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>-->
+                                <a href="student/student_to_db.php?action=deleteDiary&diaryID=<?php echo $valDiary['diary_id']; ?>" onclick="return confirm('ต้องการลบบันทึกประจำวัน วันที่ <?php echo DBThaiShortDate($valDiary['diary_date']); ?> หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
                         </tr>
                     <?php } ?>
                     </tbody>

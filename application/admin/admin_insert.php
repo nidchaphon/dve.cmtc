@@ -168,7 +168,7 @@ if (isset($_POST['insertCompany'])){
 
 if (isset($_POST['insertFile'])){
 
-    $user = implode(',' , $_POST[user]);
+    $user = implode(',' , $_POST['user']);
 
     for($i=0;$i<count($_FILES["file"]["name"]);$i++)
     {
@@ -184,6 +184,36 @@ if (isset($_POST['insertFile'])){
     }
 
     header("refresh:1; url=../index.php?page=admin_file_list");
+}
+
+if (isset($_POST['insertEvaluation'])){
+
+    $degree = implode(',' , $_POST['degree']);
+    $department = implode(',' , $_POST['department']);
+    $year = implode(',' , $_POST['year']);
+
+    mysql_query("INSERT INTO evaluation SET
+                            evaluation_std_degree = '".$degree."',
+                            evaluation_std_department = '".$department."',
+                            evaluation_std_year = '".$year."',
+                            evaluation_type = '".$_POST['type']."',
+                            evaluation_assessor = '".$_POST['assessor']."'");
+
+    header("refresh:1; url=../index.php?page=admin_evaluation_list");
+}
+
+if (isset($_POST['insertQuestion'])){
+    for($i=0;$i<count($_POST['topic']);$i++) {
+        mysql_query("INSERT INTO evaluation_question SET
+                            question_topic = '".$_POST['topic'][$i]."',
+                            question_detail = '".$_POST['detail'][$i]."',
+                            question_score = '".$_POST['score'][$i]."',
+                            question_type = '".$_POST['type'][$i]."',
+                            question_sub_id = '".$_POST['subID'][$i]."',
+                            evaluation_id = '".$_GET['evaluationID']."'");
+    }
+
+    header("refresh:1; url=../index.php?page=admin_evaluation_add_question&evaluationID=".$_GET['evaluationID']);
 }
 
 include ("../load_page.html");

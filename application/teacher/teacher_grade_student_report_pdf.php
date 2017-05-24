@@ -31,6 +31,14 @@ $scoreTrainer = $valScore['score_trainer_1_1']+$valScore['score_trainer_1_2']+$v
 $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valScore['score_teacher_3'];
 $scoreTotal = $scoreTrainer+$scoreTeacher+$valScore['score_report']+$valScore['score_join'];
 
+if ($valTeacher['teacher_prefix'] == "mr"){
+    $prefixTeacher = "นาย";
+}elseif ($valTeacher['teacher_prefix'] == "mrs"){
+    $prefixTeacher = "นาง";
+}elseif ($valTeacher['teacher_prefix'] == "miss"){
+    $prefixTeacher = "นาวสาว";
+}
+
 if ($scoreTotal >= 80 && $scoreTotal <= 100){
     $grade = "4.0";
 }elseif ($scoreTotal >= 75 && $scoreTotal <= 79){
@@ -149,7 +157,7 @@ if ($scoreTotal >= 80 && $scoreTotal <= 100){
         <tr>
             <td width="15%"></td>
             <td width="10%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
-            <td width="40%" align="center">.............................................  <br><br> <?php echo "( ".$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']." ) <br><br> ........../....................../............." ?> </td>
+            <td width="40%" align="center">.............................................  <br><br> <?php echo "( ".$prefixTeacher.$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']." ) <br><br> ........../....................../............." ?> </td>
             <td width="40%" align="left" style="vertical-align: top;">อาจารย์นิเทศ</td>
         </tr>
     </table>

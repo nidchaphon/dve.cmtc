@@ -6,9 +6,7 @@
  * Time: 22:03
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
@@ -109,7 +107,7 @@ $listUser = $classAdmin->GetListUser();
                             <a href="index.php?page=admin_user_detail&memberID=<?php echo $valUser['member_id']; ?>&memberStatus=<?php echo $valUser['member_status']; ?>"> <i class='fa fa-user' title='ข้อมูลผู้ใช้'></i></a> &nbsp
                             <?php } ?>
                             <a href="index.php?page=admin_user_edit&memberID=<?php echo $valUser['member_id']; ?>&memberStatus=<?php echo $valUser['member_status']; ?>"><i class='fa fa-edit (alias)' title='แก้ไขข้อมูล'></i></a>  &nbsp
-                            <a href="admin/admin_delete.php?action=deleteUser&memberID=<?php echo $valUser['member_id'];?>&memberStatus=<?php echo $valUser['member_status']; ?>" onclick="return confirm('ต้องการลบผู้ใช้นี้ หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
+                            <a href="admin/admin_delete.php?action=deleteUser&memberID=<?php echo $valUser['member_id'];?>&memberStatus=<?php echo $valUser['member_status']; ?>" onclick="return confirm('ต้องการลบผู้ใช้ <?php echo $valUser['member_username']." ".$name; ?> หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
                     </tr>
                     <?php } ?>
                     </tbody>

@@ -113,6 +113,14 @@ if ($valStudent['student_sex'] == "male"){
             }elseif ($valReportDiary['trainer_prefix'] == "miss"){
                 $prefixTrainer = "นาวสาว";
             }
+
+            if ($valReportDiary['teacher_prefix'] == "mr"){
+                $prefixTeacher = "นาย";
+            }elseif ($valReportDiary['teacher_prefix'] == "mrs"){
+                $prefixTeacher = "นาง";
+            }elseif ($valReportDiary['teacher_prefix'] == "miss"){
+                $prefixTeacher = "นาวสาว";
+            }
         } ?>
     </table>
 
@@ -122,7 +130,7 @@ if ($valStudent['student_sex'] == "male"){
     <table width="100%" border="0">
         <tr>
             <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$prefixTrainer.$trainerName." )"; ?> <br><br> ผู้ควบคุมการฝึกประสบการณ์</td>
-            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$teacherName." )"; ?> <br><br> อาจารย์นิเทศ</td>
+            <td align="center">ลงชื่อ .............................................  <br> <?php echo "( ".$prefixTeacher.$teacherName." )"; ?> <br><br> อาจารย์นิเทศ</td>
         </tr>
     </table>
 

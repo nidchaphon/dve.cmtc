@@ -29,8 +29,11 @@ $valCompany = $classTrainer->GetDetailCompany($valTrainer['company_id']);
                                     echo $valTrainer['trainer_lastname']==''?" นามสกุล":$valTrainer['trainer_lastname']; ?></span></div>
                             <div class="description"><?php echo $valTrainer['trainer_rank']." / ".$valCompany['company_name']; ?></div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <a href="index.php?page=trainer_profile_edit"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="index.php?page=admin_user_edit_password"><button type="button" class="btn btn-primary">แก้ไข User&Password &nbsp <i class='fa fa-edit (alias)'></i></button></a>
                         </div>
                     </div>
 

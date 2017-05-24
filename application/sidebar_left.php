@@ -18,11 +18,13 @@ if ($_GET[page] == ''){
     $active_admin_company = 'class="active"';
 }if ($_GET[page] == 'admin_file_list' || $_GET[page] == 'admin_file_add' || $_GET[page] == 'admin_file_edit'){
     $active_admin_file = 'class="active"';
+}if ($_GET[page] == 'admin_evaluation_list' || $_GET[page] == 'admin_evaluation_add' || $_GET[page] == 'admin_evaluation_add_question' || $_GET[page] == 'admin_evaluation_edit' || $_GET[page] == 'admin_evaluation_edit_question'){
+    $active_admin_evaluation = 'class="active"';
 }if ($_GET[page] == 'student_diary_report' || $_GET[page] == 'student_diary_add' || $_GET[page] == 'student_diary_detail' || $_GET[page] == 'student_diary_edit'){
     $active_student_diary = 'class="active"';
 }if ($_GET[page] == 'teacher_appointment_report' || $_GET[page] == 'teacher_appointment_add' || $_GET[page] == 'teacher_appointment_edit' || $_GET[page] == 'teacher_appointment_detail') {
     $active_teacher_appointment = 'class="active"';
-}if ($_GET[page] == 'company_list' || $_GET[page] == 'company_detail') {
+}if ($_GET[page] == 'company_list' || $_GET[page] == 'company_detail' || $_GET[page]=='admin_company_edit') {
     $active_company = 'class="active"';
 }if ($_GET[page] == 'file_list') {
     $active_file = 'class="active"';
@@ -41,9 +43,8 @@ if ($_GET[page] == ''){
 <head>
     <title>ระบบสารสนเทศการนิเทศนักศึกษาฝึกงาน</title>
 
-    <meta name="keyword" content="ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ , ฝึกงาน , ระบบสารสนเทศ , ทวิภาคี">
-    <meta name="DESCRIPTION" content="ระบบจัดการข้อมูลการฝึกงานของนักศึกษาฝึกประสบการณ์ อาจารย์นิเทศ และสถานประกอบการ">
-
+    <meta name="keyword" content="ระบบสารสนเทศการนิเทศนักศึกษาฝึกประสบการณ์ , ฝึกงาน , ระบบสารสนเทศ , ทวิภาคี , ฝึกประสบการณ์">
+    <meta name="DESCRIPTION" content="ระบบจัดการข้อมูลการฝึกประสบการณ์ของนักศึกษาฝึกประสบการณ์ อาจารย์นิเทศ และสถานประกอบการ">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <link href="../images_sys/icon_iven1.ico" rel="favicon" />
@@ -90,6 +91,14 @@ if ($_GET[page] == ''){
                             <div class="title">จัดการข้อมูลสถานประกอบการ</div>
                         </a>
                     </li>
+                    <li <?php echo $active_admin_evaluation; ?>>
+                        <a href="index.php?page=admin_evaluation_list">
+                            <div class="icon">
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">จัดการแบบประเมิน</div>
+                        </a>
+                    </li>
                     <li <?php echo $active_admin_file; ?>>
                         <a href="index.php?page=admin_file_list">
                             <div class="icon">
@@ -108,22 +117,6 @@ if ($_GET[page] == ''){
                             <div class="title">นัดหมายการนิเทศ</div>
                         </a>
                     </li>
-<!--              <li --><?php //echo $active_teacher_score; ?><!-->
-<!--                  <a href="index.php?page=teacher_score_student_list">-->
-<!--                      <div class="icon">-->
-<!--                          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
-<!--                      </div>-->
-<!--                      <div class="title">ประเมินนักศึกษาฝึกงาน</div>-->
-<!--                  </a>-->
-<!--              </li>-->
-<!--              <li --><?php //echo $active_teacher_student; ?><!-->
-<!--                  <a href="index.php?page=teacher_student_list">-->
-<!--                      <div class="icon">-->
-<!--                          <i class="fa fa-users" aria-hidden="true"></i>-->
-<!--                      </div>-->
-<!--                      <div class="title">นักศึกษาฝึกงาน</div>-->
-<!--                  </a>-->
-<!--              </li>-->
 
                     <li class="dropdown <?php echo $active_teacher_student; ?>">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -153,6 +153,7 @@ class Student
 	                    diary.diary_job,
 	                    diary.diary_problem,
 	                    trainer.trainer_prefix,
+	                    teacher.teacher_prefix,
 	                    CONCAT(student.student_firstname ,' ' ,student.student_lastname) AS studentName,
 	                    CONCAT(trainer.trainer_firstname,' ',trainer.trainer_lastname) AS trainerName,
 	                    CONCAT(teacher.teacher_firstname,' ',teacher.teacher_lastname) AS teacherName
@@ -220,9 +221,9 @@ class Student
 	                    COUNT(student.student_id) AS numStudent ,
 	                    company.company_name
                       FROM student
-                        LEFT JOIN company ON(student.company_id = company.company_id)
+                        JOIN company ON(student.company_id = company.company_id)
                       GROUP BY company.company_id
-                      ORDER BY company.company_name ASC LIMIT 10";
+                      ORDER BY COUNT(student.student_id) DESC , company.company_name ASC LIMIT 10";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetNumStudentInCompany เพื่อแสดงจำนวนนักศึกษาฝึกงานในสถานประกอบการ';
             echo "<pre>$strQuery</pre>";

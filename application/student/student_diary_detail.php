@@ -12,8 +12,7 @@ $valStudent = $classStudent->GetDetailStudent($_COOKIE['memberID'],$_GET['studen
 $valDiary = $classStudent->GetDetailDiary($_GET['diaryID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
 $valGroup = $classStudent->GetStatusDetailStudent($valStudent['student_group']);
-
-print_r($valDepartment);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
 
 if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($valDiary['diary_status'] == 'sick'){$leave = "ลาป่วย";}if ($valDiary['diary_status'] == 'absent'){$leave = "ขาด";}
 ?>
@@ -33,7 +32,7 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
                             <div class="description">
                                 <?php echo $valStudent['student_code'];
                                 echo " / ";
-                                echo $valStudent['student_group']==''?"-":$valStudent['student_department'];
+                                echo $valStudent['student_group']==''?"-":$valDepartment['status_text'];
                                 echo " กลุ่ม ";
                                 echo $valStudent['student_group']==''?"-":$valGroup['status_text'];
                                 echo "<br>";
@@ -41,9 +40,6 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
                                 echo " ปี ";
                                 echo $valStudent['student_year']==''?"-":$valStudent['student_year']; ?></div>
                         </div>
-<!--                        <div class="col-md-7">-->
-<!--                            <a href="index.php?page=student_profile_edit"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -74,7 +70,7 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-3"><p><strong>ลักษณะงานที่ปฏิบัติ</strong></p></div>
+                                    <div class="col-md-3"><p><strong>งานที่ปฏิบัติ</strong></p></div>
                                     <div class="col-md-9" style="word-wrap: break-word;"><?php echo nl2br(str_replace("<br />","",$valDiary['diary_job'])); ?></div>
                                 </div>
                                 <br>
@@ -89,7 +85,7 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
                                 </div>
                                 <br>
                             </div>
-                            <div class="section-title">ความเห็นผู้ควบการฝึกงาน</div>
+                            <div class="section-title">ความเห็นผู้ควบการฝึกประสบการณ์</div>
                             <div class="section-body">
                                 <div class="row">
                                     <div class="col-md-12" style="word-wrap: break-word; text-align: justify; text-indent: 30px;">
@@ -143,4 +139,3 @@ if ($valDiary['diary_status'] == 'errand'){$leave =  "ลากิจ";}if ($val
         </div>
     </div>
 </div>
-

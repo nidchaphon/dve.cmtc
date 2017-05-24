@@ -85,7 +85,7 @@ $listAppointment = $classTeacher->GetListAppointment($valTeacher['teacher_id']);
                                 <td align="center">
                                     <a href="index.php?page=teacher_appointment_detail&appointmentID=<?php echo $valAppointment['appointment_id']; ?>"><i class='fa fa-book' title='ข้อมูล'></i></a>  &nbsp
                                     <a href="index.php?page=teacher_appointment_edit&appointmentID=<?php echo $valAppointment['appointment_id']; ?>"><i class='fa fa-edit (alias)' title='แก้ไขข้อมูล'></i></a>  &nbsp
-                                    <a href="teacher/teacher_to_db.php?action=deleteAppointment&appointmentID=<?php echo $valAppointment['appointment_id']; ?>" onclick="return confirm('ต้องการลบรายการนี้ หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
+                                    <a href="teacher/teacher_to_db.php?action=deleteAppointment&appointmentID=<?php echo $valAppointment['appointment_id']; ?>" onclick="return confirm('ต้องการลบนัดหมาย วันที่ <?php echo DBThaiShortDate($valAppointment['appointment_date']); ?> หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
                             </tr>
                         <?php } ?>
                         </tbody>

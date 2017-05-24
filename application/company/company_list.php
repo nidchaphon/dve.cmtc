@@ -6,9 +6,7 @@
  * Time: 22:16
  */
 
-if ($detect->isMobile()) {
-    echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
-}if($detect->isTablet()){
+if ($detect->isMobile() || $detect->isTablet()) {
     echo "<script>alert('กรุณาใช้งานอุปกรณ์ของคุณในแนวนอน เพื่อการแสดงผลตารางให้พอดีกับจอภาพ');</script>";
 }
 
@@ -40,7 +38,7 @@ $listCompany = $classCompany->GetListCompany();
     <div class="col-xs-12">
         <div class="card">
             <div class="card-header"><br><br></div>
-            <div class="card-body">
+            <div class="card-body" >
                 <div class="table-responsive">
                     <table class="datatable table-responsive table-striped table-bordered table-hover" id="dataTables-example"  cellspacing="0" width="100%" align="center">
                         <thead>
@@ -49,7 +47,7 @@ $listCompany = $classCompany->GetListCompany();
                             <th style="text-align: center">เบอร์โทรศัพท์</th>
                             <th style="text-align: center">อีเมลล์</th>
                             <th style="text-align: center">จำนวนนักศึกษา</th>
-                            <th width="15%" style="text-align: center">รายละเอียด</th>
+<!--                            <th width="15%" style="text-align: center">รายละเอียด</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -60,9 +58,9 @@ $listCompany = $classCompany->GetListCompany();
                                 <td><?php echo $valCompany['company_tel'] ?></td>
                                 <td><?php echo $valCompany['company_email'] ?></td>
                                 <td align="center"><?php if ($valCompany['numStudent'] == '0'){echo "ไม่มีนักศึกษาฝึกประสบการณ์";}else{echo $valCompany['numStudent']." คน";} ?></td>
-                                <td align="center">
-                                    <a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><i class='fa fa-institution (alias)' title='ข้อมูลสถานประกอบการ'></i></a>
-                                </td>
+<!--                                <td align="center">-->
+<!--                                    <a href="index.php?page=company_detail&companyID=--><?php //echo $valCompany['company_id']; ?><!--"><i class='fa fa-institution (alias)' title='ข้อมูลสถานประกอบการ'></i></a>-->
+<!--                                </td>-->
                             </tr>
                         <?php } ?>
                         </tbody>

@@ -59,14 +59,14 @@ $listCompany = $classAdmin->GetListCompany();
                     <?php
                     while ($valCompany = mysql_fetch_assoc($listCompany)){ ?>
                         <tr>
-                            <td height="30px"><a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><?php echo $valCompany['company_name'] ?></a></td>
+                            <td height="30px"><a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><?php echo $valCompany['company_name']; ?></a></td>
                             <td><?php echo $valCompany['company_address'] ?></td>
                             <td><?php echo $valCompany['company_tel'] ?></td>
                             <td><?php echo $valCompany['company_email'] ?></td>
                             <td align="center">
                                 <a href="index.php?page=company_detail&companyID=<?php echo $valCompany['company_id']; ?>"><i class='fa fa-institution (alias)' title='ข้อมูลสถานประกอบการ'></i></a> &nbsp
                                 <a href="index.php?page=admin_company_edit&companyID=<?php echo $valCompany['company_id']; ?>"><i class='fa fa-edit (alias)' title='แก้ไขข้อมูล'></i></a>  &nbsp
-                                <a href="admin/admin_delete.php?action=delCompany&companyID=<?php echo $valCompany['company_id'];?>&companyLogo=<?php echo $valCompany['company_logo'];?>" onclick="return confirm('ต้องการลบสถานประกอบการนี้ หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
+                                <a href="admin/admin_delete.php?action=delCompany&companyID=<?php echo $valCompany['company_id'];?>&companyLogo=<?php echo $valCompany['company_logo'];?>" onclick="return confirm('ต้องการลบ <?php echo $valCompany['company_name']; ?> หรือไม่')"><i class='fa fa-trash' title='ลบข้อมูล'></i></a> </td>
                         </tr>
                     <?php } ?>
                     </tbody>

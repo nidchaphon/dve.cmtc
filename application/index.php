@@ -59,19 +59,23 @@ include "header.php";
 
 if ($_GET[page] == '' || $_GET[page] == 'main'){ include('main.php');}
 
-if ($_GET[page] == 'message'){include ('message.php');}
-
 //--Admin--//
 if ($_GET[page] == 'admin_user_list'){include ('admin/user/user_list.php');}
 if ($_GET[page] == 'admin_user_detail'){include ('admin/user/user_detail.php');}
 if ($_GET[page] == 'admin_user_add'){include ('admin/user/user_add.php');}
 if ($_GET[page] == 'admin_user_edit'){include ('admin/user/user_edit.php');}
+if ($_GET[page] == 'admin_user_edit_password'){include ('admin/user/user_edit_password.php');}
 if ($_GET[page] == 'admin_company_list'){include ('admin/company/company_list.php');}
 if ($_GET[page] == 'admin_company_add'){include ('admin/company/company_add.php');}
 if ($_GET[page] == 'admin_company_edit'){include ('admin/company/company_edit.php');}
 if ($_GET[page] == 'admin_file_list'){include ('admin/file_download/file_list.php');}
 if ($_GET[page] == 'admin_file_add'){include ('admin/file_download/file_add.php');}
 if ($_GET[page] == 'admin_file_edit'){include ('admin/file_download/file_edit.php');}
+if ($_GET[page] == 'admin_evaluation_list'){include ('admin/evaluation/evaluation_list.php');}
+if ($_GET[page] == 'admin_evaluation_add'){include ('admin/evaluation/evaluation_add.php');}
+if ($_GET[page] == 'admin_evaluation_add_question'){include ('admin/evaluation/evaluation_add_question.php');}
+if ($_GET[page] == 'admin_evaluation_edit'){include ('admin/evaluation/evaluation_edit.php');}
+if ($_GET[page] == 'admin_evaluation_edit_question'){include ('admin/evaluation/evaluation_edit_question.php');}
 
 //--Teacher--//
 if ($_GET[page] == 'teacher_profile'){include ('teacher/teacher_profile.php');}
@@ -106,6 +110,9 @@ if ($_GET[page] == 'student_diary_edit'){include ('student/student_diary_edit.ph
 //--Company--//
 if ($_GET[page] == 'company_list'){include ('company/company_list.php');}
 if ($_GET[page] == 'company_detail'){include ('company/company_detail.php');}
+
+//--Message--//
+if ($_GET[page] == 'message'){include ('message.php');}
 
 //--FileDownload--//
 if ($_GET[page] == 'file_list'){include ('file_download/file_list.php');}

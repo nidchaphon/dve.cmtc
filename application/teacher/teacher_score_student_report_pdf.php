@@ -24,6 +24,14 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
 $valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTeacher = $classTeacher->GetDetailTeacher($memberID,$valScore['teacher_id']);
 
+if ($valTeacher['teacher_prefix'] == "mr"){
+    $prefixTeacher = "นาย";
+}elseif ($valTeacher['teacher_prefix'] == "mrs"){
+    $prefixTeacher = "นาง";
+}elseif ($valTeacher['teacher_prefix'] == "miss"){
+    $prefixTeacher = "นาวสาว";
+}
+
 //echo strtotime("2008-10-31");
 //echo date("w",strtotime("2017-02-15"));
 ?>
@@ -134,7 +142,7 @@ $valTeacher = $classTeacher->GetDetailTeacher($memberID,$valScore['teacher_id'])
         <tr>
             <td width="20%"></td>
             <td width="5%" style="text-align: right; vertical-align: top;" >ลงชื่อ</td>
-            <td width="35%" align="center">.............................................  <br><br> <?php echo "( ".$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']." )<br> <br>ตำแหน่ง ".$valTeacher['teacher_rank']."<br><br>........../....................../............."; ?> </td>
+            <td width="35%" align="center">.............................................  <br><br> <?php echo "( ".$prefixTeacher.$valTeacher['teacher_firstname']." ".$valTeacher['teacher_lastname']." )<br> <br>ตำแหน่ง ".$valTeacher['teacher_rank']."<br><br>........../....................../............."; ?> </td>
             <td width="40%" align="left" style="vertical-align: top;">ผู้ประเมิน (อาจารย์นิเทศ)</td>
         </tr>
     </table>

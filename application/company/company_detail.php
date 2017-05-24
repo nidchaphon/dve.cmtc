@@ -59,6 +59,11 @@ $placeTo = "18.830775,99.016754"
                                 <span class="highlight">ข้อมูลสถานประกอบการ</span>
                             </div>
                         </div>
+                        <?php if ($_COOKIE['memberStatus'] == 'teacher' || $_COOKIE['memberStatus'] == 'teacher2'){ ?>
+                        <div class="col-md-4">
+                            <a href="index.php?page=admin_company_edit&companyID=<?php echo $_GET['companyID']; ?>"><button type="button" class="btn btn-success">แก้ไขข้อมูลสถานประกอบการ &nbsp <i class='fa fa-edit (alias)'></i></button></a>
+                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

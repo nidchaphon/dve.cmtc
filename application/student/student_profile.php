@@ -53,9 +53,12 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                 ?></div>
                         </div>
                         <?php if (!isset($_GET['memberID'])){ ?>
-                        <div class="col-md-7">
-                            <a href="index.php?page=student_profile_edit"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>
-                        </div>
+                            <div class="col-md-3">
+                                <a href="index.php?page=student_profile_edit"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="index.php?page=admin_user_edit_password"><button type="button" class="btn btn-primary">แก้ไข User&Password &nbsp <i class='fa fa-edit (alias)'></i></button></a>
+                            </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -339,7 +342,7 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                 <div class="section-body">
                                     <div class="row">
                                         <div class="col-md-2"><p><strong>ชื่อสถานประกอบการ</strong></p></div>
-                                        <div class="col-md-8"><?php echo $valStudent['company_name']==''?"-":$valStudent['company_name']; ?></div>
+                                        <div class="col-md-8"><a href="index.php?page=company_detail&companyID=<?php echo $valStudent['company_id']; ?>"><?php echo $valStudent['company_name']==''?"-":$valStudent['company_name']; ?></a></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2"><p><strong>ที่อยู่</strong></p></div>
@@ -357,6 +360,12 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                         <div class="col-md-2"><p><strong>เว็บไซต์</strong></p></div>
                                         <div class="col-md-8"><a href="<?php echo $valStudent['company_website']; ?>" target="_blank"><?php echo $valStudent['company_website']==''?"-":$valStudent['company_website']; ?></a></div>
                                     </div>
+                                    <?php if ($_COOKIE['memberStatus'] == 'student'){ ?>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-8"><a href="index.php?page=admin_company_edit&companyID=<?php echo $valStudent['company_id']; ?>"><button type="button" class="btn btn-success">แก้ไขข้อมูลสถานประกอบการ &nbsp <i class='fa fa-edit (alias)'></i></button></a></div>
+                                    </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="section-title">ข้อมูลผู้ควบคุมการฝึกประสบการณ์</div>
                                 <div class="section-body">

@@ -22,7 +22,7 @@ date_default_timezone_set('Asia/Bangkok');
 
 
 //--------อัพเดตเวลาใช้งานล่าสุดของ Member----------//
-$intRejectTime = 10; // Minute
+$intRejectTime = 5; // Minute
 mysql_query("UPDATE member SET member_loginstatus = '0',member_lastupdate = NOW()  WHERE 1 AND member_id = '{$_COOKIE['memberID']}' AND DATE_ADD(member_lastupdate, INTERVAL $intRejectTime MINUTE) <= NOW()") or die(mysql_error());
 
 //----------อัพเดตสถานะการนิเทศของอาจารย์------------//

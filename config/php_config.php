@@ -171,4 +171,3 @@ function UpImg($img,$imglocate){
     }
     return $file_up;
 }
-
