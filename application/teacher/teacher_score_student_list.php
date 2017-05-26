@@ -126,11 +126,11 @@ if ($_GET['result'] == 'score'){
                                 <td><?php echo $valDepartment['status_text']; ?></td>
                                 <?php
                                 if ($_GET['result'] == 'score'){
-                                    if ($valStudent['score_teacher_1'] == '' || $valStudent['score_teacher_2'] == '' || $valStudent['score_teacher_3'] == '' || $valStudent['score_teacher_1'] == '0' || $valStudent['score_teacher_2'] == '0' || $valStudent['score_teacher_3'] == '0' ){
+                                    if ($valStudent['student_score_teacher'] != 'complete'){
                                         echo '<td style="text-align: center">';
                                         echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ยังไม่มีการประเมิน</span>";
                                         echo '</td>';
-                                        echo '<td align="center"><a href="index.php?page=teacher_score_student_complete&studentID='.$valStudent['student_id'].'"><i class="fa fa-edit (alias)" title="ประเมินนักศึกษา"></i></a>';
+                                        echo '<td align="center"><a href="index.php?page=teacher_score_student_save&studentID='.$valStudent['student_id'].'"><i class="fa fa-edit (alias)" title="ประเมินนักศึกษา"></i></a>';
                                         echo '</td>';
                                     }else{
                                         echo '<td style="text-align: center">';

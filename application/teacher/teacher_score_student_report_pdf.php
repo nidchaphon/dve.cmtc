@@ -21,16 +21,11 @@ $classTeacher = new Teacher();
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
 $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
-$valScore = $classTrainer->GetStudentScore($_GET['studentID']);
-$valTeacher = $classTeacher->GetDetailTeacher($memberID,$valScore['teacher_id']);
+$valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
+$valComment = $classTeacher->GetEvaluationComment($_GET['studentID'],$valTeacher['teacher_id']);
 
-if ($valTeacher['teacher_prefix'] == "mr"){
-    $prefixTeacher = "นาย";
-}elseif ($valTeacher['teacher_prefix'] == "mrs"){
-    $prefixTeacher = "นาง";
-}elseif ($valTeacher['teacher_prefix'] == "miss"){
-    $prefixTeacher = "นาวสาว";
-}
+$year =  "25".substr($valStudent['student_code'] ,0 ,2);
+$listMainEvaluation = $classTeacher->GetListMainEvaluation($valStudent['student_degree'],$valStudent['student_department'],$year);
 
 //echo strtotime("2008-10-31");
 //echo date("w",strtotime("2017-02-15"));
@@ -74,7 +69,7 @@ if ($valTeacher['teacher_prefix'] == "mr"){
             <td height="27" align="center"><span class="style2"><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";} echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text'];?></span></td>
         </tr>
     </table><br>
-    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="3" cellspacing="0" class="style3">
+    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="5" cellspacing="0" class="style3">
         <thead>
         <tr style="background: rgba(0,0,0,0.07);">
             <th width="26%" height="50" style="text-align: center; vertical-align: middle;">หัวข้อการประเมิน</th>
@@ -84,60 +79,71 @@ if ($valTeacher['teacher_prefix'] == "mr"){
         </tr>
         </thead>
         <tbody>
+        <?php
+        $numMainEvaluation = 0;
+        while ($valMainEvaluation = mysql_fetch_assoc($listMainEvaluation)){
+        $numMainEvaluation = $numMainEvaluation + 1;
+        $listMainScore = $classTeacher->GetListScore($_GET['studentID'],$valMainEvaluation['question_id']);
+
+        if ($valMainEvaluation['question_sub_id'] == 'yes'){
+            $score = "";
+            $colSpan = 'colspan="4"';
+        }else {
+            $score = $valMainEvaluation['question_score'];
+            $colSpan = '';
+        }
+
+        ?>
         <tr>
-            <td height="100" style="text-align: left; vertical-align: top;"><br><strong>&nbsp;1. เจตคติ</strong></td>
-            <td style="text-align: left"><ul>
-                    <li><p>ตรงต่อเวลา และมาปฏิบัติงานอย่างสม่ำเสมอ</p></li>
-                    <li><p>การแต่งกายสุภาพเรียบร้อย และถูกระเบียบ</p></li>
-                    <li>มีความตั้งใจ อดทน และขยันขันแข็งในการทำงาน</li>
-                    <li>มีทัศนคติที่ดีต่องานและหน่วยฝึกงาน</li>
-                </ul>
-            </td>
-            <td style="text-align: center; vertical-align: middle;">5</td>
-            <td style="text-align: center; vertical-align: middle;">
-                <?php echo $valScore['score_teacher_1'];?>
-            </td>
+            <td style="text-align: left; vertical-align: top;" <?php echo $colSpan; ?>><br><strong><?php echo $numMainEvaluation.". ".$valMainEvaluation['question_topic']; ?></strong></td>
+            <td style="text-align: left"><?php echo nl2br($valMainEvaluation['question_detail']); ?></td>
+            <td style="text-align: center; vertical-align: middle;"><?php echo $score;  ?></td>
+            <td style="text-align: center; vertical-align: middle;"><?php while ($valMainScore = mysql_fetch_assoc($listMainScore)) { if ($valMainEvaluation['question_id'] == $valMainScore['question_id']) { echo $valMainScore['score_num'];} $sumMainScore += $valMainScore['score_num']; $teacherID = $valMainScore['score_assessor_id']; } ?></td>
         </tr>
-        <tr>
-            <td height="110" style="text-align: left; vertical-align: top;"><br><strong>&nbsp;2. ทักษะการทำงาน</strong></td>
-            <td style="text-align: left"><ul>
-                    <li>ปฏิบัติงานถูกต้องตามลักษณะงาน</li>
-                    <li>คำนึงถึงความปลอดภัยในขณะปฏิบัติงาน</li>
-                    <li>รู้จักใช้เครื่องมือ อุปกรณ์ต่างๆ อย่างถูกต้องและระมัดระวัง</li>
-                    <li>มีความคิดริเริ่มสร้างสรรค์</li>
-                </ul>
-            </td>
-            <td style="text-align: center; vertical-align: middle;">5</td>
-            <td style="text-align: center; vertical-align: middle;">
-                <?php echo $valScore['score_teacher_2'];?>
-            </td>
-        </tr>
-        <tr>
-            <td height="80" style="text-align: left; vertical-align: top;"><br><strong>&nbsp;3. การบันทึกการฝึกงาน</strong></td>
-            <td style="text-align: left"><ul>
-                    <li>บันทึกข้อมูลประวัติครบถ้วนชัดเจน</li>
-                    <li>ลงเวลาปฏิบัติงานถูกต้อง</li>
-                    <li>บันทึกการปฏิบัติงานละเอียดสมบูรณ์</li>
-                </ul>
-            </td>
-            <td style="text-align: center; vertical-align: middle;">10</td>
-            <td style="text-align: center; vertical-align: middle;">
-                <?php echo $valScore['score_teacher_3'];?>
-            </td>
-        </tr>
+            <?php
+            $listSubEvaluation = $classTeacher->GetListSubEvaluation($valMainEvaluation['evaluation_id'],$valMainEvaluation['question_id']);
+            $numSubEvaluation = 0;
+            while ($valSubEvaluation = mysql_fetch_assoc($listSubEvaluation)){
+                $numSubEvaluation = $numSubEvaluation + 1;
+                $listSubScore = $classTeacher->GetListScore($_GET['studentID'],$valSubEvaluation['question_id']);
+                ?>
+                <tr>
+                    <td style="text-align: justify; text-indent: 50px; text-align: left; vertical-align: top;"><?php echo $numMainEvaluation.".".$numSubEvaluation." ".$valSubEvaluation['question_topic']; ?></td>
+                    <td style="text-align: left"><?php echo nl2br($valSubEvaluation['question_detail']); ?></td>
+                    <td style="text-align: center; vertical-align: middle;"><?php echo $valSubEvaluation['question_score']; ?></td>
+                    <td style="text-align: center; vertical-align: middle;"><?php while ($valSubScore = mysql_fetch_assoc($listSubScore)) { if ($valSubEvaluation['question_id'] == $valSubScore['question_id']) { echo $valSubScore['score_num'];} $sumSubScore += $valSubScore['score_num']; $teacherID = $valSubScore['score_assessor_id']; } ?></td>
+                </tr>
+                <?php
+                $subScore += $valSubEvaluation['question_score']; }
+            $mainScore += $valMainEvaluation['question_score']; }
+        $totalScore = $subScore+$mainScore;
+        $sumScore = $sumMainScore+$sumSubScore;
+        ?>
         </tbody>
         <tfoot>
         <tr style="background: rgba(0,0,0,0.07);">
             <th colspan="2" height="40" style="text-align: center">คะแนนรวมทั้งสิ้น</th>
-            <th style="text-align: center">20</th>
-            <th style="text-align: center"><span id="sum"><?php echo $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valScore['score_teacher_3'];?></span></th>
+            <th style="text-align: center"><?php echo $totalScore; ?></th>
+            <th style="text-align: center"><span id="sum"><?php echo $sumScore; ?></span></th>
         </tr>
         </tfoot>
     </table>
 
-    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อบกพร่องที่ควรแก้ไขปรับปรุง </strong><?php echo nl2br($valScore['score_teacher_defect']==''?"-":$valScore['score_teacher_defect']);?></p><br>
-    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อเสนอแนะอื่นๆ </strong><?php echo nl2br($valScore['score_teacher_counsel']==''?"-":$valScore['score_teacher_counsel']);?></p>
+    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อบกพร่องที่ควรแก้ไขปรับปรุง </strong><?php echo nl2br($valComment['comment_defect']==''?"-":$valComment['comment_defect']);?></p><br>
+    <p style="text-align: justify; text-indent: 50px;"><strong>ข้อเสนอแนะอื่นๆ </strong><?php echo nl2br($valComment['comment_counsel']==''?"-":$valComment['comment_counsel']);?></p>
     <br>
+
+    <?php
+//    $valTeacher = $classTeacher->GetDetailTeacher($memberID,$teacherID);
+
+    if ($valTeacher['teacher_prefix'] == "mr"){
+        $prefixTeacher = "นาย";
+    }elseif ($valTeacher['teacher_prefix'] == "mrs"){
+        $prefixTeacher = "นาง";
+    }elseif ($valTeacher['teacher_prefix'] == "miss"){
+        $prefixTeacher = "นาวสาว";
+    }
+    ?>
     <table width="100%" border="0">
         <tr>
             <td width="20%"></td>

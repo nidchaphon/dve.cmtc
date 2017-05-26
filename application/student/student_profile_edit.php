@@ -6,7 +6,11 @@
  * Time: 21:59
  */
 
-$memberID = $_COOKIE['memberID'];
+if (isset($_GET['memberID'])){
+    $memberID = $_GET['memberID'];
+} else {
+    $memberID = $_COOKIE['memberID'];
+}
 
 $classStudent = new Student();
 
@@ -66,7 +70,7 @@ if ($valStudent['trainer_prefix'] == 'mr'){
     }
 </script>
 <div class="row">
-    <form name="frmAddUser" class="form form-horizontal" action="student/student_to_db.php" method="post" enctype="multipart/form-data">
+    <form name="frmAddUser" class="form form-horizontal" action="student/student_to_db.php?memberID=<?php echo $_GET['memberID']; ?>" method="post" enctype="multipart/form-data">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header app-heading">

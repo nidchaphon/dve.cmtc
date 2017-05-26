@@ -85,7 +85,7 @@ if ($_GET[page] == 'teacher_appointment_add'){include ('teacher/teacher_appointm
 if ($_GET[page] == 'teacher_appointment_edit'){include ('teacher/teacher_appointment_edit.php');}
 if ($_GET[page] == 'teacher_appointment_detail'){include ('teacher/teacher_appointment_detail.php');}
 if ($_GET[page] == 'teacher_score_student_list'){include ('teacher/teacher_score_student_list.php');}
-if ($_GET[page] == 'teacher_score_student_complete'){include ('teacher/teacher_score_student_complete.php');}
+if ($_GET[page] == 'teacher_score_student_save'){include ('teacher/teacher_score_student_save.php');}
 if ($_GET[page] == 'teacher_score_student_report'){include ('teacher/teacher_score_student_report.php');}
 if ($_GET[page] == 'teacher_grade_student_complete'){include ('teacher/teacher_grade_student_complete.php');}
 if ($_GET[page] == 'teacher_grade_student_report'){include ('teacher/teacher_grade_student_report.php');}
@@ -95,7 +95,7 @@ if ($_GET[page] == 'teacher_student_list'){include ('teacher/teacher_student_lis
 if ($_GET[page] == 'trainer_profile'){include ('trainer/trainer_profile.php');}
 if ($_GET[page] == 'trainer_profile_edit'){include ('trainer/trainer_profile_edit.php');}
 if ($_GET[page] == 'trainer_score_student_list'){include ('trainer/trainer_score_student_list.php');}
-if ($_GET[page] == 'trainer_score_student_complete'){include ('trainer/trainer_score_student_complete.php');}
+if ($_GET[page] == 'trainer_score_student_save'){include ('trainer/trainer_score_student_save.php');}
 if ($_GET[page] == 'trainer_score_student_report'){include ('trainer/trainer_score_student_report.php');}
 if ($_GET[page] == 'trainer_student_list'){include ('trainer/trainer_student_list.php');}
 

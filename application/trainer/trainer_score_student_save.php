@@ -1,0 +1,280 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: nidchaphon
+ * Date: 1/16/2017 AD
+ * Time: 22:32
+ */
+
+$classTrainer = new Trainer();
+$classStudent = new Student();
+
+$valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
+$valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
+$valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
+$valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
+$valComment = $classTrainer->GetEvaluationComment($_GET['studentID'],$valTrainer['trainer_id']);
+
+$year =  "25".substr($valStudent['student_code'] ,0 ,2);
+$listMainEvaluation = $classTrainer->GetListMainEvaluation($valStudent['student_degree'],$valStudent['student_department'],$year);
+$listMainQuestion = $classTrainer->GetListMainQuestion($valStudent['student_degree'],$valStudent['student_department'],$year);
+
+if (mysql_num_rows($listMainEvaluation) == '0'){
+    echo "<script>alert('ยังไม่มีแบบประเมินสำหรับนักศึกษา ระดับ ".$valDegree['status_text']." สาขา ".$valDepartment['status_text']." รุ่นปี ".$year." กรุณาติดต่อ ผู้ดูแลระบบ');</script>";
+    echo "<meta http-equiv='refresh' content='0;url=index.php?page=trainer_score_student_list'>";
+    exit();
+}
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>ประเมินการฝึกประสบการณ์</h3>
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-body">
+                        <form name="frmScoreTrainer" class="form form-horizontal" action="trainer/trainer_to_db.php?studentID=<?php echo $_GET['studentID']; ?>" method="post">
+                            <div class="section">
+                                <div class="section-title">แบบประเมินการฝึกประสบการณ์โดยสถานประกอบการ</div>
+                                <div class="section-body">
+                                    <div class="row">
+                                        <div class="col-md-12" style="text-align: center;"><p><?php if ($valStudent['student_sex']=='male'){echo "นาย";}if ($valStudent['student_sex']=='female'){echo "นางสาว";}; echo $valStudent['studentName']." ระดับ ".$valDegree['status_text']." ปี ".$valStudent['student_year']." แผนกวิชา ".$valDepartment['status_text']; ?></p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" style="text-align: center;"><p><?php echo "ระยะเวลาฝึกประสบการณ์ระหว่าง ".DBThaiLongDateFull($valStudent['student_training_start'])." ถึง ".DBThaiLongDateFull($valStudent['student_training_end'])." เป็นเวลา ".CalDateStartToEnd($valStudent['student_training_start'],$valStudent['student_training_end']);?></p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" style="text-align: center;"><p><?php echo "รวมวัน ฝึกประสบการณ์จริง ".$valStudent['numWork']." วัน ลากิจ ".$valStudent['numErrand']." วัน ลาป่วย ".$valStudent['numSick']." วัน ขาด ".$valStudent['numAbsent']." วัน";?></p></div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12"><p><strong>คำชี้แจง</strong> กรุณากรอกคะแนนให้นักเรียน นักศึกษาตามความเป็นจริงและเหมาะสม</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-striped table-hover table-bordered">
+                                            <thead>
+                                            <tr style="background: rgba(0,0,0,0.07);">
+                                                <th width="30%" style="text-align: center; vertical-align: middle;">หัวข้อการประเมิน</th>
+                                                <th width="50%" style="text-align: center; vertical-align: middle;">รายละเอียดการพิจารณา</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">คะแนนเต็ม</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">คะแนนที่ได้</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            $numMainEvaluation = 0;
+                                            while ($valMainEvaluation = mysql_fetch_assoc($listMainEvaluation)){
+                                            $numMainEvaluation = $numMainEvaluation + 1;
+                                            $listMainScore = $classTrainer->GetListScore($_GET['studentID'],$valMainEvaluation['question_id']);
+
+                                            if ($valMainEvaluation['question_sub_id'] == 'yes'){
+                                                $score = "";
+                                                $textFieldScore = "";
+                                            }else {
+                                                $score = $valMainEvaluation['question_score'];
+                                                $textFieldScore = "show";
+                                            }
+
+                                            ?>
+                                            <tr>
+                                                <td style="text-align: left"><strong><?php echo $numMainEvaluation.". ".$valMainEvaluation['question_topic']; ?></strong></td>
+                                                <td style="text-align: left"><?php echo nl2br($valMainEvaluation['question_detail']); ?></td>
+                                                <td style="text-align: center; vertical-align: middle;"><?php echo $score;  ?></td>
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    <?php
+                                                    if ($textFieldScore == 'show'){ ?>
+                                                        <input type="text" class="txt" name="numScore[]" value="<?php while ($valMainScore = mysql_fetch_assoc($listMainScore)) { if ($valMainEvaluation['question_id'] == $valMainScore['question_id']) { echo $valMainScore['score_num'];} $sumMainScore += $valMainScore['score_num']; } ?>" onKeyUp="if(isNaN(this.value)){ alert('กรุณากรอกตัวเลข'); this.value='';} if (this.value > <?php echo $valMainEvaluation['question_score']; ?>){alert('กรุณากรอกตัวเลขไม่เกิน <?php echo $valMainEvaluation['question_score']; ?>'); this.value='';}"  style="width: 50px; text-align: center;">
+                                                        <input type="hidden" name="evaluationID[]" value="<?php echo $valMainEvaluation['question_id']; ?>">
+                                                    <?php }  ?></td>
+                                            </tr>
+                                                <?php
+                                                $listSubEvaluation = $classTrainer->GetListSubEvaluation($valMainEvaluation['evaluation_id'],$valMainEvaluation['question_id']);
+                                                $numSubEvaluation = 0;
+                                                while ($valSubEvaluation = mysql_fetch_assoc($listSubEvaluation)){
+                                                    $numSubEvaluation = $numSubEvaluation + 1;
+                                                    $listSubScore = $classTrainer->GetListScore($_GET['studentID'],$valSubEvaluation['question_id']);
+                                                    ?>
+                                                    <tr>
+                                                        <td style="text-align: justify; text-indent: 50px;"><?php echo $numMainEvaluation.".".$numSubEvaluation." ".$valSubEvaluation['question_topic']; ?></td>
+                                                        <td style="text-align: left"><?php echo nl2br($valSubEvaluation['question_detail']); ?></td>
+                                                        <td style="text-align: center; vertical-align: middle;"><?php echo $valSubEvaluation['question_score']; ?></td>
+                                                        <td style="text-align: center; vertical-align: middle;">
+                                                            <input type="text" class="txt" name="numScore[]" value="<?php while ($valSubScore = mysql_fetch_assoc($listSubScore)) { if ($valSubEvaluation['question_id'] == $valSubScore['question_id']) { echo $valSubScore['score_num'];} $sumSubScore += $valSubScore['score_num']; } ?>" onKeyUp="if(isNaN(this.value)){ alert('กรุณากรอกตัวเลข'); this.value='';} if (this.value > <?php echo $valSubEvaluation['question_score']; ?>){alert('กรุณากรอกตัวเลขไม่เกิน <?php echo $valSubEvaluation['question_score']; ?>'); this.value='';}"  style="width: 50px; text-align: center;">
+                                                            <input type="hidden" name="evaluationID[]" value="<?php echo $valSubEvaluation['question_id']; ?>">
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $subScore += $valSubEvaluation['question_score']; }
+                                                $mainScore += $valMainEvaluation['question_score']; }
+                                            $totalScore = $subScore+$mainScore;
+                                            $sumScore = $sumMainScore+$sumSubScore;
+                                            ?>
+
+                                            </tbody>
+                                            <tfoot>
+                                            <tr style="background: rgba(0,0,0,0.07);">
+                                                <th colspan="2" style="text-align: right">คะแนนรวมทั้งสิ้น</th>
+                                                <th style="text-align: center"><?php echo $totalScore; ?></th>
+                                                <th style="text-align: center"><span id="sum"><?php echo $sumScore;?></span></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <?php if (mysql_num_rows($listMainQuestion) != '0'){ ?>
+                                <div class="section-title">ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์  สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</div>
+                                <div class="section-body">
+                                    <div class="row">
+                                        <div class="col-md-12"><p>เลือก <i class="fa fa-circle-o"></i> ในช่องที่ตรงกับความพึงพอใจของท่าน</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-striped table-hover table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th width="50%" style="text-align: center; vertical-align: middle;">ความพึงพอใจ</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">มากที่สุด</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">มาก</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">ปานกลาง</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">น้อย</th>
+                                                <th width="10%" style="text-align: center; vertical-align: middle;">น้อยที่สุด</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            $numMainQuestion = 0;
+                                            $numRowQuestion = 0;
+                                            while ($valMainQuestion = mysql_fetch_assoc($listMainQuestion)){
+                                                $numMainQuestion = $numMainQuestion + 1;
+                                                $listMainCheck = $classTrainer->GetListScore($_GET['studentID'],$valMainQuestion['question_id']);
+
+                                                $numCheckMain = 0;
+                                                while ($valMainCheck = mysql_fetch_assoc($listMainCheck)) { if ($valMainQuestion['question_id'] == $valMainCheck['question_id']) { $numCheckMain = $valMainCheck['score_num']; } }
+
+                                            if ($valMainQuestion['question_sub_id'] == 'yes'){
+                                                $score = "";
+                                                $radioCheck = "";
+                                            }else {
+                                                $score = $valMainQuestion['question_score'];
+                                                $radioCheck = "show";
+                                                $numRowQuestion = $numRowQuestion+1;
+                                            }
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $numMainQuestion.". ".$valMainQuestion['question_topic']; ?></td>
+                                                <?php if ($radioCheck == 'show'){ ?>
+                                                <td style="text-align: center;">
+                                                    <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck1" value="5" <?php if ($numCheckMain == '5'){ echo "checked"; } ?>>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck2" value="4" <?php if ($numCheckMain == '4'){ echo "checked"; } ?>>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck3" value="3" <?php if ($numCheckMain == '3'){ echo "checked"; } ?>>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck4" value="2" <?php if ($numCheckMain == '2'){ echo "checked"; } ?>>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck5" value="1" <?php if ($numCheckMain == '1'){ echo "checked"; } ?>>
+                                                    <input type="hidden" name="questionID<?php echo $numRowQuestion; ?>" value="<?php echo $valMainQuestion['question_id']; ?>">
+                                                </td>
+                                                <?php } ?>
+                                            </tr>
+                                            <?php
+                                            $listSubQuestion = $classTrainer->GetListSubEvaluation($valMainQuestion['evaluation_id'],$valMainQuestion['question_id']);
+                                            $numSubQuestion = 0;
+                                            while ($valSubQuestion = mysql_fetch_assoc($listSubQuestion)){
+                                                $numSubQuestion = $numSubQuestion + 1;
+                                                $numRowQuestion = $numRowQuestion+1;
+                                                $listSubCheck = $classTrainer->GetListScore($_GET['studentID'],$valSubQuestion['question_id']);
+
+                                                $numCheckSub = 0;
+                                                while ($valSubCheck = mysql_fetch_assoc($listSubCheck)) { if ($valSubQuestion['question_id'] == $valSubCheck['question_id']) { $numCheckSub = $valSubCheck['score_num']; } }
+                                                ?>
+                                                <tr>
+                                                    <td style="text-align: justify; text-indent: 50px;"><?php echo $numMainQuestion.".".$numSubQuestion." ".$valSubQuestion['question_topic']; ?></td>
+                                                    <td style="text-align: center;">
+                                                        <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck1" value="5" <?php if ($numCheckSub == '5'){ echo "checked"; } ?>>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck2" value="4" <?php if ($numCheckSub == '4'){ echo "checked"; } ?>>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck3" value="3" <?php if ($numCheckSub == '3'){ echo "checked"; } ?>>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck4" value="2" <?php if ($numCheckSub == '2'){ echo "checked"; } ?>>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <input type="radio" name="questionCheck<?php echo $numRowQuestion; ?>" id="questionCheck5" value="1" <?php if ($numCheckSub == '1'){ echo "checked"; } ?>>
+                                                        <input type="hidden" name="questionID<?php echo $numRowQuestion; ?>" value="<?php echo $valSubQuestion['question_id']; ?>">
+                                                    </td>
+                                                </tr>
+                                            <?php }} ?>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <?php } ?>
+
+                                    <div class="section-title">ข้อเสนอแนะอื่นๆ</div>
+                                    <div class="section-body">
+                                        <textarea name="txtCounsel" rows="5" class="form-control"><?php echo $valComment['comment_counsel'];?></textarea>
+                                        <input type="hidden" name="txtTrainerID" value="<?php echo $valTrainer['trainer_id'];?>">
+                                        <input type="hidden" name="numRowQuestion" value="<?php echo $numRowQuestion; ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-footer">
+                                <div class="form-group">
+                                    <div class="col-md-12" style="text-align: center">
+                                        <button type="submit" name="insertScoreStudent" class="btn btn-primary">บันทึก</button> &nbsp
+                                        <button type="reset" class="btn btn-default">ยกเลิก</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        //iterate through each textboxes and add keyup
+        //handler to trigger sum event
+        $(".txt").each(function() {
+
+            $(this).keyup(function(){
+                calculateSum();
+            });
+        });
+
+    });
+
+    function calculateSum() {
+
+        var sum = 0;
+        //iterate through each textboxes and add the values
+        $(".txt").each(function() {
+
+            //add only if the value is number
+            if(!isNaN(this.value) && this.value.length!=0) {
+                sum += parseFloat(this.value);
+            }
+
+        });
+        //.toFixed() method will roundoff the final sum to 2 decimal places
+        $("#sum").html(sum.toFixed(0));
+    }
+</script>

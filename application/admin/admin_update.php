@@ -157,7 +157,7 @@ if (isset($_POST['updateQuestion'])){
                         question_score = '".$_POST['mainScore']."'
                         WHERE question_id = '".$_GET['questionID']."' ");
 
-    if (isset($_GET['mainID'])){
+    if ($_GET['mainID'] != ''){
         $questionID = $_GET['mainID'];
     }else {
         $questionID = $_GET['questionID'];

@@ -161,4 +161,83 @@ class Trainer
         return $resultQuery;
     }
 
+    function GetListMainEvaluation($degree='',$depatrment='',$year=''){
+        $strQuery = "SELECT * FROM evaluation
+                      JOIN evaluation_question ON (evaluation.evaluation_id=evaluation_question.evaluation_id)
+                      WHERE 1
+                        AND evaluation.evaluation_assessor = 'trainer'
+                        AND evaluation.evaluation_type = 'score'
+                        AND evaluation_question.question_type = 'maintopic'
+                        AND evaluation.evaluation_std_degree LIKE '%{$degree}%'
+                        AND evaluation.evaluation_std_department LIKE '%{$depatrment}%'
+                        AND evaluation.evaluation_std_year LIKE '%{$year}%'
+                      ORDER BY evaluation_question.question_topic ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListMainQuestion เพื่อแสดงรายการแบบประเมินหัวข้อหลัก';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListSubEvaluation($evaluationID='',$questionID=''){
+        $strQuery = "SELECT * FROM evaluation_question
+                      WHERE evaluation_id = '{$evaluationID}' 
+                        AND question_sub_id = '{$questionID}' 
+                        AND question_type = 'subtopic'
+                      ORDER BY question_topic ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListQuestion เพื่อแสดงรายการแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListMainQuestion($degree='',$depatrment='',$year=''){
+        $strQuery = "SELECT * FROM evaluation
+                      JOIN evaluation_question ON (evaluation.evaluation_id=evaluation_question.evaluation_id)
+                      WHERE 1
+                        AND evaluation.evaluation_assessor = 'trainer'
+                        AND evaluation.evaluation_type = 'check'
+                        AND evaluation_question.question_type = 'maintopic'
+                        AND evaluation.evaluation_std_degree LIKE '%{$degree}%'
+                        AND evaluation.evaluation_std_department LIKE '%{$depatrment}%'
+                        AND evaluation.evaluation_std_year LIKE '%{$year}%'
+                      ORDER BY evaluation_question.question_topic ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListMainQuestion เพื่อแสดงรายการแบบประเมินหัวข้อหลัก';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListScore($studentID='',$questionID=''){
+        $strQuery = "SELECT * FROM evaluation_score
+                      WHERE 1
+                        AND student_id = '$studentID'
+                        AND question_id = '{$questionID}' ";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListQuestion เพื่อแสดงรายการแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetEvaluationComment($studentID='',$assessorID=''){
+        $strQuery = "SELECT * FROM evaluation_comment 
+                      WHERE 1 
+                       AND student_id = '{$studentID}'
+                       AND comment_assessor_id = '{$assessorID}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetEvaluationComment เพื่อแสดง คอมเม้นในแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
+    }
+
 }

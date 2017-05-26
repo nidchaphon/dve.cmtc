@@ -52,10 +52,13 @@ $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_depa
                                 echo $valStudent['student_year']==''?"-":$valStudent['student_year'];
                                 ?></div>
                         </div>
-                        <?php if (!isset($_GET['memberID'])){ ?>
+
+                            <?php if ($_COOKIE['memberStatus'] == 'student' || $_COOKIE['memberStatus'] == 'teacher'){ ?>
                             <div class="col-md-3">
-                                <a href="index.php?page=student_profile_edit"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>
+                                <a href="index.php?page=student_profile_edit&memberID=<?php echo $_GET['memberID']; ?>"><button type="button" class="btn btn-primary">แก้ไขข้อมูล &nbsp <i class='fa fa-edit (alias)'></i></button></a>
                             </div>
+                                <?php } ?>
+                        <?php if (!isset($_GET['memberID'])){ ?>
                             <div class="col-md-4">
                                 <a href="index.php?page=admin_user_edit_password"><button type="button" class="btn btn-primary">แก้ไข User&Password &nbsp <i class='fa fa-edit (alias)'></i></button></a>
                             </div>

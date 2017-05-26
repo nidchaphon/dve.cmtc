@@ -28,13 +28,13 @@ if ($_GET[page] == ''){
     $active_company = 'class="active"';
 }if ($_GET[page] == 'file_list') {
     $active_file = 'class="active"';
-}if ($_GET[page] == 'trainer_score_student_list' || $_GET[page] == 'trainer_score_student_complete' || $_GET[page] == 'trainer_score_student_report') {
+}if ($_GET[page] == 'trainer_score_student_list' || $_GET[page] == 'trainer_score_student_save' || $_GET[page] == 'trainer_score_student_report') {
     $active_trainer_score = 'class="active"';
-}if ($_GET[page] == 'teacher_score_student_list' || $_GET[page] == 'teacher_score_student_complete' || $_GET[page] == 'teacher_score_student_report') {
+}if ($_GET[page] == 'teacher_score_student_list' || $_GET[page] == 'teacher_score_student_save' || $_GET[page] == 'teacher_score_student_report') {
     $active_teacher_score = 'class="active"';
 }if ($_GET[page] == 'trainer_student_list' || $_GET[page] == 'student_profile') {
     $active_trainer_student = 'class="active"';
-}if ($_GET[page] == 'teacher_student_list' || $_GET[page] == 'student_profile' || $_GET[page] == 'teacher_score_student_list' || $_GET[page] == 'teacher_score_student_complete' || $_GET[page] == 'teacher_score_student_report' || $_GET[page] == 'teacher_grade_student_complete' || $_GET[page] == 'teacher_grade_student_report') {
+}if ($_GET[page] == 'teacher_student_list' || $_GET[page] == 'student_profile' || $_GET[page] == 'student_profile_edit' || $_GET[page] == 'teacher_score_student_list' || $_GET[page] == 'teacher_score_student_save' || $_GET[page] == 'teacher_score_student_report' || $_GET[page] == 'teacher_grade_student_complete' || $_GET[page] == 'teacher_grade_student_report') {
     $active_teacher_student = 'active';
 }
 ?>

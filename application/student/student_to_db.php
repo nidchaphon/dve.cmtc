@@ -23,7 +23,11 @@ $valTeacher2 = $classTeacher->GetDetailTeacher('',$valStudent['teacher2_id']);
 $valTrainer = $classTrainer->GetDetailTrainer('',$valStudent['trainer_id']);
 $maxDateDiary = $classStudent->GetMaxDateDiary($_GET['studentID']);
 
-$memberID = $_COOKIE['memberID'];
+if (isset($_GET['memberID'])){
+    $memberID = $_GET['memberID'];
+} else {
+    $memberID = $_COOKIE['memberID'];
+}
 
 if (isset($_POST['editStudent'])){
     $birthdte = ThaiDate2DBDate($_POST['txtBirthdate']);
@@ -84,7 +88,7 @@ if (isset($_POST['editStudent'])){
                   WHERE member_id = '$memberID'";
     mysql_query($sqlUpdateStudent) or die(mysql_error());
 
-    header("refresh:1; url=../index.php?page=student_profile");
+    header("refresh:1; url=../index.php?page=student_profile&memberID=".$_GET['memberID']);
 }
 
 if (isset($_POST['insertDiary'])){

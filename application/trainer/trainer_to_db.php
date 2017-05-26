@@ -53,25 +53,39 @@ if (isset($_POST['editTrainer'])){
     header("refresh:1; url=../index.php?page=trainer_profile");
 }
 
-if (isset($_POST['updateScoreStudent'])){
-    $sqlUpdateScoreStudent = "UPDATE score SET
-                                score_trainer_1_1 = '".$_POST['num11']."',
-                                score_trainer_1_2 = '".$_POST['num12']."',
-                                score_trainer_1_3 = '".$_POST['num13']."',
-                                score_trainer_2_1 = '".$_POST['num21']."',
-                                score_trainer_2_2 = '".$_POST['num22']."',
-                                score_trainer_3_1 = '".$_POST['num31']."',
-                                score_trainer_rate1 = '".$_POST['radioRate1']."',
-                                score_trainer_rate2 = '".$_POST['radioRate2']."',
-                                score_trainer_rate3 = '".$_POST['radioRate3']."',
-                                score_trainer_counsel = '".$_POST['txtCounsel']."',
-                                trainer_id = '".$_POST['txtTrainerID']."',
-                                trainer_status = '1'
-                              WHERE student_id = '".$_GET['studentID']."'
-                              ";
-    mysql_query($sqlUpdateScoreStudent) or die(mysql_error($sqlUpdateScoreStudent));
+if (isset($_POST['insertScoreStudent'])){
 
-    mysql_query("UPDATE student SET student_score_trainer = 'yes' WHERE student_id = '{$_GET['studentID']}'");
+    mysql_query("DELETE FROM evaluation_score WHERE student_id = '".$_GET['studentID']."' AND score_assessor_id = '".$_POST['txtTrainerID']."'");
+
+    for($i=0;$i<count($_POST['numScore']);$i++) {
+        mysql_query("INSERT INTO evaluation_score SET 
+                        score_num = '".$_POST['numScore'][$i]."',
+                        score_assessor = 'trainer',
+                        score_assessor_id = '".$_POST['txtTrainerID']."',
+                        question_id = '".$_POST['evaluationID'][$i]."',
+                        student_id = '".$_GET['studentID']."'");
+    }
+
+    for($i=1;$i<($_POST['numRowQuestion']+1);$i++) {
+
+        mysql_query("INSERT INTO evaluation_score SET 
+                        score_num = '".$_POST['questionCheck'.$i]."',
+                        score_assessor = 'trainer',
+                        score_assessor_id = '".$_POST['txtTrainerID']."',
+                        question_id = '".$_POST['questionID'.$i]."',
+                        student_id = '".$_GET['studentID']."'");
+    }
+
+    mysql_query("DELETE FROM evaluation_comment WHERE student_id = '".$_GET['studentID']."' AND comment_assessor_id = '".$_POST['txtTrainerID']."'");
+
+    mysql_query("INSERT INTO evaluation_comment SET 
+                        comment_defect = '".$_POST['txtDefect']."',
+                        comment_counsel = '".$_POST['txtCounsel']."',
+                        comment_assessor = 'trainer',
+                        comment_assessor_id = '".$_POST['txtTrainerID']."',
+                        student_id = '".$_GET['studentID']."'");
+
+    mysql_query("UPDATE student SET student_score_trainer = 'complete' WHERE student_id = '{$_GET['studentID']}'");
 
     $getMaxIDDiary = "SELECT MAX(score_id) AS maxID FROM score";
     $resultMaxID = mysql_query($getMaxIDDiary);
@@ -99,9 +113,6 @@ if (isset($_POST['updateScoreStudent'])){
         mysql_query("INSERT INTO notification SET {$titleTeacher} , {$messageTeacher} , {$valSet} , member_id = '{$valTeacher['member_id']}'");
         mysql_query("INSERT INTO notification SET {$titleTeacher} , {$messageTeacher} , {$valSet} , member_id = '{$valTeacher2['member_id']}'");
     }
-
-//    $sqlInsertNotification = "INSERT INTO notification SET {$titleStudent} , {$messageStudent} , {$valSet} , member_id = '{$valStudent['member_id']}' ";
-//    mysql_query($sqlInsertNotification) or die(mysql_error($sqlInsertNotification));
 
     header("refresh:1; url=../index.php?page=trainer_score_student_list");
 

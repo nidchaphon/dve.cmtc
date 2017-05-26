@@ -12,8 +12,13 @@ $classStudent = new Student();
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
 $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
-$valScore = $classTrainer->GetStudentScore($_GET['studentID']);
 $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
+$valComment = $classTrainer->GetEvaluationComment($_GET['studentID'],$valTrainer['trainer_id']);
+
+$year =  "25".substr($valStudent['student_code'] ,0 ,2);
+$listMainEvaluation = $classTrainer->GetListMainEvaluation($valStudent['student_degree'],$valStudent['student_department'],$year);
+$listMainQuestion = $classTrainer->GetListMainQuestion($valStudent['student_degree'],$valStudent['student_department'],$year);
+
 
 ?>
 <div class="row">
@@ -52,98 +57,66 @@ $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td style="text-align: left"><strong>1. เจตคติ</strong><br><p style="text-indent: 30px;">1.1 ความประพฤติ</p></td>
-                                            <td style="text-align: left"><ul>
-                                                    <li>ตรงต่อเวลา และมาปฏิบัติงานอย่างสม่ำเสมอ</li>
-                                                    <li>การแต่งกายสุภาพเรียบร้อย แลถูกระเบียบ</li>
-                                                    <li>ซื่อสัตย์ สุจริต รักษาความลับของสถานประกอบการ</li>
-                                                </ul>
-                                            </td>
-                                            <td style="text-align: center; vertical-align: middle;">10</td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_trainer_1_1'];?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left"><p style="text-indent: 30px;">1.2 ความตั้งใจและความรับผิดชอบ</p></td>
-                                            <td style="text-align: left"><ul>
-                                                    <li>มีความตั้งใจ อดทน และขยันขันแข็งในการทำงาน</li>
-                                                    <li>ปฏิบัติงานตามคำสั่ง และวางตนอยู่ในระเบียบวินัย</li>
-                                                    <li>สามารถแสดงความคิดเห็นและข้อเสนอแนะได้ดี</li>
-                                                    <li>มีทัศนคติที่ดีต่องานและหน่วยฝึกงาน</li>
-                                                </ul>
-                                            </td>
-                                            <td style="text-align: center; vertical-align: middle;">10</td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_trainer_1_2'];?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left"><p style="text-indent: 30px;">1.3 ความมีมนุษย์สัมพันธ์</p></td>
-                                            <td style="text-align: left"><ul>
-                                                    <li>มีน้ำใจให้ความร่วมมือ และทำงานร่วมกับผู้อื่นได้ดี</li>
-                                                    <li>สามารถปรับตัวเข้ากับสภาพแวดล้อม</li>
-                                                    <li>สุภาพอ่อนน้อม</li>
-                                                </ul>
-                                            </td>
-                                            <td style="text-align: center; vertical-align: middle;">5</td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_trainer_1_3'];?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left"><strong>2. ทักษะการทำงาน</strong><br><p style="text-indent: 30px;">2.1 ความรู้พื้นฐานทางด้านเทคนิคและการใช้เครื่องมือเครื่องใช้</p></td>
-                                            <td style="text-align: left"><ul>
-                                                    <li>ปฏิบัติงานถูกต้องตามลักษณะงาน</li>
-                                                    <li>คำนึงถึงความปลอดภัยในขณะปฏิบัติงาน</li>
-                                                    <li>รู้จักใช้เครื่องมือ อุปกรณ์ต่างๆ อย่างถูกต้องและระมัดระวัง</li>
-                                                </ul>
-                                            </td>
-                                            <td style="text-align: center; vertical-align: middle;">10</td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_trainer_2_1'];?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left"><p style="text-indent: 30px;">2.2 การประยุกต์ใช้ความรู้ที่ศึกษามาปฏิบัติงาน</p></td>
-                                            <td style="text-align: left"><ul>
-                                                    <li>มีความคิดริเริ่มสร้างสรรค์</li>
-                                                    <li>สามารถแก้ปัญหาเฉพาะหน้าในการทำงานได้ดี</li>
-                                                    <li>รู้จักใช้วัสดุอย่างประหยัด</li>
-                                                </ul>
-                                            </td>
-                                            <td style="text-align: center; vertical-align: middle;">5</td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_trainer_2_2'];?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left"><strong>3. ผลงาน</strong><br><p style="text-indent: 30px;">3.1 คุณภาพของงานและปริมาณ</p></td>
-                                            <td style="text-align: left"><ul>
-                                                    <li>ผลงานได้มาตรฐาน</li>
-                                                    <li>มีความรอบคอบในการทำงาน</li>
-                                                    <li>ทำได้ถูกต้องตามขั้นตอน</li>
-                                                    <li>สามารถปฏิบัติงานเสร็จเรียบร้อยภายในเวลาที่กำหนด</li>
-                                                </ul>
-                                            </td>
-                                            <td style="text-align: center; vertical-align: middle;">10</td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_trainer_3_1'];?>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        $numMainEvaluation = 0;
+                                        while ($valMainEvaluation = mysql_fetch_assoc($listMainEvaluation)){
+                                            $numMainEvaluation = $numMainEvaluation + 1;
+                                            $listMainScore = $classTrainer->GetListScore($_GET['studentID'],$valMainEvaluation['question_id']);
+
+                                            if ($valMainEvaluation['question_sub_id'] == 'yes'){
+                                                $score = "";
+                                                $textFieldScore = "";
+                                            }else {
+                                                $score = $valMainEvaluation['question_score'];
+                                                $textFieldScore = "show";
+                                            }
+
+                                            ?>
+                                            <tr>
+                                                <td style="text-align: left"><strong><?php echo $numMainEvaluation.". ".$valMainEvaluation['question_topic']; ?></strong></td>
+                                                <td style="text-align: left"><?php echo nl2br($valMainEvaluation['question_detail']); ?></td>
+                                                <td style="text-align: center; vertical-align: middle;"><?php echo $score;  ?></td>
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    <?php
+                                                    if ($textFieldScore == 'show'){ ?>
+                                                        <?php while ($valMainScore = mysql_fetch_assoc($listMainScore)) { if ($valMainEvaluation['question_id'] == $valMainScore['question_id']) { echo $valMainScore['score_num'];} $sumMainScore += $valMainScore['score_num']; } ?>
+                                                    <?php }  ?></td>
+                                            </tr>
+                                            <?php
+                                            $listSubEvaluation = $classTrainer->GetListSubEvaluation($valMainEvaluation['evaluation_id'],$valMainEvaluation['question_id']);
+                                            $numSubEvaluation = 0;
+                                            while ($valSubEvaluation = mysql_fetch_assoc($listSubEvaluation)){
+                                                $numSubEvaluation = $numSubEvaluation + 1;
+                                                $listSubScore = $classTrainer->GetListScore($_GET['studentID'],$valSubEvaluation['question_id']);
+                                                ?>
+                                                <tr>
+                                                    <td style="text-align: justify; text-indent: 50px;"><?php echo $numMainEvaluation.".".$numSubEvaluation." ".$valSubEvaluation['question_topic']; ?></td>
+                                                    <td style="text-align: left"><?php echo nl2br($valSubEvaluation['question_detail']); ?></td>
+                                                    <td style="text-align: center; vertical-align: middle;"><?php echo $valSubEvaluation['question_score']; ?></td>
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <?php while ($valSubScore = mysql_fetch_assoc($listSubScore)) { if ($valSubEvaluation['question_id'] == $valSubScore['question_id']) { echo $valSubScore['score_num'];} $sumSubScore += $valSubScore['score_num']; } ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $subScore += $valSubEvaluation['question_score']; }
+                                            $mainScore += $valMainEvaluation['question_score']; }
+                                        $totalScore = $subScore+$mainScore;
+                                        $sumScore = $sumMainScore+$sumSubScore;
+                                        ?>
+
                                         </tbody>
                                         <tfoot>
                                         <tr style="background: rgba(0,0,0,0.07);">
                                             <th colspan="2" style="text-align: right">คะแนนรวมทั้งสิ้น</th>
-                                            <th style="text-align: center">50</th>
-                                            <th style="text-align: center"><span id="sum"><?php echo $valScore['score_trainer_1_1']+$valScore['score_trainer_1_2']+$valScore['score_trainer_1_3']+$valScore['score_trainer_2_1']+$valScore['score_trainer_2_2']+$valScore['score_trainer_3_1'];?></span></th>
+                                            <th style="text-align: center"><?php echo $totalScore; ?></th>
+                                            <th style="text-align: center"><span id="sum"><?php echo $sumScore; ?></span></th>
                                         </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                             </div>
 
+                            <?php if (mysql_num_rows($listMainQuestion) != '0'){ ?>
                             <div class="section-title">ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์  สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</div>
                             <div class="section-body">
                                 <div class="row">
@@ -159,71 +132,89 @@ $valTrainer = $classTrainer->GetDetailTrainer($_COOKIE['memberID'],$trainerID);
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>1. ด้านความประพฤติ</td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate1'] == '5'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate1'] == '4'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate1'] == '3'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate1'] == '2'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate1'] == '1'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2. ด้านทฤษฎี (ความรู้ ความเข้าใจ)</td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate2'] == '5'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate2'] == '4'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate2'] == '3'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate2'] == '2'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate2'] == '1'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3. ด้านปฏิบัติ (ทักษะการทำงานเป็น)</td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate3'] == '5'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate3'] == '4'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate3'] == '3'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate3'] == '2'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <?php if ($valScore['score_trainer_rate3'] == '1'){echo ' <i class="fa fa-check" aria-hidden="true"></i>';} ?>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        $numMainQuestion = 0;
+                                        $numRowQuestion = 0;
+                                        while ($valMainQuestion = mysql_fetch_assoc($listMainQuestion)){
+                                            $numMainQuestion = $numMainQuestion + 1;
+                                            $listMainCheck = $classTrainer->GetListScore($_GET['studentID'],$valMainQuestion['question_id']);
+
+                                            $numCheckMain = 0;
+                                            while ($valMainCheck = mysql_fetch_assoc($listMainCheck)) { if ($valMainQuestion['question_id'] == $valMainCheck['question_id']) { $numCheckMain = $valMainCheck['score_num']; } }
+
+                                            if ($valMainQuestion['question_sub_id'] == 'yes'){
+                                                $score = "";
+                                                $radioCheck = "";
+                                            }else {
+                                                $score = $valMainQuestion['question_score'];
+                                                $radioCheck = "show";
+                                                $numRowQuestion = $numRowQuestion+1;
+                                            }
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $numMainQuestion.". ".$valMainQuestion['question_topic']; ?></td>
+                                                <?php if ($radioCheck == 'show'){ ?>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '5'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '4'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '3'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '2'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '1'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                <?php } ?>
+                                            </tr>
+                                            <?php
+                                            $listSubQuestion = $classTrainer->GetListSubEvaluation($valMainQuestion['evaluation_id'],$valMainQuestion['question_id']);
+                                            $numSubQuestion = 0;
+                                            while ($valSubQuestion = mysql_fetch_assoc($listSubQuestion)){
+                                                $numSubQuestion = $numSubQuestion + 1;
+                                                $numRowQuestion = $numRowQuestion+1;
+                                                $listSubCheck = $classTrainer->GetListScore($_GET['studentID'],$valSubQuestion['question_id']);
+
+                                                $numCheckSub = 0;
+                                                while ($valSubCheck = mysql_fetch_assoc($listSubCheck)) { if ($valSubQuestion['question_id'] == $valSubCheck['question_id']) { $numCheckSub = $valSubCheck['score_num']; } }
+                                                ?>
+                                                <tr>
+                                                    <td style="text-align: justify; text-indent: 50px;"><?php echo $numMainQuestion.".".$numSubQuestion." ".$valSubQuestion['question_topic']; ?></td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '5'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '4'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '3'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '2'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '1'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                </tr>
+                                            <?php }} ?>
+
                                         </tbody>
                                     </table>
                                 </div>
+                                <?php } ?>
+
                                 <div class="section-title">ข้อเสนอแนะอื่นๆ</div>
                                 <div class="section-body" style="text-align: justify; text-indent: 30px;">
-                                    <?php echo nl2br($valScore['score_trainer_counsel']);?>
+                                    <?php echo nl2br($valComment['comment_counsel']);?>
                                 </div>
                                 <br>
                                 <div class="row">
                                     <div class="col-md-12" style="text-align: center;">
-                                        <a href="index.php?page=trainer_score_student_complete&studentID=<?php echo $_GET['studentID']; ?>"><button type="button" class="btn btn-primary">แก้ไขแบบประเมิน  <i class='fa fa-edit'></i></button></a>
+                                        <a href="index.php?page=trainer_score_student_save&studentID=<?php echo $_GET['studentID']; ?>"><button type="button" class="btn btn-primary">แก้ไขแบบประเมิน  <i class='fa fa-edit'></i></button></a>
                                     </div>
                                 </div>
                             </div>

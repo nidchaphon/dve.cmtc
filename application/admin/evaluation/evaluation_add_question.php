@@ -151,7 +151,7 @@ while ($department = mysql_fetch_assoc($listDepartment)){
                                             <textarea class="form-control" name="detail[]" id="detail[]"></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" name="score[]" id="score[]">
+                                            <input class="form-control" name="score[]" id="score[]" onKeyUp="if(isNaN(this.value)){ alert('กรุณากรอกตัวเลข'); this.value='';} ">
                                         </td>
                                         <td><input type="hidden" name="type[]" value="maintopic"></td>
                                     </tr>
