@@ -18,6 +18,7 @@ $valComment = $classTeacher->GetEvaluationComment($_GET['studentID'],$valTeacher
 
 $year =  "25".substr($valStudent['student_code'] ,0 ,2);
 $listMainEvaluation = $classTeacher->GetListMainEvaluation($valStudent['student_degree'],$valStudent['student_department'],$year);
+$listMainQuestion = $classTeacher->GetListMainQuestion($valStudent['student_degree'],$valStudent['student_department'],$year);
 
 ?>
 <div class="row">
@@ -105,6 +106,97 @@ $listMainEvaluation = $classTeacher->GetListMainEvaluation($valStudent['student_
                                     </table>
                                 </div>
                             </div>
+
+                            <?php if (mysql_num_rows($listMainQuestion) != '0'){ ?>
+                            <div class="section-title">ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์  สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</div>
+                            <div class="section-body">
+                                <div class="row">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th width="50%" style="text-align: center; vertical-align: middle;">ความพึงพอใจ</th>
+                                            <th width="10%" style="text-align: center; vertical-align: middle;">มากที่สุด</th>
+                                            <th width="10%" style="text-align: center; vertical-align: middle;">มาก</th>
+                                            <th width="10%" style="text-align: center; vertical-align: middle;">ปานกลาง</th>
+                                            <th width="10%" style="text-align: center; vertical-align: middle;">น้อย</th>
+                                            <th width="10%" style="text-align: center; vertical-align: middle;">น้อยที่สุด</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $numMainQuestion = 0;
+                                        $numRowQuestion = 0;
+                                        while ($valMainQuestion = mysql_fetch_assoc($listMainQuestion)){
+                                            $numMainQuestion = $numMainQuestion + 1;
+                                            $listMainCheck = $classTrainer->GetListScore($_GET['studentID'],$valMainQuestion['question_id']);
+
+                                            $numCheckMain = 0;
+                                            while ($valMainCheck = mysql_fetch_assoc($listMainCheck)) { if ($valMainQuestion['question_id'] == $valMainCheck['question_id']) { $numCheckMain = $valMainCheck['score_num']; } }
+
+                                            if ($valMainQuestion['question_sub_id'] == 'yes'){
+                                                $score = "";
+                                                $radioCheck = "";
+                                            }else {
+                                                $score = $valMainQuestion['question_score'];
+                                                $radioCheck = "show";
+                                                $numRowQuestion = $numRowQuestion+1;
+                                            }
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $numMainQuestion.". ".$valMainQuestion['question_topic']; ?></td>
+                                                <?php if ($radioCheck == 'show'){ ?>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '5'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '4'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '3'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '2'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckMain == '1'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                <?php } ?>
+                                            </tr>
+                                            <?php
+                                            $listSubQuestion = $classTrainer->GetListSubEvaluation($valMainQuestion['evaluation_id'],$valMainQuestion['question_id']);
+                                            $numSubQuestion = 0;
+                                            while ($valSubQuestion = mysql_fetch_assoc($listSubQuestion)){
+                                                $numSubQuestion = $numSubQuestion + 1;
+                                                $numRowQuestion = $numRowQuestion+1;
+                                                $listSubCheck = $classTrainer->GetListScore($_GET['studentID'],$valSubQuestion['question_id']);
+
+                                                $numCheckSub = 0;
+                                                while ($valSubCheck = mysql_fetch_assoc($listSubCheck)) { if ($valSubQuestion['question_id'] == $valSubCheck['question_id']) { $numCheckSub = $valSubCheck['score_num']; } }
+                                                ?>
+                                                <tr>
+                                                    <td style="text-align: justify; text-indent: 50px;"><?php echo $numMainQuestion.".".$numSubQuestion." ".$valSubQuestion['question_topic']; ?></td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '5'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '4'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '3'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '2'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <?php if ($numCheckSub == '1'){ echo ' <i class="fa fa-check" aria-hidden="true"></i>'; } ?>
+                                                    </td>
+                                                </tr>
+                                            <?php }} ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <?php } ?>
 
                             <div class="section-title">ข้อบกพร่องที่ควรแก้ไขปรับปรุง</div>
                             <div class="section-body" style="text-align: justify; text-indent: 30px;">

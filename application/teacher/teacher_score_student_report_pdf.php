@@ -26,6 +26,7 @@ $valComment = $classTeacher->GetEvaluationComment($_GET['studentID'],$valTeacher
 
 $year =  "25".substr($valStudent['student_code'] ,0 ,2);
 $listMainEvaluation = $classTeacher->GetListMainEvaluation($valStudent['student_degree'],$valStudent['student_department'],$year);
+$listMainQuestion = $classTeacher->GetListMainQuestion($valStudent['student_degree'],$valStudent['student_department'],$year);
 
 //echo strtotime("2008-10-31");
 //echo date("w",strtotime("2017-02-15"));
@@ -128,6 +129,106 @@ $listMainEvaluation = $classTeacher->GetListMainEvaluation($valStudent['student_
         </tr>
         </tfoot>
     </table>
+
+    <?php if (mysql_num_rows($listMainQuestion) != '0'){ ?>
+    <br>
+    <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
+        <tr>
+            <td width="291" height="50" align="center"><span class="style1"><strong>ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์</strong></span></td>
+        </tr>
+    </table>
+
+    <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="10" cellspacing="0" class="style3">
+        <thead>
+        <tr style="background: rgba(0,0,0,0.07);">
+            <th height="50" width="50%" style="text-align: center; vertical-align: middle;">ความพึงพอใจ</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">มากที่สุด</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">มาก</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">ปานกลาง</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">น้อย</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">น้อยที่สุด</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $numMainQuestion = 0;
+        $numRowQuestion = 0;
+        while ($valMainQuestion = mysql_fetch_assoc($listMainQuestion)){
+            $numMainQuestion = $numMainQuestion + 1;
+            $listMainCheck = $classTrainer->GetListScore($_GET['studentID'],$valMainQuestion['question_id']);
+
+            $numCheckMain = 0;
+            while ($valMainCheck = mysql_fetch_assoc($listMainCheck)) {
+                if ($valMainQuestion['question_id'] == $valMainCheck['question_id']) {
+                    $numCheckMain = $valMainCheck['score_num'];
+                }
+                $teacherID = $valMainCheck['score_assessor_id'];
+            }
+
+            if ($valMainQuestion['question_sub_id'] == 'yes'){
+                $score = "";
+                $radioCheck = "";
+                $colsapn = 'colspan="6"';
+            }else {
+                $score = $valMainQuestion['question_score'];
+                $radioCheck = "show";
+                $colsapn = '';
+                $numRowQuestion = $numRowQuestion+1;
+            }
+            ?>
+            <tr>
+                <td style="text-align: left; vertical-align: top;" <?php echo $colsapn; ?>><?php echo $numMainQuestion.". ".$valMainQuestion['question_topic']; ?></td>
+                <?php if ($radioCheck == 'show'){ ?>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckMain == '5'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckMain == '4'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckMain == '3'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckMain == '2'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckMain == '1'){ echo '/'; } ?>
+                    </td>
+                <?php } ?>
+            </tr>
+            <?php
+            $listSubQuestion = $classTrainer->GetListSubEvaluation($valMainQuestion['evaluation_id'],$valMainQuestion['question_id']);
+            $numSubQuestion = 0;
+            while ($valSubQuestion = mysql_fetch_assoc($listSubQuestion)){
+                $numSubQuestion = $numSubQuestion + 1;
+                $numRowQuestion = $numRowQuestion+1;
+                $listSubCheck = $classTrainer->GetListScore($_GET['studentID'],$valSubQuestion['question_id']);
+
+                $numCheckSub = 0;
+                while ($valSubCheck = mysql_fetch_assoc($listSubCheck)) { if ($valSubQuestion['question_id'] == $valSubCheck['question_id']) { $numCheckSub = $valSubCheck['score_num']; } }
+                ?>
+                <tr>
+                    <td style="text-align: justify; text-indent: 50px; text-align: left; vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $numMainQuestion.".".$numSubQuestion." ".$valSubQuestion['question_topic']; ?></td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckSub == '5'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckSub == '4'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckSub == '3'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckSub == '2'){ echo '/'; } ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php if ($numCheckSub == '1'){ echo '/'; } ?>
+                    </td>
+                </tr>
+            <?php }} ?>
+        </tbody>
+    </table>
+    <?php } ?>
 
     <p style="text-align: justify; text-indent: 50px;"><strong>ข้อบกพร่องที่ควรแก้ไขปรับปรุง </strong><?php echo nl2br($valComment['comment_defect']==''?"-":$valComment['comment_defect']);?></p><br>
     <p style="text-align: justify; text-indent: 50px;"><strong>ข้อเสนอแนะอื่นๆ </strong><?php echo nl2br($valComment['comment_counsel']==''?"-":$valComment['comment_counsel']);?></p>

@@ -142,6 +142,16 @@ if (isset($_POST['insertScoreStudent'])){
                         student_id = '".$_GET['studentID']."'");
     }
 
+    for($i=1;$i<($_POST['numRowQuestion']+1);$i++) {
+
+        mysql_query("INSERT INTO evaluation_score SET 
+                        score_num = '".$_POST['questionCheck'.$i]."',
+                        score_assessor = 'teacher',
+                        score_assessor_id = '".$_POST['txtTeacherID']."',
+                        question_id = '".$_POST['questionID'.$i]."',
+                        student_id = '".$_GET['studentID']."'");
+    }
+
     mysql_query("DELETE FROM evaluation_comment WHERE student_id = '".$_GET['studentID']."' AND comment_assessor_id = '".$_POST['txtTeacherID']."'");
 
     mysql_query("INSERT INTO evaluation_comment SET 
@@ -156,17 +166,18 @@ if (isset($_POST['insertScoreStudent'])){
     header("refresh:1; url=../index.php?page=teacher_score_student_list&result=score");
 }
 
-if (isset($_POST['updateGradeStudent'])){
-    $sqlUpdateScoreStudent = "UPDATE score SET
+if (isset($_POST['insertGradeStudent'])){
+
+    mysql_query("DELETE FROM score WHERE student_id = '".$_GET['studentID']."'");
+    mysql_query("INSERT INTO score SET
+                                score_trainer = '".$_POST['numScoreTrainer']."',
+                                score_teacher = '".$_POST['numScoreTeacher']."',
                                 score_report = '".$_POST['numScoreReport']."',
                                 score_join = '".$_POST['numScoreJoin']."',
-                                grade_teacher_id = '".$_POST['txtTeacherID']."',
-                                grade_teacher_status = '1'
-                              WHERE student_id = '".$_GET['studentID']."'
-                              ";
-    mysql_query($sqlUpdateScoreStudent) or die(mysql_error($sqlUpdateScoreStudent));
+                                teacher_id = '".$_POST['txtTeacherID']."',
+                                student_id = '".$_GET['studentID']."' ") or die(mysql_error());
 
-    mysql_query("UPDATE student SET student_status = 'end' WHERE student_id = '{$_GET['studentID']}'");
+    mysql_query("UPDATE student SET student_status = 'grade' WHERE student_id = '{$_GET['studentID']}'");
 
     header("refresh:1; url=../index.php?page=teacher_score_student_list&result=grade");
 }

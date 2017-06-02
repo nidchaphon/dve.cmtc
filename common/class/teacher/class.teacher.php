@@ -118,7 +118,6 @@ class Teacher
         }
         $strQuery = "SELECT * FROM student 
                         LEFT JOIN teacher ON (student.teacher_id=teacher.teacher_id) 
-                        LEFT JOIN score ON (student.student_id=score.student_id)
                       WHERE teacher.member_id = '{$memberID}' {$whereDegree} {$whereDepartment} {$whereYear}
                       ORDER BY  student.student_degree ASC,
 	                            student.student_year DESC,
@@ -135,8 +134,26 @@ class Teacher
     }
 
     function GetStudentScore($studentID=''){
-        $strQuery = "SELECT *
-                      FROM score
+        $strQuery = "SELECT 
+                      SUM(IF(score_assessor='teacher',score_num,0)) scoreTeacher,
+                      SUM(IF(score_assessor='trainer',score_num,0)) scoreTrainer
+                    FROM evaluation_score
+                      JOIN evaluation_question ON (evaluation_score.question_id=evaluation_question.question_id)
+                      JOIN evaluation ON (evaluation_question.evaluation_id=evaluation.evaluation_id)
+                    WHERE 1
+                      AND evaluation.evaluation_type = 'score'
+                      AND student_id = '{$studentID}'";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetStudentScore เพื่อแสดง คะแนน แบบประเมินการฝึกงาน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        $result = mysql_fetch_assoc($resultQuery);
+        return $result;
+    }
+
+    function GetStudentTotalScore($studentID=''){
+        $strQuery = "SELECT * FROM score
                       WHERE student_id = '{$studentID}'";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetStudentScore เพื่อแสดง คะแนน แบบประเมินการฝึกงาน';
@@ -330,6 +347,25 @@ class Teacher
                       ORDER BY question_topic ASC";
         if ($_GET['debug']=='on'){
             echo 'คิวรี่ GetListQuestion เพื่อแสดงรายการแบบประเมิน';
+            echo "<pre>$strQuery</pre>";
+        }
+        $resultQuery = mysql_query($strQuery);
+        return $resultQuery;
+    }
+
+    function GetListMainQuestion($degree='',$depatrment='',$year=''){
+        $strQuery = "SELECT * FROM evaluation
+                      JOIN evaluation_question ON (evaluation.evaluation_id=evaluation_question.evaluation_id)
+                      WHERE 1
+                        AND evaluation.evaluation_assessor = 'teacher'
+                        AND evaluation.evaluation_type = 'check'
+                        AND evaluation_question.question_type = 'maintopic'
+                        AND evaluation.evaluation_std_degree LIKE '%{$degree}%'
+                        AND evaluation.evaluation_std_department LIKE '%{$depatrment}%'
+                        AND evaluation.evaluation_std_year LIKE '%{$year}%'
+                      ORDER BY evaluation_question.question_topic ASC";
+        if ($_GET['debug']=='on'){
+            echo 'คิวรี่ GetListMainQuestion เพื่อแสดงรายการแบบประเมินหัวข้อหลัก';
             echo "<pre>$strQuery</pre>";
         }
         $resultQuery = mysql_query($strQuery);

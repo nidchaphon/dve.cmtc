@@ -149,7 +149,7 @@ $listMainQuestion = $classTrainer->GetListMainQuestion($valStudent['student_degr
         <tr>
             <td width="291" height="50" align="center"><span class="style1"><strong>ความพึงพอใจของท่านต่อนักศึกษาฝึกประสบการณ์ <br><br> สถานบันการอาชีวะศึกษาภาคเหนือ 1 / วิทยาลัยเทคนิคเชียงใหม่</strong></span></td>
         </tr>
-    </table><br>
+    </table>
 
     <table bordercolor="#424242" width="100%" height="78" border="1"  align="center" cellpadding="10" cellspacing="0" class="style3">
         <thead>

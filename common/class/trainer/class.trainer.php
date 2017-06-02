@@ -98,19 +98,6 @@ class Trainer
         return $result;
     }
 
-    function GetStudentScore($studentID=''){
-        $strQuery = "SELECT *
-                      FROM score
-                      WHERE student_id = '{$studentID}'";
-        if ($_GET['debug']=='on'){
-            echo 'คิวรี่ GetStudentScore เพื่อแสดง คะแนน แบบประเมินการฝึกงาน';
-            echo "<pre>$strQuery</pre>";
-        }
-        $resultQuery = mysql_query($strQuery);
-        $result = mysql_fetch_assoc($resultQuery);
-        return $result;
-    }
-
     function GetListPrefix(){
         $strQuery = "SELECT * FROM status WHERE status_type = 'prefix_name'";
         if ($_GET['debug']=='on'){

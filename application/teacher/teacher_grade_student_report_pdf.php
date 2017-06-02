@@ -23,13 +23,14 @@ $classCompany = new Company();
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
 $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
-$valScore = $classTrainer->GetStudentScore($_GET['studentID']);
+$valScore = $classTeacher->GetStudentScore($_GET['studentID']);
+$valTotalScore = $classTeacher->GetStudentTotalScore($_GET['studentID']);
 $valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
 $valCompany = $classCompany->GetDetailCompany($valStudent['company_id']);
 
-$scoreTrainer = $valScore['score_trainer_1_1']+$valScore['score_trainer_1_2']+$valScore['score_trainer_1_3']+$valScore['score_trainer_2_1']+$valScore['score_trainer_2_2']+$valScore['score_trainer_3_1'];
-$scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valScore['score_teacher_3'];
-$scoreTotal = $scoreTrainer+$scoreTeacher+$valScore['score_report']+$valScore['score_join'];
+$scoreTrainer = $valScore['scoreTrainer'];
+$scoreTeacher = $valScore['scoreTeacher'];
+$scoreTotal = $scoreTrainer+$scoreTeacher+$valTotalScore['score_report']+$valTotalScore['score_join'];
 
 if ($valTeacher['teacher_prefix'] == "mr"){
     $prefixTeacher = "นาย";
@@ -128,14 +129,14 @@ if ($scoreTotal >= 80 && $scoreTotal <= 100){
             <td height="35" style="text-align: left">&nbsp;รายงานฉบับสมบูรณ์</td>
             <td style="text-align: center; vertical-align: middle;">20</td>
             <td style="text-align: center; vertical-align: middle;">
-                <?php echo $valScore['score_report'];?>
+                <?php echo $valTotalScore['score_report'];?>
             </td>
         </tr>
         <tr>
             <td height="35" style="text-align: left">&nbsp;การเข้าร่วมปฐมนิเทศ, ปัจฉิมนิเทศที่วิทยาลัย</td>
             <td style="text-align: center; vertical-align: middle;">10</td>
             <td style="text-align: center; vertical-align: middle;">
-                <?php echo $valScore['score_join'];?>
+                <?php echo $valTotalScore['score_join'];?>
             </td>
         </tr>
         </tbody>

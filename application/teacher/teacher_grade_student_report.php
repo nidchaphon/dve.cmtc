@@ -14,12 +14,13 @@ $classCompany = new Company();
 $valStudent = $classTrainer->GetDetailStudentScoreForm($_GET['studentID']);
 $valDegree = $classStudent->GetStatusDetailStudent($valStudent['student_degree']);
 $valDepartment = $classStudent->GetStatusDetailStudent($valStudent['student_department']);
-$valScore = $classTrainer->GetStudentScore($_GET['studentID']);
+$valTotalScore = $classTeacher->GetStudentTotalScore($_GET['studentID']);
+$valScore = $classTeacher->GetStudentScore($_GET['studentID']);
 $valTeacher = $classTeacher->GetDetailTeacher($_COOKIE['memberID'],$teacherID);
 $valCompany = $classCompany->GetDetailCompany($valStudent['company_id']);
 
-$scoreTrainer = $valScore['score_trainer_1_1']+$valScore['score_trainer_1_2']+$valScore['score_trainer_1_3']+$valScore['score_trainer_2_1']+$valScore['score_trainer_2_2']+$valScore['score_trainer_3_1'];
-$scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valScore['score_teacher_3'];
+$scoreTrainer = $valScore['scoreTrainer'];
+$scoreTeacher = $valScore['scoreTeacher'];
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -67,14 +68,14 @@ $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valSc
                                             <td style="text-align: left">รายงานฉบับสมบูรณ์</td>
                                             <td style="text-align: center; vertical-align: middle;">20</td>
                                             <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_report'];?>
+                                                <?php echo $valTotalScore['score_report'];?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: left">การเข้าร่วมปฐมนิเทศ, ปัจฉิมนิเทศที่วิทยาลัย</td>
                                             <td style="text-align: center; vertical-align: middle;">10</td>
                                             <td style="text-align: center; vertical-align: middle;">
-                                                <?php echo $valScore['score_join'];?>
+                                                <?php echo $valTotalScore['score_join'];?>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -82,7 +83,7 @@ $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valSc
                                         <tr style="background: rgba(0,0,0,0.07);">
                                             <th style="text-align: right">คะแนนรวมทั้งสิ้น</th>
                                             <th style="text-align: center">100</th>
-                                            <th style="text-align: center"><span id="sum"><?php echo $scoreTrainer+$scoreTeacher+$valScore['score_report']+$valScore['score_join'];?></span></th>
+                                            <th style="text-align: center"><span id="sum"><?php echo $scoreTrainer+$scoreTeacher+$valTotalScore['score_report']+$valTotalScore['score_join'];?></span></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -93,7 +94,7 @@ $scoreTeacher = $valScore['score_teacher_1']+$valScore['score_teacher_2']+$valSc
                         <br>
                         <div class="row">
                             <div class="col-md-12" style="text-align: center;">
-                                <a href="index.php?page=teacher_grade_student_complete&studentID=<?php echo $_GET['studentID']; ?>"><button type="button" class="btn btn-primary">แก้ไขแบบประเมิน  <i class='fa fa-edit'></i></button></a>
+                                <a href="index.php?page=teacher_grade_student_save&studentID=<?php echo $_GET['studentID']; ?>"><button type="button" class="btn btn-primary">แก้ไขแบบประเมิน  <i class='fa fa-edit'></i></button></a>
                             </div>
                         </div>
                     </div>

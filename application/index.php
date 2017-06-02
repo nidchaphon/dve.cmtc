@@ -87,7 +87,7 @@ if ($_GET[page] == 'teacher_appointment_detail'){include ('teacher/teacher_appoi
 if ($_GET[page] == 'teacher_score_student_list'){include ('teacher/teacher_score_student_list.php');}
 if ($_GET[page] == 'teacher_score_student_save'){include ('teacher/teacher_score_student_save.php');}
 if ($_GET[page] == 'teacher_score_student_report'){include ('teacher/teacher_score_student_report.php');}
-if ($_GET[page] == 'teacher_grade_student_complete'){include ('teacher/teacher_grade_student_complete.php');}
+if ($_GET[page] == 'teacher_grade_student_save'){include ('teacher/teacher_grade_student_save.php');}
 if ($_GET[page] == 'teacher_grade_student_report'){include ('teacher/teacher_grade_student_report.php');}
 if ($_GET[page] == 'teacher_student_list'){include ('teacher/teacher_student_list.php');}
 

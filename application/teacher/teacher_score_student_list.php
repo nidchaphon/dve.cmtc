@@ -143,11 +143,11 @@ if ($_GET['result'] == 'score'){
                                         echo '</td>';
                                     }
                                 }if ($_GET['result'] == 'grade'){
-                                    if ($valStudent['score_report'] == '' || $valStudent['score_join'] == '' || $valStudent['score_report'] == '0' || $valStudent['score_join'] == '0'){
+                                    if ($valStudent['student_status'] != 'grade'){
                                         echo '<td style="text-align: center">';
                                         echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ยังไม่มีการประเมิน</span>";
                                         echo '</td>';
-                                        echo '<td align="center"><a href="index.php?page=teacher_grade_student_complete&studentID='.$valStudent['student_id'].'"><i class="fa fa-edit (alias)" title="ประเมินนักศึกษา"></i></a>';
+                                        echo '<td align="center"><a href="index.php?page=teacher_grade_student_save&studentID='.$valStudent['student_id'].'"><i class="fa fa-edit (alias)" title="ประเมินนักศึกษา"></i></a>';
                                         echo '</td>';
                                     }else{
                                         echo '<td style="text-align: center">';
@@ -161,9 +161,7 @@ if ($_GET['result'] == 'score'){
                                     }
                                 } ?>
                                 <?php
-                                if ($valStudent['score_trainer_1_1'] == '' || $valStudent['score_trainer_1_2'] == '' || $valStudent['score_trainer_1_3'] == '' || $valStudent['score_trainer_2_1'] == '' || $valStudent['score_trainer_2_2'] == '' || $valStudent['score_trainer_3_1'] == '' || $valStudent['score_trainer_rate1'] == '' || $valStudent['score_trainer_rate2'] == '' || $valStudent['score_trainer_rate3'] == '' ||
-                                $valStudent['score_trainer_1_1'] == '0' || $valStudent['score_trainer_1_2'] == '0' || $valStudent['score_trainer_1_3'] == '0' || $valStudent['score_trainer_2_1'] == '0' || $valStudent['score_trainer_2_2'] == '0' || $valStudent['score_trainer_3_1'] == '0' || $valStudent['score_trainer_rate1'] == '0' || $valStudent['score_trainer_rate2'] == '0' || $valStudent['score_trainer_rate3'] == '0'
-                                ){
+                                if ($valStudent['student_score_trainer'] != 'complete'){
                                     echo '<td style="text-align: center">';
                                     echo "<span class='badge badge-danger badge-icon'><i class='fa fa-times' aria-hidden='true'></i><span>ยังไม่มีการประเมิน</span>";
                                     echo '</td>';
